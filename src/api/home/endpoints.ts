@@ -21,3 +21,11 @@ export const createExpense = (body: CreateExpense) =>
       'Content-Type': 'application/json',
     },
   });
+
+export const editExpense = ({ id, body }: { id: string; body: CreateExpense }) =>
+  api.unauthorized.patch(`/expense/${id}`, {
+    body,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });

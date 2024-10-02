@@ -4,9 +4,11 @@ import { FaRegTrashAlt } from 'react-icons/fa';
 import revalidateTagFn from '@/api/actions/revalidateTagFn';
 import { useDeleteExpense } from '@/api/home/hooks';
 import { Expense } from '@/api/home/types';
+import { Tags } from '@/api/types';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -14,24 +16,27 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { useDisclosure } from '@/hooks';
 
-type DeleteExpenseProps = {
+type DeleteExpenseModalProps = {
   data: Expense;
 };
 
-export const DeleteExpense = ({ data }: DeleteExpenseProps) => {
+export const DeleteExpenseModal = ({ data }: DeleteExpenseModalProps) => {
   const { mutateAsync, isPending } = useDeleteExpense();
+
+  const { open, onOpen, onClose } = useDisclosure();
 
   const onSubmit = () => {
     mutateAsync(data.id, {
-      onSuccess: async () => {
-        await revalidateTagFn('expense');
+      onSuccess: () => {
+        revalidateTagFn(Tags.EXPENSE);
       },
     });
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={open ? onClose : onOpen}>
       <DialogTrigger asChild>
         <Button variant="outline">
           <FaRegTrashAlt />
@@ -43,7 +48,10 @@ export const DeleteExpense = ({ data }: DeleteExpenseProps) => {
           <DialogDescription>Essa ação não poderá ser desfeita.</DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button onClick={onSubmit} isLoading={isPending}>
+          <DialogClose asChild>
+            <Button variant="ghost">Cancelar</Button>
+          </DialogClose>
+          <Button onClick={onSubmit} isLoading={isPending} className="w-32">
             Apagar
           </Button>
         </DialogFooter>

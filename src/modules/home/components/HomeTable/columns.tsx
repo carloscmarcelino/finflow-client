@@ -2,8 +2,10 @@ import { createColumnHelper } from '@tanstack/react-table';
 import dayjs from 'dayjs';
 
 import { Expense } from '@/api/home/types';
+import { toBRL } from '@/utils/formatters/toBRL';
 
-import { DeleteExpense } from '../DeleteExpense';
+import { DeleteExpenseModal } from '../DeleteExpenseModal';
+import { EditExpenseModal } from '../EditExpenseModal';
 
 const columnHelper = createColumnHelper<Expense>();
 
@@ -19,7 +21,7 @@ export const expenseColumns = [
   }),
   columnHelper.accessor((row) => row.amount, {
     id: 'amount',
-    cell: (info) => <p>{info.getValue()}</p>,
+    cell: (info) => <p>{toBRL(Number(info.getValue()))}</p>,
     header: () => <p>Valor</p>,
   }),
   columnHelper.accessor((row) => row.description, {
@@ -27,9 +29,20 @@ export const expenseColumns = [
     cell: (info) => <p>{info.getValue()}</p>,
     header: () => <p>Descrição</p>,
   }),
+  columnHelper.accessor((row) => row.paymentMethod, {
+    id: 'paymentMethod',
+    cell: (info) => <p>{info.getValue()}</p>,
+    header: () => <p>Pagamento</p>,
+  }),
   columnHelper.accessor((row) => row, {
     id: 'acoes',
-    cell: ({ getValue }) => <DeleteExpense data={getValue()} />,
-    header: () => <p>Deletar</p>,
+    cell: ({ getValue }) => (
+      <div className="flex gap-5">
+        <DeleteExpenseModal data={getValue()} />
+
+        <EditExpenseModal data={getValue()} />
+      </div>
+    ),
+    header: () => <p>Ações</p>,
   }),
 ];

@@ -16,7 +16,12 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, isLoading, ...props }, ref) => {
     const Comp = asChild ? Slot : 'button';
 
-    if (isLoading) return <FaSpinner className="animate-spin mr-2" />;
+    if (isLoading)
+      return (
+        <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props}>
+          <FaSpinner className="animate-spin mr-2" />
+        </Comp>
+      );
 
     return (
       <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />

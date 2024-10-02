@@ -4,20 +4,15 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 
 import revalidateTagFn from '@/api/actions/revalidateTagFn';
 import { useCreateExpense } from '@/api/home/hooks';
+import { Tags } from '@/api/types';
 import { InputText } from '@/components/InputText';
 import { Button } from '@/components/ui/button';
-
-const createExpenseSchema = z.object({
-  amount: z.string(),
-  description: z.string(),
-  paymentMethod: z.string(),
-});
-
-type CreateExpenseType = z.infer<typeof createExpenseSchema>;
+import { createExpenseSchema, CreateExpenseType } from '@/modules/home/validators';
+import { brlToNumber } from '@/utils/formatters/brlToNumber';
+import { Mask } from '@/utils/functions/mask';
 
 const Page = () => {
   const {
@@ -25,20 +20,19 @@ const Page = () => {
     formState: { errors },
     handleSubmit,
   } = useForm<CreateExpenseType>({
-    defaultValues: { amount: '1000', description: 'teste', paymentMethod: 'credit card' },
     resolver: zodResolver(createExpenseSchema),
   });
 
-  const { mutateAsync, isPending } = useCreateExpense();
+  const { mutate, isPending } = useCreateExpense();
 
   const router = useRouter();
 
   const onSubmit = (values: CreateExpenseType) => {
-    mutateAsync(
-      { ...values, amount: Number(values.amount) },
+    mutate(
+      { ...values, amount: brlToNumber(values.amount) },
       {
-        onSuccess: async () => {
-          await revalidateTagFn('expense');
+        onSuccess: () => {
+          revalidateTagFn(Tags.EXPENSE);
           router.push('/despesas');
         },
       },
@@ -50,24 +44,27 @@ const Page = () => {
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col items-center justify-center h-screen"
     >
-      <div className="flex flex-col max-w-[20rem]">
-        <InputText label="Valor" id="amount" error={errors.amount} {...register('amount')} />
+      <div className="flex flex-col max-w-[20rem] gap-4">
+        <InputText
+          label="Valor"
+          error={errors.amount}
+          register={register('amount')}
+          mask={Mask.brl}
+        />
 
         <InputText
           label="Descrição"
-          id="description"
           error={errors.description}
-          {...register('description')}
+          register={register('description')}
         />
 
         <InputText
           label="Metodo de pagamento"
-          id="paymentMethod"
           error={errors.paymentMethod}
-          {...register('paymentMethod')}
+          register={register('paymentMethod')}
         />
 
-        <Button type="submit" isLoading={isPending}>
+        <Button type="submit" isLoading={isPending} className="bg-blue">
           Adicionar
         </Button>
       </div>
