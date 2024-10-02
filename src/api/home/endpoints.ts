@@ -1,7 +1,7 @@
 import { ApiResponse, ReadFn } from '@/api/__common__/types';
 import { api } from '@/lib/FetchClient';
 
-import { Expense } from './types';
+import { CreateExpense, Expense } from './types';
 
 export const getExpenses: ReadFn<ApiResponse<Expense>> = ({ config } = {}) =>
   api.unauthorized.get('/expense', {
@@ -13,3 +13,11 @@ export const getExpenses: ReadFn<ApiResponse<Expense>> = ({ config } = {}) =>
   });
 
 export const deleteExpense = (id: string) => api.unauthorized.delete(`/expense/${id}`);
+
+export const createExpense = (body: CreateExpense) =>
+  api.unauthorized.post('/expense', {
+    body,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });

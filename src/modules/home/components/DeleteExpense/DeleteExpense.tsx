@@ -24,8 +24,8 @@ export const DeleteExpense = ({ data }: DeleteExpenseProps) => {
 
   const onSubmit = () => {
     mutateAsync(data.id, {
-      onSuccess: () => {
-        revalidateTagFn('expense');
+      onSuccess: async () => {
+        await revalidateTagFn('expense');
       },
     });
   };

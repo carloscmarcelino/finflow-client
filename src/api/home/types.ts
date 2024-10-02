@@ -5,3 +5,9 @@ export type Expense = {
   amount: string;
   paymentMethod: string;
 };
+
+export type CreateExpense = {
+  description: string;
+  amount: number;
+  paymentMethod: string;
+};

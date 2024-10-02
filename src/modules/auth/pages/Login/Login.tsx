@@ -24,7 +24,6 @@ export const LoginPage = () => {
 
   const onSubmit = (data: LoginFormInputs) => {
     console.log(data);
-    // Handle login logic here
   };
 
   return (
