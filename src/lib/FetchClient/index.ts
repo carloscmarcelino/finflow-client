@@ -1,4 +1,4 @@
-import { getAccess } from '@/api/actions/endpoints';
+import { getAccess } from '@/api/actions/getAccess';
 
 import { FetchClient } from './FetchClient';
 import { FetchOptions } from './types';

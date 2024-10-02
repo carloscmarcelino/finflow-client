@@ -1,7 +1,7 @@
 import { createColumnHelper } from '@tanstack/react-table';
 import dayjs from 'dayjs';
 
-import { Expense } from '@/api/public/types';
+import { Expense } from '@/api/home/types';
 
 import { DeleteExpense } from '../DeleteExpense';
 

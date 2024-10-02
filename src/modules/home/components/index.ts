@@ -1,2 +1,2 @@
-export * from './PublicTable';
+export * from './HomeTable';
 export * from './DeleteExpense';

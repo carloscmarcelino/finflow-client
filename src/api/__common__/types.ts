@@ -50,3 +50,8 @@ export type ReadManyFn<TResponse> = (options: {
   params: Params;
   config?: FetchOptions;
 }) => Promise<GetManyResponse<TResponse>>;
+
+export type ApiResponse<T> = {
+  data: T[];
+  totalItems: number;
+};

@@ -2,8 +2,8 @@ import React from 'react';
 import { FaRegTrashAlt } from 'react-icons/fa';
 
 import revalidateTagFn from '@/api/actions/revalidateTagFn';
-import { useDeleteExpense } from '@/api/public/hooks/useDeleteExpense';
-import { Expense } from '@/api/public/types';
+import { useDeleteExpense } from '@/api/home/hooks';
+import { Expense } from '@/api/home/types';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
