@@ -39,7 +39,7 @@ const Page = () => {
       {
         onSuccess: async () => {
           await revalidateTagFn('expense');
-          router.push('/');
+          router.push('/despesas');
         },
       },
     );

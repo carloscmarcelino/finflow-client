@@ -13,7 +13,7 @@ type HomeProps = {
 
 export const Home = ({ data }: HomeProps) => (
   <>
-    <Link href="/criar">
+    <Link href="/despesas/criar">
       <Button>Adicionar</Button>
     </Link>
 
