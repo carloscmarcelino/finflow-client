@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300;
+  }
+
+  body {
+    @apply bg-slate-200 text-black;
+  }
+
+  :root {
+    --primary: hsla(0, 0%, 13%, 1);
+    --dark: hsl(220, 5%, 12%);
+    --dark-2: hsl(0, 0%, 9%);
+    --dark-3: hsl(0, 4%, 18%);
+    --white: hsl(0, 0%, 98%);    ;
+    --blue: hsl(210, 80%, 50%);
+  }
+}
+
+@layer utilities {
+  .v-stack {
+    @apply flex flex-col items-start;
+  }
+
+  .h-stack {
+    @apply flex items-center;
+  }
+
+  .animate {
+    @apply transition-all duration-200 ease-in-out;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    @apply hidden;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
