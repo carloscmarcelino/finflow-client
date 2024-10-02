@@ -1,7 +1,8 @@
 import { ReactNode } from 'react';
 
-import { Header } from '@/components/Header';
+import { Toaster } from '@/components/ui/sonner';
 
+import { TanstackProvider } from '../TanstackProvider';
 import { ThemeProvider } from '../ThemeProvider';
 
 type GlobalProviderProps = Readonly<{
@@ -9,7 +10,10 @@ type GlobalProviderProps = Readonly<{
 }>;
 
 export const GlobalProvider = ({ children }: GlobalProviderProps) => (
-  <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
-    {children}
-  </ThemeProvider>
+  <TanstackProvider>
+    <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
+      {children}
+      <Toaster />
+    </ThemeProvider>
+  </TanstackProvider>
 );
