@@ -1,6 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import Link from 'next/link';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -72,9 +73,9 @@ export const LoginPage = () => {
         </form>
         <p className="text-center text-gray-500 text-sm mt-4">
           Dont have an account?{' '}
-          <a href="#" className="text-blue-600 hover:underline">
-            Sign up
-          </a>
+          <Link href="">
+            <p className="text-blue-600 hover:underline">Sign up</p>
+          </Link>
         </p>
       </div>
     </div>
