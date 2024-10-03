@@ -1,3 +1,3 @@
-const PublicPage = async () => <></>;
+const PublicPage = () => <></>;
 
 export default PublicPage;

@@ -12,7 +12,7 @@ type HomeProps = {
 };
 
 export const Home = ({ data }: HomeProps) => (
-  <main className="flex flex-col max-w-[1280px] mx-auto py-10">
+  <main className="flex flex-col gap-10 max-w-[1280px] mx-auto py-10">
     <Link href="/despesas/criar">
       <Button className="bg-blue">Adicionar</Button>
     </Link>
