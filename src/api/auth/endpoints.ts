@@ -2,11 +2,14 @@ import { api } from '@/lib/FetchClient';
 
 import { LoginFn, RefreshFn } from './types';
 
-export const postLogin: LoginFn = ({ email, password, config }) =>
+export const postLogin: LoginFn = ({ username, password, config }) =>
   api.unauthorized.post('/auth/login', {
     body: {
-      email,
+      username,
       password,
+    },
+    headers: {
+      'Content-Type': 'application/json',
     },
     ...config,
   });
