@@ -1,3 +1,4 @@
+import { SessionProvider } from 'next-auth/react';
 import { ReactNode } from 'react';
 
 import { Header } from '@/components/Header/Header';
@@ -5,7 +6,6 @@ import { Toaster } from '@/components/ui/sonner';
 
 import { TanstackProvider } from '../TanstackProvider';
 import { ThemeProvider } from '../ThemeProvider';
-import { SessionProvider } from 'next-auth/react';
 
 type GlobalProviderProps = Readonly<{
   children: ReactNode;

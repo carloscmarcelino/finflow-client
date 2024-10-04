@@ -2,7 +2,6 @@ import '../styles/globals.css';
 
 import type { Metadata } from 'next';
 import { Montserrat } from 'next/font/google';
-import { SessionProvider } from 'next-auth/react';
 import { ReactNode } from 'react';
 
 import { GlobalProvider } from '@/providers';

@@ -1,6 +1,6 @@
 'use server';
 
-import { auth, signOut } from '@/auth';
+import { auth } from '@/auth';
 
 export const currentUser = async () => {
   'use server';
