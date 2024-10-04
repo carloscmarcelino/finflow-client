@@ -2,6 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React, { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -10,6 +11,7 @@ import { Button } from '@/components/ui/button';
 
 import { loginAction } from './action';
 import { LoginSchema, LoginType } from './schema';
+import { useSession } from 'next-auth/react';
 
 export const LoginPage = () => {
   const {
@@ -26,7 +28,7 @@ export const LoginPage = () => {
 
   const [isPending, startTransition] = useTransition();
 
-  const onSubmit = async (data: LoginType) => {
+  const onSubmit = (data: LoginType) => {
     startTransition(() => {
       loginAction(data);
     });

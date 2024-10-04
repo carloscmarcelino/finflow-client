@@ -1,21 +1,24 @@
 import { ReactNode } from 'react';
 
-import { Header } from '@/components/Header';
+import { Header } from '@/components/Header/Header';
 import { Toaster } from '@/components/ui/sonner';
 
 import { TanstackProvider } from '../TanstackProvider';
 import { ThemeProvider } from '../ThemeProvider';
+import { SessionProvider } from 'next-auth/react';
 
 type GlobalProviderProps = Readonly<{
   children: ReactNode;
 }>;
 
 export const GlobalProvider = ({ children }: GlobalProviderProps) => (
-  <TanstackProvider>
-    <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
-      <Header />
-      {children}
-      <Toaster />
-    </ThemeProvider>
-  </TanstackProvider>
+  <SessionProvider>
+    <TanstackProvider>
+      <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
+        <Header />
+        {children}
+        <Toaster />
+      </ThemeProvider>
+    </TanstackProvider>
+  </SessionProvider>
 );

@@ -1,9 +1,5 @@
-import { auth } from '@/auth';
+'use client';
 
-const PublicPage = async () => {
-  const session = await auth();
-
-  return <>{session?.user?.username}</>;
-};
+const PublicPage = () => <></>;
 
 export default PublicPage;

@@ -1,20 +1,11 @@
-import Link from 'next/link';
+import React from 'react';
 
-export const Header = () => {
-  return (
-    <header className="flex items-center justify-between w-full max-w-[1280px] mx-auto">
-      <Link href="/">
-        <p>home</p>
-      </Link>
+import { auth } from '@/auth';
 
-      <ul className="flex gap-5">
-        <Link href="/login">
-          <p>login</p>
-        </Link>
-        <Link href="/despesas">
-          <p>despesas</p>
-        </Link>
-      </ul>
-    </header>
-  );
+import { HeaderOptions } from './HeaderOptions';
+
+export const Header = async () => {
+  const session = await auth();
+
+  return <HeaderOptions session={session} />;
 };
