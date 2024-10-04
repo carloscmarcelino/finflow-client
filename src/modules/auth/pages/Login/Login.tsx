@@ -11,7 +11,6 @@ import { Button } from '@/components/ui/button';
 
 import { loginAction } from './action';
 import { LoginSchema, LoginType } from './schema';
-import { useSession } from 'next-auth/react';
 
 export const LoginPage = () => {
   const {

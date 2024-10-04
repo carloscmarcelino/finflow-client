@@ -40,37 +40,34 @@ export const CreateExpensePage = () => {
   };
 
   return (
-    <div className="flex flex-col gap-20 items-center justify-center h-screen w-max mx-auto">
-      <Link href="/despesas" className="self-end">
-        <Button className="bg-blue w-32">Voltar</Button>
-      </Link>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col items-center justify-center h-screen"
+    >
+      <div className="flex flex-col max-w-[20rem] gap-4">
+        <InputText
+          label="Valor"
+          error={errors.amount}
+          register={register('amount')}
+          mask={Mask.brl}
+        />
 
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center justify-center">
-        <div className="flex flex-col max-w-[20rem] gap-4">
-          <InputText
-            label="Valor"
-            error={errors.amount}
-            register={register('amount')}
-            mask={Mask.brl}
-          />
+        <InputText
+          label="Descrição"
+          error={errors.description}
+          register={register('description')}
+        />
 
-          <InputText
-            label="Descrição"
-            error={errors.description}
-            register={register('description')}
-          />
+        <InputText
+          label="Metodo de pagamento"
+          error={errors.paymentMethod}
+          register={register('paymentMethod')}
+        />
 
-          <InputText
-            label="Metodo de pagamento"
-            error={errors.paymentMethod}
-            register={register('paymentMethod')}
-          />
-
-          <Button type="submit" isLoading={isPending} className="bg-blue">
-            Adicionar
-          </Button>
-        </div>
-      </form>
-    </div>
+        <Button type="submit" isLoading={isPending} className="bg-blue">
+          Adicionar
+        </Button>
+      </div>
+    </form>
   );
 };
