@@ -9,7 +9,8 @@ export async function middleware(req: NextRequest) {
 
   const { pathname } = req.nextUrl;
 
-  const protectedPaths = ['/', '/despesas', '/investimentos'];
+  const protectedPaths = ['/', '/despesas', '/investimentos', 'entradas', 'saidas'];
+
   const isProtectedPath = protectedPaths.some((path) => pathname.startsWith(path));
 
   if (isProtectedPath && !token && pathname !== '/login') {

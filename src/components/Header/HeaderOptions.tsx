@@ -18,11 +18,11 @@ export const HeaderOptions = ({ session }: HeaderOptionsProps) => (
         <p className="text-description">Home</p>
       </Link>
       <div className="flex gap-5">
-        <p className="text-description">Entradas</p>
-        <p className="text-description">Saidas</p>
-
-        <Link href="/despesas">
-          <p className="text-description">Despesas</p>
+        <Link href="/entradas">
+          <p className="text-description">Entradas</p>
+        </Link>
+        <Link href="/saidas">
+          <p className="text-description">Saidas</p>
         </Link>
         <Link href="/investimentos">
           <p className="text-description">Investimentos</p>
