@@ -15,12 +15,14 @@ export const authConfig = {
   },
   callbacks: {
     async jwt({ token, user }) {
-      console.log('async jwt --> ', { token, user });
+      if (user) {
+        token.id = user.id;
+      }
 
       return token;
     },
     async session({ session, token }) {
-      console.log('async session -->', { session, token });
+      session.user.id = token.id as string;
 
       return session;
     },
@@ -38,7 +40,7 @@ export const authConfig = {
 
           const response = await postLogin({ username, password });
 
-          return { ...response, name: response.username };
+          return { ...response, name: response.username, id: response.id };
         }
 
         return null;

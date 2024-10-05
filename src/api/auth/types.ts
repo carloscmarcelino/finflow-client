@@ -3,6 +3,7 @@ import { FetchOptionsWithExtendedBody } from '@/lib/FetchClient/types';
 export type AuthResponse = {
   access_token: string;
   username: string;
+  id: string;
 };
 
 export type UserResponse = {
