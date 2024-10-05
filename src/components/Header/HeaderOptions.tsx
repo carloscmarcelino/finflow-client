@@ -28,27 +28,21 @@ export const HeaderOptions = ({ session }: HeaderOptionsProps) => (
           <p className="text-description">Investimentos</p>
         </Link>
 
-        {session?.user?.name ? (
-          <DropdownMenu>
-            <DropdownMenuTrigger className="text-description">
-              {session?.user?.name}
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="p-4">
-              <button
-                onClick={async () => {
-                  await signoutAction();
-                }}
-                className="text-description"
-              >
-                Sair
-              </button>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        ) : (
-          <Link href="/login">
-            <p className="text-description">Login</p>
-          </Link>
-        )}
+        <DropdownMenu>
+          <DropdownMenuTrigger className="text-description">
+            {session?.user?.name}
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="p-4">
+            <button
+              onClick={async () => {
+                await signoutAction();
+              }}
+              className="text-description"
+            >
+              Sair
+            </button>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </div>
   </header>

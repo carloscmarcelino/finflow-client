@@ -7,5 +7,7 @@ import { HeaderOptions } from './HeaderOptions';
 export const Header = async () => {
   const session = await auth();
 
+  if (!session?.user) return <></>;
+
   return <HeaderOptions session={session} />;
 };
