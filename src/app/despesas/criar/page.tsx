@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { CreateExpensePage } from '@/modules/home/pages';
+import { CreateExpensePage } from '@/modules/Expenses/pages';
 
 const Page = () => <CreateExpensePage />;
 

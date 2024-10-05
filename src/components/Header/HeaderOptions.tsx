@@ -18,6 +18,9 @@ export const HeaderOptions = ({ session }: HeaderOptionsProps) => (
         <p className="text-description">Home</p>
       </Link>
       <div className="flex gap-5">
+        <p className="text-description">Entradas</p>
+        <p className="text-description">Saidas</p>
+
         <Link href="/despesas">
           <p className="text-description">Despesas</p>
         </Link>
