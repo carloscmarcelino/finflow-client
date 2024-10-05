@@ -1,11 +1,14 @@
 import type { NextAuthConfig } from 'next-auth';
+import Credentials from 'next-auth/providers/credentials';
 
-import { AUTH_SECRET } from '@/config';
-import { providers } from '@/lib/providers';
+import { postLogin } from './api/auth/endpoints';
+import { AUTH_SECRET } from './config';
+import { LoginSchema } from './modules/auth/pages/Login/schema';
 
 export const authConfig = {
   pages: {
     signIn: '/login',
+    signOut: '/login',
   },
   session: {
     strategy: 'jwt',
@@ -13,32 +16,36 @@ export const authConfig = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.access_token = user.access_token;
-        token.access_token_expires = user.access_token_expires;
-        token.role = user.role;
+        token.id = user.id;
       }
+
       return token;
     },
     async session({ session, token }) {
-      if (token) {
-        session.user.access_token = token.access_token as string;
-        session.user.access_token_expires = token.access_token_expires as number;
-        session.user.role = token.role as 'admin' | 'user';
-      }
+      session.user.id = token.id as string;
+
       return session;
     },
-    authorized({ auth, request: { nextUrl } }) {
-      const isLoggedIn = !!auth?.user;
-      const isOnDashboard = nextUrl.pathname.startsWith('/dashboard');
-      if (isOnDashboard) {
-        return isLoggedIn;
-      } else if (isLoggedIn) {
-        return Response.redirect(new URL('/dashboard', nextUrl));
-      }
-      return true;
+    async redirect() {
+      return '/investimentos';
     },
   },
-  providers,
-  debug: true,
+  providers: [
+    Credentials({
+      async authorize(credentials) {
+        const credentialsValidation = LoginSchema.safeParse(credentials);
+
+        if (credentialsValidation.success) {
+          const { username, password } = credentialsValidation.data;
+
+          const response = await postLogin({ username, password });
+
+          return { ...response, name: response.username, id: response.id };
+        }
+
+        return null;
+      },
+    }),
+  ],
   secret: AUTH_SECRET,
 } satisfies NextAuthConfig;

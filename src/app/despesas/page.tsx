@@ -1,16 +1,16 @@
 import { Suspense } from 'react';
 
-import { getExpenses } from '@/api/home/endpoints';
-import { Home } from '@/modules/home/pages/Home';
+import { getExpenses } from '@/api/expenses';
+import { ExpensesPage } from '@/modules/Expenses';
 
-const PublicPage = async () => {
+const Page = async () => {
   const { data } = await getExpenses();
 
   return (
     <Suspense>
-      <Home data={data} />
+      <ExpensesPage data={data} />
     </Suspense>
   );
 };
 
-export default PublicPage;
+export default Page;

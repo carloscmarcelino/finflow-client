@@ -1,3 +1,5 @@
+'use client';
+
 import { usePathname, useSearchParams, useRouter } from 'next/navigation';
 
 type UseFiltersReturn = {

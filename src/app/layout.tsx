@@ -13,8 +13,8 @@ const montserratFont = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: 'Controle Financeiro',
-  description: 'Controle financeiro',
+  title: 'MoneyMap',
+  description: 'MoneyMap',
 };
 
 type RootLayoutProps = Readonly<{

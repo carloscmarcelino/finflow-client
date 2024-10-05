@@ -83,6 +83,9 @@ const formatPercentage: MaskFormatter = (value, { event, intlOptions }) => {
   return toPercentage(parsedValue, intlOptions);
 };
 
+const formatYield: MaskFormatter = (value, { maskType = 'numbers' }) =>
+  applyMask(value, '**.**', maskType);
+
 /**
  * Objeto Mask contendo funções de formatação de máscaras para diferentes tipos de valores.
  *
@@ -135,4 +138,5 @@ export const Mask = {
   cep: formatCEP,
   brl: formatBRL,
   percentage: formatPercentage,
+  yield: formatYield,
 };

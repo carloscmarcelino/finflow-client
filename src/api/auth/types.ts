@@ -2,8 +2,8 @@ import { FetchOptionsWithExtendedBody } from '@/lib/FetchClient/types';
 
 export type AuthResponse = {
   access_token: string;
-  access_token_expires: number;
-  user: UserResponse;
+  username: string;
+  id: string;
 };
 
 export type UserResponse = {
@@ -14,7 +14,7 @@ export type UserResponse = {
 };
 
 export type LoginFn = (args: {
-  email: string;
+  username: string;
   password: string;
   config?: FetchOptionsWithExtendedBody;
 }) => Promise<AuthResponse>;
