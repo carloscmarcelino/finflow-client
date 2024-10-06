@@ -2,10 +2,10 @@ import { createColumnHelper } from '@tanstack/react-table';
 import dayjs from 'dayjs';
 import React from 'react';
 
-import { Entries } from '@/api/entries';
+import { Entrie } from '@/api/entries';
 import { toBRL } from '@/utils/formatters/toBRL';
 
-const columnHelper = createColumnHelper<Entries>();
+const columnHelper = createColumnHelper<Entrie>();
 
 export const entriesColumns = [
   columnHelper.accessor((row) => row.date, {

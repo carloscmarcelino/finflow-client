@@ -3,13 +3,13 @@
 import Link from 'next/link';
 import React from 'react';
 
-import { Entries } from '@/api/entries';
+import { Entrie } from '@/api/entries';
 import { Button } from '@/components/ui/button';
 
 import { EntriesTable } from '../../components';
 
 type EntriesPageProps = {
-  data: Entries[];
+  data: Entrie[];
 };
 
 export const EntriesPage = ({ data }: EntriesPageProps) => (

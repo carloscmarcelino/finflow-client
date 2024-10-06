@@ -1,1 +1,1 @@
-export * from './createEntriesSchema';
+export * from './createEntrieSchema';

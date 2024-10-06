@@ -4,8 +4,7 @@ import { useForm } from 'react-hook-form';
 import { FaRegEdit } from 'react-icons/fa';
 
 import revalidateTagFn from '@/api/actions/revalidateTagFn';
-import { useEditInvestment } from '@/api/investments/hooks/useEditInvestment';
-import { Investment } from '@/api/investments/types';
+import { Exit, useEditExit } from '@/api/exits';
 import { Tags } from '@/api/types';
 import { InputText } from '@/components/InputText';
 import { Button } from '@/components/ui/button';
@@ -20,16 +19,17 @@ import {
 } from '@/components/ui/dialog';
 import { useDisclosure } from '@/hooks';
 import { brlToNumber } from '@/utils/formatters/brlToNumber';
+import { toBRL } from '@/utils/formatters/toBRL';
 import { Mask } from '@/utils/functions/mask';
 
-import { createInvestmentSchema, CreateInvestmentType } from '../../validators';
+import { createExitSchema, CreateExitSchemaType } from '../../validators';
 
-type EditInvestmentModalProps = {
-  data: Investment;
+type EditExitModalProps = {
+  data: Exit;
 };
 
-export const EditInvestmentModal = ({ data }: EditInvestmentModalProps) => {
-  const { mutate, isPending } = useEditInvestment();
+export const EditExitModal = ({ data }: EditExitModalProps) => {
+  const { mutate, isPending } = useEditExit();
 
   const { open, onOpen, onClose } = useDisclosure();
 
@@ -37,25 +37,27 @@ export const EditInvestmentModal = ({ data }: EditInvestmentModalProps) => {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm<CreateInvestmentType>({
-    resolver: zodResolver(createInvestmentSchema),
+  } = useForm<CreateExitSchemaType>({
+    resolver: zodResolver(createExitSchema),
     defaultValues: {
-      bank: data.bank,
-      type: data.type,
-      value: String(brlToNumber(data.value)),
-      yield: String(data.yield),
+      amount: toBRL(Number(data.amount)),
+      description: data.description,
+      paymentMethod: data.paymentMethod,
     },
   });
 
-  const onSubmit = (values: CreateInvestmentType) => {
+  const onSubmit = (values: CreateExitSchemaType) => {
     mutate(
       {
         id: data.id,
-        body: { ...values, value: brlToNumber(values.value), yield: Number(values.yield) },
+        body: {
+          ...values,
+          amount: brlToNumber(values.amount),
+        },
       },
       {
         onSuccess: () => {
-          revalidateTagFn(Tags.INVESTMENTS);
+          revalidateTagFn(Tags.EXITS);
           onClose();
         },
       },
@@ -76,22 +78,24 @@ export const EditInvestmentModal = ({ data }: EditInvestmentModalProps) => {
           </DialogHeader>
 
           <div className="flex flex-col max-w-[20rem] gap-4">
-            <InputText label="Tipo" error={errors.type} register={register('type')} />
-
             <InputText
               label="Valor"
-              error={errors.value}
-              register={register('value')}
+              error={errors.amount}
+              register={register('amount')}
               mask={Mask.brl}
             />
+
             <InputText
-              label="Rendimento"
-              error={errors.yield}
-              register={register('yield')}
-              mask={Mask.yield}
+              label="Descrição"
+              error={errors.description}
+              register={register('description')}
             />
 
-            <InputText label="Banco" error={errors.bank} register={register('bank')} />
+            <InputText
+              label="Metodo de pagamento"
+              error={errors.paymentMethod}
+              register={register('paymentMethod')}
+            />
           </div>
 
           <DialogFooter>

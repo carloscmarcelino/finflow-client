@@ -2,8 +2,7 @@ import React from 'react';
 import { FaRegTrashAlt } from 'react-icons/fa';
 
 import revalidateTagFn from '@/api/actions/revalidateTagFn';
-import { useDeleteInvestment } from '@/api/investments/hooks/useDeleteInvestment';
-import { Investment } from '@/api/investments/types';
+import { Exit, useDeleteExit } from '@/api/exits';
 import { Tags } from '@/api/types';
 import { Button } from '@/components/ui/button';
 import {
@@ -18,19 +17,19 @@ import {
 } from '@/components/ui/dialog';
 import { useDisclosure } from '@/hooks';
 
-type DeleteInvestmentModalProps = {
-  data: Investment;
+type DeleteExitModalProps = {
+  data: Exit;
 };
 
-export const DeleteInvestmentModal = ({ data }: DeleteInvestmentModalProps) => {
-  const { mutateAsync, isPending } = useDeleteInvestment();
+export const DeleteExitModal = ({ data }: DeleteExitModalProps) => {
+  const { mutateAsync, isPending } = useDeleteExit();
 
   const { open, onOpen, onClose } = useDisclosure();
 
   const onSubmit = () => {
     mutateAsync(data.id, {
       onSuccess: () => {
-        revalidateTagFn(Tags.INVESTMENTS);
+        revalidateTagFn(Tags.EXITS);
       },
     });
   };

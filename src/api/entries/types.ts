@@ -1,9 +1,9 @@
-export type CreateEntries = {
+export type CreateEntrie = {
   value: number;
   description: string;
 };
 
-export type Entries = {
+export type Entrie = {
   value: number;
   date: string;
   id: string;

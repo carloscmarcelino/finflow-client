@@ -1,5 +1,5 @@
 export enum Tags {
-  EXPENSE = 'expense',
-  INVESTMENT = 'investment',
+  EXITS = 'exits',
+  INVESTMENTS = 'investments',
   ENTRIES = 'entries',
 }

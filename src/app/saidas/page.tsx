@@ -1,14 +1,14 @@
 import { Suspense } from 'react';
 
-import { getExpenses } from '@/api/expenses';
-import { ExpensesPage } from '@/modules/expenses';
+import { getExits } from '@/api/exits';
+import { ExitsPage } from '@/modules/exits';
 
 const Page = async () => {
-  const { data } = await getExpenses();
+  const { data } = await getExits();
 
   return (
     <Suspense>
-      <ExpensesPage data={data} />
+      <ExitsPage data={data} />
     </Suspense>
   );
 };

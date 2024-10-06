@@ -1,10 +1,11 @@
 import { api } from '@/lib/FetchClient';
 
 import { ApiResponse, ReadFn } from '../__common__/types';
+import { Tags } from '../types';
 
-import { CreateEntries, Entries } from './types';
+import { CreateEntrie, Entrie } from './types';
 
-export const createEntries = (body: CreateEntries) =>
+export const createEntrie = (body: CreateEntrie) =>
   api.unauthorized.post('/entries', {
     body,
     headers: {
@@ -12,11 +13,11 @@ export const createEntries = (body: CreateEntries) =>
     },
   });
 
-export const getEntries: ReadFn<ApiResponse<Entries>> = ({ config } = {}) =>
+export const getEntries: ReadFn<ApiResponse<Entrie>> = ({ config } = {}) =>
   api.unauthorized.get('/entries', {
     ...config,
     next: {
       revalidate: 0,
-      tags: ['entries'],
+      tags: [Tags.ENTRIES],
     },
   });

@@ -1,9 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { createEntries } from '../endpoints';
+import { createEntrie } from '../endpoints';
 
-export const useCreateEntries = () =>
+export const useCreateEntrie = () =>
   useMutation({
-    mutationKey: ['create-entries'],
-    mutationFn: createEntries,
+    mutationKey: ['create-entrie'],
+    mutationFn: createEntrie,
   });

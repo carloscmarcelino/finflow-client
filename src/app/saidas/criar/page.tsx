@@ -2,8 +2,8 @@
 
 import React from 'react';
 
-import { CreateExpensePage } from '@/modules/expenses';
+import { CreateExitPage } from '@/modules/exits';
 
-const Page = () => <CreateExpensePage />;
+const Page = () => <CreateExitPage />;
 
 export default Page;

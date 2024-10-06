@@ -1,7 +1,7 @@
 'use client';
 
-import { CreateEntriesPage } from '@/modules/entries';
+import { CreateEntriePage } from '@/modules/entries';
 
-const Page = () => <CreateEntriesPage />;
+const Page = () => <CreateEntriePage />;
 
 export default Page;
