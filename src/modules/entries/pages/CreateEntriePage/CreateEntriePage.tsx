@@ -3,12 +3,14 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 import revalidateTagFn from '@/api/actions/revalidateTagFn';
 import { useCreateEntrie } from '@/api/entries';
 import { Tags } from '@/api/types';
 import { InputText } from '@/components/InputText';
 import { Button } from '@/components/ui/button';
+import { TOAST_ERROR_MESSAGE } from '@/config';
 import { brlToNumber } from '@/utils/formatters/brlToNumber';
 import { Mask } from '@/utils/functions/mask';
 
@@ -34,6 +36,10 @@ export const CreateEntriePage = () => {
         onSuccess: () => {
           revalidateTagFn(Tags.ENTRIES);
           router.push('/entradas');
+          toast.success('entrada criada com sucesso');
+        },
+        onError: () => {
+          toast.error(TOAST_ERROR_MESSAGE);
         },
       },
     );

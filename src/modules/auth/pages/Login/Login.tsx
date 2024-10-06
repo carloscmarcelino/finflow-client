@@ -8,8 +8,9 @@ import { useForm } from 'react-hook-form';
 import { InputText } from '@/components/InputText';
 import { Button } from '@/components/ui/button';
 
+import { loginSchema, LoginType } from '../../validators';
+
 import { loginAction } from './action';
-import { LoginSchema, LoginType } from './schema';
 
 export const LoginPage = () => {
   const {
@@ -17,7 +18,7 @@ export const LoginPage = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<LoginType>({
-    resolver: zodResolver(LoginSchema),
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       username: 'carlos',
       password: 'carlos',
@@ -47,7 +48,7 @@ export const LoginPage = () => {
         </form>
         <p className="text-center text-gray-500 text-sm mt-4">
           Dont have an account?{' '}
-          <Link href="">
+          <Link href="/cadastro">
             <p className="text-blue-600 hover:underline">Sign up</p>
           </Link>
         </p>

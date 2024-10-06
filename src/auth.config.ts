@@ -3,7 +3,7 @@ import Credentials from 'next-auth/providers/credentials';
 
 import { postLogin } from './api/auth/endpoints';
 import { AUTH_SECRET } from './config';
-import { LoginSchema } from './modules/auth/pages/Login/schema';
+import { loginSchema } from './modules/auth/validators';
 
 export const authConfig = {
   pages: {
@@ -33,7 +33,7 @@ export const authConfig = {
   providers: [
     Credentials({
       async authorize(credentials) {
-        const credentialsValidation = LoginSchema.safeParse(credentials);
+        const credentialsValidation = loginSchema.safeParse(credentials);
 
         if (credentialsValidation.success) {
           const { username, password } = credentialsValidation.data;

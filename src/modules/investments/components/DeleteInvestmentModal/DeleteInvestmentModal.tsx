@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaRegTrashAlt } from 'react-icons/fa';
+import { toast } from 'sonner';
 
 import revalidateTagFn from '@/api/actions/revalidateTagFn';
 import { useDeleteInvestment } from '@/api/investments/hooks/useDeleteInvestment';
@@ -16,6 +17,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { TOAST_ERROR_MESSAGE } from '@/config';
 import { useDisclosure } from '@/hooks';
 
 type DeleteInvestmentModalProps = {
@@ -31,6 +33,10 @@ export const DeleteInvestmentModal = ({ data }: DeleteInvestmentModalProps) => {
     mutateAsync(data.id, {
       onSuccess: () => {
         revalidateTagFn(Tags.INVESTMENTS);
+        toast.success('investimento deletado com sucesso');
+      },
+      onError: () => {
+        toast.error(TOAST_ERROR_MESSAGE);
       },
     });
   };

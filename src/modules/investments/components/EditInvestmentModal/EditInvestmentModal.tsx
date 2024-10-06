@@ -2,6 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { FaRegEdit } from 'react-icons/fa';
+import { toast } from 'sonner';
 
 import revalidateTagFn from '@/api/actions/revalidateTagFn';
 import { useEditInvestment } from '@/api/investments/hooks/useEditInvestment';
@@ -18,6 +19,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { TOAST_ERROR_MESSAGE } from '@/config';
 import { useDisclosure } from '@/hooks';
 import { brlToNumber } from '@/utils/formatters/brlToNumber';
 import { toBRL } from '@/utils/formatters/toBRL';
@@ -58,6 +60,10 @@ export const EditInvestmentModal = ({ data }: EditInvestmentModalProps) => {
         onSuccess: () => {
           revalidateTagFn(Tags.INVESTMENTS);
           onClose();
+          toast.success('investimento editado com sucesso');
+        },
+        onError: () => {
+          toast.error(TOAST_ERROR_MESSAGE);
         },
       },
     );

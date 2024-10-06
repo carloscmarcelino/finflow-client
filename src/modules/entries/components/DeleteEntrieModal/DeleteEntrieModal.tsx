@@ -1,4 +1,5 @@
 import { FaRegTrashAlt } from 'react-icons/fa';
+import { toast } from 'sonner';
 
 import revalidateTagFn from '@/api/actions/revalidateTagFn';
 import { Entrie } from '@/api/entries';
@@ -15,6 +16,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { TOAST_ERROR_MESSAGE } from '@/config';
 import { useDisclosure } from '@/hooks';
 
 type DeleteEntrieModalProps = {
@@ -30,6 +32,10 @@ export const DeleteEntrieModal = ({ data }: DeleteEntrieModalProps) => {
     mutateAsync(data.id, {
       onSuccess: () => {
         revalidateTagFn(Tags.EXITS);
+        toast.success('entrada deletada com sucesso');
+      },
+      onError: () => {
+        toast.error(TOAST_ERROR_MESSAGE);
       },
     });
   };

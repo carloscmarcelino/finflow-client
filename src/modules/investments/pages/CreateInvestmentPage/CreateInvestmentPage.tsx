@@ -4,12 +4,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 import revalidateTagFn from '@/api/actions/revalidateTagFn';
 import { useCreateInvestment } from '@/api/investments/hooks';
 import { Tags } from '@/api/types';
 import { InputText } from '@/components/InputText';
 import { Button } from '@/components/ui/button';
+import { TOAST_ERROR_MESSAGE } from '@/config';
 import { brlToNumber } from '@/utils/formatters/brlToNumber';
 import { Mask } from '@/utils/functions/mask';
 
@@ -35,6 +37,10 @@ export const CreateInvestmentPage = () => {
         onSuccess: () => {
           revalidateTagFn(Tags.INVESTMENTS);
           router.push('/investimentos');
+          toast.success('investimento criado com sucesso');
+        },
+        onError: () => {
+          toast.error(TOAST_ERROR_MESSAGE);
         },
       },
     );

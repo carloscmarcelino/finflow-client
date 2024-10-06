@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 import revalidateTagFn from '@/api/actions/revalidateTagFn';
 import { useCreateExit } from '@/api/exits';
@@ -35,6 +36,7 @@ export const CreateExitPage = () => {
         onSuccess: () => {
           revalidateTagFn(Tags.EXITS);
           router.push('/saidas');
+          toast.success('saida criada com sucesso');
         },
       },
     );

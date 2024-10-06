@@ -18,3 +18,15 @@ export const postRefreshToken: RefreshFn = ({ access_token }) =>
   api.unauthorized.post('/auth/refresh-token', {
     body: { access_token },
   });
+
+export const createUser: LoginFn = ({ username, password, config }) =>
+  api.unauthorized.post('/users/signup', {
+    body: {
+      username,
+      password,
+    },
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    ...config,
+  });

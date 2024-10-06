@@ -2,6 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { FaRegEdit } from 'react-icons/fa';
+import { toast } from 'sonner';
 
 import revalidateTagFn from '@/api/actions/revalidateTagFn';
 import { Exit, useEditExit } from '@/api/exits';
@@ -17,6 +18,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { TOAST_ERROR_MESSAGE } from '@/config';
 import { useDisclosure } from '@/hooks';
 import { brlToNumber } from '@/utils/formatters/brlToNumber';
 import { toBRL } from '@/utils/formatters/toBRL';
@@ -59,6 +61,10 @@ export const EditExitModal = ({ data }: EditExitModalProps) => {
         onSuccess: () => {
           revalidateTagFn(Tags.EXITS);
           onClose();
+          toast.success('saida editada com sucesso');
+        },
+        onError: () => {
+          toast.error(TOAST_ERROR_MESSAGE);
         },
       },
     );
