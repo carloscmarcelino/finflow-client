@@ -6,6 +6,8 @@ import { InvestmentsPage } from '@/modules/investments';
 const Page = async () => {
   const { data } = await getInvestments();
 
+  console.log(data);
+
   return (
     <Suspense>
       <InvestmentsPage data={data} />

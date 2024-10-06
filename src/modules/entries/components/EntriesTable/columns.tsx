@@ -5,6 +5,9 @@ import React from 'react';
 import { Entrie } from '@/api/entries';
 import { toBRL } from '@/utils/formatters/toBRL';
 
+import { DeleteEntrieModal } from '../DeleteEntrieModal';
+import { EditEntrieModal } from '../EditEntrieModal';
+
 const columnHelper = createColumnHelper<Entrie>();
 
 export const entriesColumns = [
@@ -26,5 +29,15 @@ export const entriesColumns = [
     id: 'description',
     cell: (info) => <p>{info.getValue()}</p>,
     header: () => <p>Descrição</p>,
+  }),
+  columnHelper.accessor((row) => row, {
+    id: 'acoes',
+    cell: ({ getValue }) => (
+      <div className="flex gap-5">
+        <EditEntrieModal data={getValue()} />
+        <DeleteEntrieModal data={getValue()} />
+      </div>
+    ),
+    header: () => <p>Ações</p>,
   }),
 ];

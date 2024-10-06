@@ -9,7 +9,6 @@ export const getInvestments: ReadFn<ApiResponse<Investment>> = ({ config } = {})
   api.unauthorized.get('/investments', {
     ...config,
     next: {
-      revalidate: 0,
       tags: [Tags.INVESTMENTS],
     },
   });

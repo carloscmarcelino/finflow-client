@@ -2,7 +2,7 @@ export type Investment = {
   id: string;
   date: string;
   type: string;
-  value: string;
+  value: number;
   yield: string;
   bank: string;
 };

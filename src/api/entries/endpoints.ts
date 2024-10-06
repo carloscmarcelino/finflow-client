@@ -21,3 +21,13 @@ export const getEntries: ReadFn<ApiResponse<Entrie>> = ({ config } = {}) =>
       tags: [Tags.ENTRIES],
     },
   });
+
+export const deleteEntrie = (id: string) => api.unauthorized.delete(`/entries/${id}`);
+
+export const editEntrie = ({ id, body }: { id: string; body: CreateEntrie }) =>
+  api.unauthorized.patch(`/entries/${id}`, {
+    body,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });

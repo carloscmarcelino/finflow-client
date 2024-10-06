@@ -4,8 +4,7 @@ import { useForm } from 'react-hook-form';
 import { FaRegEdit } from 'react-icons/fa';
 
 import revalidateTagFn from '@/api/actions/revalidateTagFn';
-import { useEditInvestment } from '@/api/investments/hooks/useEditInvestment';
-import { Investment } from '@/api/investments/types';
+import { Entrie, useEditEntrie } from '@/api/entries';
 import { Tags } from '@/api/types';
 import { InputText } from '@/components/InputText';
 import { Button } from '@/components/ui/button';
@@ -23,14 +22,14 @@ import { brlToNumber } from '@/utils/formatters/brlToNumber';
 import { toBRL } from '@/utils/formatters/toBRL';
 import { Mask } from '@/utils/functions/mask';
 
-import { createInvestmentSchema, CreateInvestmentType } from '../../validators';
+import { createEntrieSchema, CreateEntrieSchemaType } from '../../validators';
 
-type EditInvestmentModalProps = {
-  data: Investment;
+type EditEntrieModalProps = {
+  data: Entrie;
 };
 
-export const EditInvestmentModal = ({ data }: EditInvestmentModalProps) => {
-  const { mutate, isPending } = useEditInvestment();
+export const EditEntrieModal = ({ data }: EditEntrieModalProps) => {
+  const { mutate, isPending } = useEditEntrie();
 
   const { open, onOpen, onClose } = useDisclosure();
 
@@ -38,25 +37,23 @@ export const EditInvestmentModal = ({ data }: EditInvestmentModalProps) => {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm<CreateInvestmentType>({
-    resolver: zodResolver(createInvestmentSchema),
+  } = useForm<CreateEntrieSchemaType>({
+    resolver: zodResolver(createEntrieSchema),
     defaultValues: {
-      bank: data.bank,
-      type: data.type,
+      description: data.description,
       value: toBRL(data.value),
-      yield: String(data.yield),
     },
   });
 
-  const onSubmit = (values: CreateInvestmentType) => {
+  const onSubmit = (values: CreateEntrieSchemaType) => {
     mutate(
       {
         id: data.id,
-        body: { ...values, value: brlToNumber(values.value), yield: Number(values.yield) },
+        body: { ...values, value: brlToNumber(values.value) },
       },
       {
         onSuccess: () => {
-          revalidateTagFn(Tags.INVESTMENTS);
+          revalidateTagFn(Tags.EXITS);
           onClose();
         },
       },
@@ -75,10 +72,7 @@ export const EditInvestmentModal = ({ data }: EditInvestmentModalProps) => {
           <DialogHeader>
             <DialogTitle>Editar</DialogTitle>
           </DialogHeader>
-
           <div className="flex flex-col max-w-[20rem] gap-4">
-            <InputText label="Tipo" error={errors.type} register={register('type')} />
-
             <InputText
               label="Valor"
               error={errors.value}
@@ -86,15 +80,11 @@ export const EditInvestmentModal = ({ data }: EditInvestmentModalProps) => {
               mask={Mask.brl}
             />
             <InputText
-              label="Rendimento"
-              error={errors.yield}
-              register={register('yield')}
-              mask={Mask.yield}
+              label="Descrição"
+              error={errors.description}
+              register={register('description')}
             />
-
-            <InputText label="Banco" error={errors.bank} register={register('bank')} />
           </div>
-
           <DialogFooter>
             <DialogClose asChild>
               <Button variant="ghost">Cancelar</Button>
