@@ -6,7 +6,7 @@ import { Tags } from '../types';
 import { CreateInvestment, Investment } from './types';
 
 export const getInvestments: ReadFn<ApiResponse<Investment>> = ({ config } = {}) =>
-  api.unauthorized.get('/investments', {
+  api.authorized.get('/investments', {
     ...config,
     next: {
       tags: [Tags.INVESTMENTS],
@@ -14,17 +14,17 @@ export const getInvestments: ReadFn<ApiResponse<Investment>> = ({ config } = {})
   });
 
 export const createInvestment = (body: CreateInvestment) =>
-  api.unauthorized.post('/investments', {
+  api.authorized.post('/investments', {
     body,
     headers: {
       'Content-Type': 'application/json',
     },
   });
 
-export const deleteInvestment = (id: string) => api.unauthorized.delete(`/investments/${id}`);
+export const deleteInvestment = (id: string) => api.authorized.delete(`/investments/${id}`);
 
 export const editInvestment = ({ id, body }: { id: string; body: CreateInvestment }) =>
-  api.unauthorized.patch(`/investments/${id}`, {
+  api.authorized.patch(`/investments/${id}`, {
     body,
     headers: {
       'Content-Type': 'application/json',

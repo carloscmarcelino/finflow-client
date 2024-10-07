@@ -6,7 +6,7 @@ import { Tags } from '../types';
 import { CreateEntrie, Entrie } from './types';
 
 export const createEntrie = (body: CreateEntrie) =>
-  api.unauthorized.post('/entries', {
+  api.authorized.post('/entries', {
     body,
     headers: {
       'Content-Type': 'application/json',
@@ -14,7 +14,7 @@ export const createEntrie = (body: CreateEntrie) =>
   });
 
 export const getEntries: ReadFn<ApiResponse<Entrie>> = ({ config } = {}) =>
-  api.unauthorized.get('/entries', {
+  api.authorized.get('/entries', {
     ...config,
     next: {
       revalidate: 0,
@@ -22,10 +22,10 @@ export const getEntries: ReadFn<ApiResponse<Entrie>> = ({ config } = {}) =>
     },
   });
 
-export const deleteEntrie = (id: string) => api.unauthorized.delete(`/entries/${id}`);
+export const deleteEntrie = (id: string) => api.authorized.delete(`/entries/${id}`);
 
 export const editEntrie = ({ id, body }: { id: string; body: CreateEntrie }) =>
-  api.unauthorized.patch(`/entries/${id}`, {
+  api.authorized.patch(`/entries/${id}`, {
     body,
     headers: {
       'Content-Type': 'application/json',
