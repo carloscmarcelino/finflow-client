@@ -82,7 +82,7 @@ export const EditInvestmentModal = ({ data }: EditInvestmentModalProps) => {
             <DialogTitle>Editar</DialogTitle>
           </DialogHeader>
 
-          <div className="flex flex-col max-w-[20rem] gap-4">
+          <div className="flex flex-col max-w-[20rem] gap-4 my-10">
             <InputText label="Tipo" error={errors.type} register={register('type')} />
 
             <InputText
