@@ -6,7 +6,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import { useGetBrokers } from '@/api/__common__/hooks';
+import { useGetBrokers, useGetTypesOfInvestments } from '@/api/__common__/hooks';
 import revalidateTagFn from '@/api/actions/revalidateTagFn';
 import { useCreateInvestment } from '@/api/investments/hooks';
 import { Tags } from '@/api/types';
@@ -25,10 +25,13 @@ export const CreateInvestmentPage = () => {
     formState: { errors },
     handleSubmit,
     control,
-    watch,
   } = useForm<CreateInvestmentType>({
     resolver: zodResolver(createInvestmentSchema),
   });
+
+  const { data: typesData, isLoading: isLoadingTypes } = useGetTypesOfInvestments();
+
+  const typeOptions = typesData?.data.map((type) => ({ label: type.name, value: type.id }));
 
   const { data: brokersData, isLoading } = useGetBrokers();
 
@@ -44,10 +47,13 @@ export const CreateInvestmentPage = () => {
   const onSubmit = (values: CreateInvestmentType) => {
     mutate(
       {
-        ...values,
         value: brlToNumber(values.value),
         yield: Number(values.yield),
         broker: values.broker.value,
+        type: {
+          id: values.type.value,
+          name: values.type.label,
+        },
       },
       {
         onSuccess: () => {
@@ -68,7 +74,14 @@ export const CreateInvestmentPage = () => {
       className="flex flex-col items-center justify-center h-screen"
     >
       <div className="flex flex-col max-w-[20rem] gap-4">
-        <InputText label="Tipo" error={errors.type} register={register('type')} />
+        <CustomSelect
+          label="Tipo"
+          name="type"
+          options={typeOptions}
+          isLoading={isLoadingTypes}
+          control={control}
+          error={errors.type}
+        />
 
         <InputText
           label="Valor"

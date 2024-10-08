@@ -9,8 +9,6 @@ type InvestmentsTableProps = {
   data: Investment[];
 };
 
-export const InvestmentsTable = ({ data }: InvestmentsTableProps) => {
-  console.log(data);
-
-  return <Table columns={investmentsColumns} data={data} />;
-};
+export const InvestmentsTable = ({ data }: InvestmentsTableProps) => (
+  <Table columns={investmentsColumns} data={data} />
+);

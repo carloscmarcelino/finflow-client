@@ -29,6 +29,11 @@ export const investmentsColumns = [
     cell: (info) => <p>{info.getValue()}%</p>,
     header: () => <p>Rendimento</p>,
   }),
+  columnHelper.accessor((row) => row.type.name, {
+    id: 'type',
+    cell: (info) => <p>{info.getValue()}</p>,
+    header: () => <p>Tipo</p>,
+  }),
   columnHelper.accessor((row) => row.broker, {
     id: 'corretora',
     cell: (info) => <p>{info.getValue()}</p>,

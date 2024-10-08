@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { FaRegEdit } from 'react-icons/fa';
 import { toast } from 'sonner';
 
-import { useGetBrokers } from '@/api/__common__/hooks';
+import { useGetBrokers, useGetTypesOfInvestments } from '@/api/__common__/hooks';
 import revalidateTagFn from '@/api/actions/revalidateTagFn';
 import { useEditInvestment } from '@/api/investments/hooks/useEditInvestment';
 import { Investment } from '@/api/investments/types';
@@ -46,7 +46,7 @@ export const EditInvestmentModal = ({ data }: EditInvestmentModalProps) => {
   } = useForm<CreateInvestmentType>({
     resolver: zodResolver(createInvestmentSchema),
     defaultValues: {
-      type: data.type,
+      type: { label: data.type.name, value: data.type.id },
       value: toBRL(data.value),
       yield: String(data.yield),
       broker: { label: data.broker, value: data.broker },
@@ -60,6 +60,10 @@ export const EditInvestmentModal = ({ data }: EditInvestmentModalProps) => {
     value: broker.nome_social,
   }));
 
+  const { data: typesData, isLoading: isLoadingTypes } = useGetTypesOfInvestments();
+
+  const typeOptions = typesData?.data.map((type) => ({ label: type.name, value: type.id }));
+
   const onSubmit = (values: CreateInvestmentType) => {
     mutate(
       {
@@ -69,6 +73,10 @@ export const EditInvestmentModal = ({ data }: EditInvestmentModalProps) => {
           value: brlToNumber(values.value),
           yield: Number(values.yield),
           broker: values.broker.value,
+          type: {
+            id: values.type.value,
+            name: values.type.label,
+          },
         },
       },
       {
@@ -98,7 +106,14 @@ export const EditInvestmentModal = ({ data }: EditInvestmentModalProps) => {
           </DialogHeader>
 
           <div className="flex flex-col max-w-[20rem] gap-4 my-10">
-            <InputText label="Tipo" error={errors.type} register={register('type')} />
+            <CustomSelect
+              label="Tipo"
+              name="type"
+              options={typeOptions}
+              isLoading={isLoadingTypes}
+              control={control}
+              error={errors.type}
+            />
 
             <InputText
               label="Valor"

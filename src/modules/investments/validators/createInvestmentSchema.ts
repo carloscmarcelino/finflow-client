@@ -3,7 +3,13 @@ import { z } from 'zod';
 import { INVALID_FORMAT } from '@/config';
 
 export const createInvestmentSchema = z.object({
-  type: z.string().refine((val) => val !== '', { message: INVALID_FORMAT }),
+  type: z.object(
+    {
+      label: z.string(),
+      value: z.string(),
+    },
+    { message: INVALID_FORMAT },
+  ),
   value: z.string().refine((val) => val !== '', { message: INVALID_FORMAT }),
   yield: z.string().refine((val) => val !== '', { message: INVALID_FORMAT }),
   broker: z.object(

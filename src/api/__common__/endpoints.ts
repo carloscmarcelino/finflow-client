@@ -1,6 +1,6 @@
 import { api } from '@/lib/FetchClient';
 
-import { ApiResponse, Broker, ReadFn } from './types';
+import { ApiResponse, Broker, ReadFn, TypesOfInvestment } from './types';
 
 export const getPaymentMethods: ReadFn<ApiResponse<{ name: string }>> = ({ config } = {}) =>
   api.authorized.get('/payment-methods', {
@@ -16,5 +16,13 @@ export const getBrokers: ReadFn<ApiResponse<Broker>> = ({ config } = {}) =>
     ...config,
     next: {
       tags: ['broker'],
+    },
+  });
+
+export const getTypesOfInvestments: ReadFn<ApiResponse<TypesOfInvestment>> = ({ config } = {}) =>
+  api.authorized.get('/investments/types', {
+    ...config,
+    next: {
+      tags: ['investments-types'],
     },
   });

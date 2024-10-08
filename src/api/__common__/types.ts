@@ -77,3 +77,8 @@ export type Broker = {
   data_inicio_situacao: string;
   data_registro: string;
 };
+
+export type TypesOfInvestment = {
+  id: string;
+  name: string;
+};
