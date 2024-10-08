@@ -36,7 +36,7 @@ export const investmentsColumns = [
   }),
   columnHelper.accessor((row) => row.broker, {
     id: 'corretora',
-    cell: (info) => <p>{info.getValue()}</p>,
+    cell: (info) => <p className="truncate max-w-40">{info.getValue()}</p>,
     header: () => <p>Corretora</p>,
   }),
   columnHelper.accessor((row) => row, {
