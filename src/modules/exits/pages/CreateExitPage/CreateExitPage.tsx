@@ -6,9 +6,11 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
+import { useGetPaymentMethods } from '@/api/__common__/hooks';
 import revalidateTagFn from '@/api/actions/revalidateTagFn';
 import { useCreateExit } from '@/api/exits';
 import { Tags } from '@/api/types';
+import { CustomSelect } from '@/components/CustomSelect';
 import { InputText } from '@/components/InputText';
 import { Button } from '@/components/ui/button';
 import { brlToNumber } from '@/utils/formatters/brlToNumber';
@@ -21,9 +23,14 @@ export const CreateExitPage = () => {
     register,
     formState: { errors },
     handleSubmit,
+    control,
   } = useForm<CreateExitSchemaType>({
     resolver: zodResolver(createExitSchema),
   });
+
+  const { data, isPending: isLoadingPaymentMethods } = useGetPaymentMethods();
+
+  const paymentMethodsOptions = data?.data?.map((item) => ({ label: item.name, value: item }));
 
   const { mutate, isPending } = useCreateExit();
 
@@ -31,7 +38,11 @@ export const CreateExitPage = () => {
 
   const onSubmit = (values: CreateExitSchemaType) => {
     mutate(
-      { ...values, amount: brlToNumber(values.amount) },
+      {
+        amount: brlToNumber(values.amount),
+        paymentMethodId: values.paymentMethod.value.id,
+        description: values.description,
+      },
       {
         onSuccess: () => {
           revalidateTagFn(Tags.EXITS);
@@ -61,10 +72,13 @@ export const CreateExitPage = () => {
           register={register('description')}
         />
 
-        <InputText
+        <CustomSelect
           label="Metodo de pagamento"
-          error={errors.paymentMethod}
-          register={register('paymentMethod')}
+          name="paymentMethod"
+          options={paymentMethodsOptions}
+          isLoading={isLoadingPaymentMethods}
+          control={control}
+          error={errors}
         />
 
         <Button type="submit" isLoading={isPending} className="bg-blue">

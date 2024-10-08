@@ -4,9 +4,11 @@ import { useForm } from 'react-hook-form';
 import { FaRegEdit } from 'react-icons/fa';
 import { toast } from 'sonner';
 
+import { useGetPaymentMethods } from '@/api/__common__/hooks';
 import revalidateTagFn from '@/api/actions/revalidateTagFn';
 import { Exit, useEditExit } from '@/api/exits';
 import { Tags } from '@/api/types';
+import { CustomSelect } from '@/components/CustomSelect';
 import { InputText } from '@/components/InputText';
 import { Button } from '@/components/ui/button';
 import {
@@ -39,12 +41,13 @@ export const EditExitModal = ({ data }: EditExitModalProps) => {
     register,
     formState: { errors },
     handleSubmit,
+    control,
   } = useForm<CreateExitSchemaType>({
     resolver: zodResolver(createExitSchema),
     defaultValues: {
       amount: toBRL(Number(data.amount)),
       description: data.description,
-      paymentMethod: data.paymentMethod,
+      paymentMethod: { label: data.paymentMethod.name, value: data.paymentMethod },
     },
   });
 
@@ -53,8 +56,9 @@ export const EditExitModal = ({ data }: EditExitModalProps) => {
       {
         id: data.id,
         body: {
-          ...values,
           amount: brlToNumber(values.amount),
+          paymentMethodId: values.paymentMethod.value.id,
+          description: values.description,
         },
       },
       {
@@ -69,6 +73,13 @@ export const EditExitModal = ({ data }: EditExitModalProps) => {
       },
     );
   };
+
+  const { data: paymentMethodsData, isPending: isLoadingPaymentMethods } = useGetPaymentMethods();
+
+  const paymentMethodsOptions = paymentMethodsData?.data?.map((item) => ({
+    label: item.name,
+    value: item,
+  }));
 
   return (
     <Dialog open={open} onOpenChange={open ? onClose : onOpen}>
@@ -97,10 +108,13 @@ export const EditExitModal = ({ data }: EditExitModalProps) => {
               register={register('description')}
             />
 
-            <InputText
+            <CustomSelect
               label="Metodo de pagamento"
-              error={errors.paymentMethod}
-              register={register('paymentMethod')}
+              name="paymentMethod"
+              options={paymentMethodsOptions}
+              isLoading={isLoadingPaymentMethods}
+              control={control}
+              error={errors}
             />
           </div>
 

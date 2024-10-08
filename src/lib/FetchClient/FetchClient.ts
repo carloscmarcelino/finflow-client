@@ -54,6 +54,7 @@ export class FetchClient {
 
       if (!interceptedResponse.ok) {
         const errorData = await interceptedResponse.json();
+
         throw new HttpError(
           interceptedResponse.status,
           errorData.message || interceptedResponse.statusText,

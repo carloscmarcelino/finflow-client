@@ -29,7 +29,7 @@ export const exitColumns = [
     cell: (info) => <p>{info.getValue()}</p>,
     header: () => <p>Descrição</p>,
   }),
-  columnHelper.accessor((row) => row.paymentMethod, {
+  columnHelper.accessor((row) => row.paymentMethod.name, {
     id: 'paymentMethod',
     cell: (info) => <p>{info.getValue()}</p>,
     header: () => <p>Pagamento</p>,
