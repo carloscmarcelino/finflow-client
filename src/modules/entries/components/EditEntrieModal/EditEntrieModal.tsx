@@ -1,12 +1,14 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import dayjs from 'dayjs';
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { FaRegEdit } from 'react-icons/fa';
 import { toast } from 'sonner';
 
 import revalidateTagFn from '@/api/actions/revalidateTagFn';
 import { Entrie, useEditEntrie } from '@/api/entries';
 import { Tags } from '@/api/types';
+import { DatePicker } from '@/components/DatePicker';
 import { InputText } from '@/components/InputText';
 import { Button } from '@/components/ui/button';
 import {
@@ -39,11 +41,13 @@ export const EditEntrieModal = ({ data }: EditEntrieModalProps) => {
     register,
     formState: { errors },
     handleSubmit,
+    control,
   } = useForm<CreateEntrieSchemaType>({
     resolver: zodResolver(createEntrieSchema),
     defaultValues: {
       description: data.description,
       value: toBRL(data.value),
+      date: dayjs(data.date).toDate(),
     },
   });
 
@@ -51,7 +55,7 @@ export const EditEntrieModal = ({ data }: EditEntrieModalProps) => {
     mutate(
       {
         id: data.id,
-        body: { ...values, value: brlToNumber(values.value) },
+        body: { ...values, value: brlToNumber(values.value), date: values.date.toISOString() },
       },
       {
         onSuccess: () => {
@@ -79,6 +83,11 @@ export const EditEntrieModal = ({ data }: EditEntrieModalProps) => {
             <DialogTitle>Editar</DialogTitle>
           </DialogHeader>
           <div className="flex flex-col max-w-[20rem] gap-4 my-10">
+            <Controller
+              name="date"
+              control={control}
+              render={({ field }) => <DatePicker value={field.value} onChange={field.onChange} />}
+            />
             <InputText
               label="Valor"
               error={errors.value}

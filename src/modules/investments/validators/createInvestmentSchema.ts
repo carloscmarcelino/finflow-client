@@ -19,6 +19,7 @@ export const createInvestmentSchema = z.object({
     },
     { message: INVALID_FORMAT },
   ),
+  date: z.date(),
 });
 
 export type CreateInvestmentType = z.infer<typeof createInvestmentSchema>;

@@ -1,6 +1,7 @@
 export type CreateEntrie = {
   value: number;
   description: string;
+  date: string;
 };
 
 export type Entrie = {

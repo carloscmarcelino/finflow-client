@@ -70,20 +70,17 @@ export const CreateExitPage = () => {
           control={control}
           render={({ field }) => <DatePicker value={field.value} onChange={field.onChange} />}
         />
-
         <InputText
           label="Valor"
           error={errors.amount}
           register={register('amount')}
           mask={Mask.brl}
         />
-
         <InputText
           label="Descrição"
           error={errors.description}
           register={register('description')}
         />
-
         <CustomSelect
           label="Metodo de pagamento"
           name="paymentMethod"
@@ -92,7 +89,6 @@ export const CreateExitPage = () => {
           control={control}
           error={errors.paymentMethod}
         />
-
         <Button type="submit" isLoading={isPending} className="bg-blue">
           Adicionar
         </Button>

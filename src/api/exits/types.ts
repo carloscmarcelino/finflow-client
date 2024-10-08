@@ -13,5 +13,5 @@ export type CreateExit = {
   description: string;
   amount: number;
   paymentMethodId: string;
-  date?: string;
+  date: string;
 };

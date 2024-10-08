@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import dayjs from 'dayjs';
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { FaRegEdit } from 'react-icons/fa';
 import { toast } from 'sonner';
 
@@ -10,6 +11,7 @@ import { useEditInvestment } from '@/api/investments/hooks/useEditInvestment';
 import { Investment } from '@/api/investments/types';
 import { Tags } from '@/api/types';
 import { CustomSelect } from '@/components/CustomSelect';
+import { DatePicker } from '@/components/DatePicker';
 import { InputText } from '@/components/InputText';
 import { Button } from '@/components/ui/button';
 import {
@@ -50,6 +52,7 @@ export const EditInvestmentModal = ({ data }: EditInvestmentModalProps) => {
       value: toBRL(data.value),
       yield: String(data.yield),
       broker: { label: data.broker, value: data.broker },
+      date: dayjs(data.date).toDate(),
     },
   });
 
@@ -77,6 +80,7 @@ export const EditInvestmentModal = ({ data }: EditInvestmentModalProps) => {
             id: values.type.value,
             name: values.type.label,
           },
+          date: values.date.toISOString(),
         },
       },
       {
@@ -106,6 +110,11 @@ export const EditInvestmentModal = ({ data }: EditInvestmentModalProps) => {
           </DialogHeader>
 
           <div className="flex flex-col max-w-[20rem] gap-4 my-10">
+            <Controller
+              name="date"
+              control={control}
+              render={({ field }) => <DatePicker value={field.value} onChange={field.onChange} />}
+            />
             <CustomSelect
               label="Tipo"
               name="type"
@@ -114,7 +123,6 @@ export const EditInvestmentModal = ({ data }: EditInvestmentModalProps) => {
               control={control}
               error={errors.type}
             />
-
             <InputText
               label="Valor"
               error={errors.value}
@@ -127,7 +135,6 @@ export const EditInvestmentModal = ({ data }: EditInvestmentModalProps) => {
               register={register('yield')}
               mask={Mask.yield}
             />
-
             <CustomSelect
               label="Banco"
               name="broker"
@@ -137,12 +144,10 @@ export const EditInvestmentModal = ({ data }: EditInvestmentModalProps) => {
               error={errors.broker}
             />
           </div>
-
           <DialogFooter>
             <DialogClose asChild>
               <Button variant="ghost">Cancelar</Button>
             </DialogClose>
-
             <Button type="submit" isLoading={isPending} className="w-32">
               Editar
             </Button>

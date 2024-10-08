@@ -14,4 +14,5 @@ export type CreateInvestment = {
   value: number;
   yield: number;
   broker: string;
+  date: string;
 };
