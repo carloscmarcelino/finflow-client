@@ -4,10 +4,12 @@ import { useForm } from 'react-hook-form';
 import { FaRegEdit } from 'react-icons/fa';
 import { toast } from 'sonner';
 
+import { useGetBrokers } from '@/api/__common__/hooks';
 import revalidateTagFn from '@/api/actions/revalidateTagFn';
 import { useEditInvestment } from '@/api/investments/hooks/useEditInvestment';
 import { Investment } from '@/api/investments/types';
 import { Tags } from '@/api/types';
+import { CustomSelect } from '@/components/CustomSelect';
 import { InputText } from '@/components/InputText';
 import { Button } from '@/components/ui/button';
 import {
@@ -40,21 +42,34 @@ export const EditInvestmentModal = ({ data }: EditInvestmentModalProps) => {
     register,
     formState: { errors },
     handleSubmit,
+    control,
   } = useForm<CreateInvestmentType>({
     resolver: zodResolver(createInvestmentSchema),
     defaultValues: {
-      bank: data.bank,
       type: data.type,
       value: toBRL(data.value),
       yield: String(data.yield),
+      broker: { label: data.broker, value: data.broker },
     },
   });
+
+  const { data: brokersData, isLoading } = useGetBrokers();
+
+  const brokerOptions = brokersData?.data.map((broker) => ({
+    label: broker.nome_social,
+    value: broker.nome_social,
+  }));
 
   const onSubmit = (values: CreateInvestmentType) => {
     mutate(
       {
         id: data.id,
-        body: { ...values, value: brlToNumber(values.value), yield: Number(values.yield) },
+        body: {
+          ...values,
+          value: brlToNumber(values.value),
+          yield: Number(values.yield),
+          broker: values.broker.value,
+        },
       },
       {
         onSuccess: () => {
@@ -98,7 +113,14 @@ export const EditInvestmentModal = ({ data }: EditInvestmentModalProps) => {
               mask={Mask.yield}
             />
 
-            <InputText label="Banco" error={errors.bank} register={register('bank')} />
+            <CustomSelect
+              label="Banco"
+              name="broker"
+              options={brokerOptions}
+              isLoading={isLoading}
+              control={control}
+              error={errors.broker}
+            />
           </div>
 
           <DialogFooter>

@@ -6,9 +6,11 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
+import { useGetBrokers } from '@/api/__common__/hooks';
 import revalidateTagFn from '@/api/actions/revalidateTagFn';
 import { useCreateInvestment } from '@/api/investments/hooks';
 import { Tags } from '@/api/types';
+import { CustomSelect } from '@/components/CustomSelect';
 import { InputText } from '@/components/InputText';
 import { Button } from '@/components/ui/button';
 import { TOAST_ERROR_MESSAGE } from '@/config';
@@ -22,9 +24,18 @@ export const CreateInvestmentPage = () => {
     register,
     formState: { errors },
     handleSubmit,
+    control,
+    watch,
   } = useForm<CreateInvestmentType>({
     resolver: zodResolver(createInvestmentSchema),
   });
+
+  const { data: brokersData, isLoading } = useGetBrokers();
+
+  const brokerOptions = brokersData?.data.map((broker) => ({
+    label: broker.nome_social,
+    value: broker.nome_social,
+  }));
 
   const { mutate, isPending } = useCreateInvestment();
 
@@ -32,7 +43,12 @@ export const CreateInvestmentPage = () => {
 
   const onSubmit = (values: CreateInvestmentType) => {
     mutate(
-      { ...values, value: brlToNumber(values.value), yield: Number(values.yield) },
+      {
+        ...values,
+        value: brlToNumber(values.value),
+        yield: Number(values.yield),
+        broker: values.broker.value,
+      },
       {
         onSuccess: () => {
           revalidateTagFn(Tags.INVESTMENTS);
@@ -67,7 +83,14 @@ export const CreateInvestmentPage = () => {
           mask={Mask.yield}
         />
 
-        <InputText label="Banco" error={errors.bank} register={register('bank')} />
+        <CustomSelect
+          label="Banco"
+          name="broker"
+          options={brokerOptions}
+          isLoading={isLoading}
+          control={control}
+          error={errors.broker}
+        />
 
         <Button type="submit" isLoading={isPending} className="bg-blue">
           Adicionar

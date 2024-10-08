@@ -8,10 +8,7 @@ export const createExitSchema = z.object({
   paymentMethod: z.object(
     {
       label: z.string(),
-      value: z.object({
-        id: z.string(),
-        name: z.string(),
-      }),
+      value: z.record(z.string(), z.unknown()),
     },
     { message: INVALID_FORMAT },
   ),

@@ -78,7 +78,7 @@ export const CreateExitPage = () => {
           options={paymentMethodsOptions}
           isLoading={isLoadingPaymentMethods}
           control={control}
-          error={errors}
+          error={errors.paymentMethod}
         />
 
         <Button type="submit" isLoading={isPending} className="bg-blue">

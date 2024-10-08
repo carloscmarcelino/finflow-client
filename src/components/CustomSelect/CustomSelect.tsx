@@ -1,7 +1,15 @@
 'use client';
 
 import React from 'react';
-import { Control, Controller, FieldErrors, FieldValues, Path } from 'react-hook-form';
+import {
+  Control,
+  Controller,
+  FieldError,
+  FieldErrorsImpl,
+  FieldValues,
+  Merge,
+  Path,
+} from 'react-hook-form';
 import Select from 'react-select';
 
 type CustomSelectProps<T extends FieldValues> = {
@@ -10,10 +18,10 @@ type CustomSelectProps<T extends FieldValues> = {
   control: Control<T>;
   options?: {
     label: string;
-    value: Record<string, string>;
+    value: Record<string, unknown> | string;
   }[];
   isLoading: boolean;
-  error: FieldErrors<T>;
+  error?: Merge<FieldError, FieldErrorsImpl> | FieldError;
 };
 
 export const CustomSelect = <T extends FieldValues>({
@@ -35,6 +43,7 @@ export const CustomSelect = <T extends FieldValues>({
         <Select
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           options={options as any}
+          placeholder=""
           isLoading={isLoading}
           onChange={onChange}
           onBlur={onBlur}

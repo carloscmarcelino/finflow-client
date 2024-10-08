@@ -4,12 +4,12 @@ export type Investment = {
   type: string;
   value: number;
   yield: string;
-  bank: string;
+  broker: string;
 };
 
 export type CreateInvestment = {
   type: string;
   value: number;
   yield: number;
-  bank: string;
+  broker: string;
 };

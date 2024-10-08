@@ -114,7 +114,7 @@ export const EditExitModal = ({ data }: EditExitModalProps) => {
               options={paymentMethodsOptions}
               isLoading={isLoadingPaymentMethods}
               control={control}
-              error={errors}
+              error={errors.paymentMethod}
             />
           </div>
 
