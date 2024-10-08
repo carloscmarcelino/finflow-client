@@ -16,3 +16,7 @@ export type CreateInvestment = {
   broker: string;
   date: string;
 };
+
+export type TotalInvestments = {
+  total: number;
+};

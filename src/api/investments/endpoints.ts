@@ -3,13 +3,20 @@ import { api } from '@/lib/FetchClient';
 import { ApiResponse, ReadFn } from '../__common__/types';
 import { Tags } from '../types';
 
-import { CreateInvestment, Investment } from './types';
+import { CreateInvestment, Investment, TotalInvestments } from './types';
 
 export const getInvestments: ReadFn<ApiResponse<Investment>> = ({ config } = {}) =>
   api.authorized.get('/investments', {
     ...config,
     next: {
       tags: [Tags.INVESTMENTS],
+    },
+  });
+export const getTotalInvestments: ReadFn<TotalInvestments> = ({ config } = {}) =>
+  api.authorized.get('/investments/total', {
+    ...config,
+    next: {
+      tags: [Tags.INVESTMENTS, 'total'],
     },
   });
 
