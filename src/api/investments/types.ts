@@ -19,4 +19,5 @@ export type CreateInvestment = {
 
 export type TotalInvestments = {
   total: number;
+  totalInvestedThisMonth: number;
 };

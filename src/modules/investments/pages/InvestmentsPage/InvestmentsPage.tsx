@@ -21,9 +21,15 @@ export const InvestmentsPage = ({ data, totalData }: InvestmentsPageProps) => (
         <Button className="bg-blue">Adicionar</Button>
       </Link>
 
-      <div className="flex flex-col gap-2 rounded-xl bg-white shadow-2xl px-14 py-7">
-        <p className="text-description">Total investido:</p>
-        <p className="text-description font-bold">{toBRL(totalData.total)}</p>
+      <div className="flex rounded-xl bg-white shadow-2xl px-14 py-7 gap-10">
+        <div className="flex flex-col gap-2">
+          <p className="text-description">Investido esse mês:</p>
+          <p className="text-description font-bold">{toBRL(totalData.totalInvestedThisMonth)}</p>
+        </div>
+        <div className="flex flex-col gap-2">
+          <p className="text-description">Total investido:</p>
+          <p className="text-description font-bold">{toBRL(totalData.total)}</p>
+        </div>
       </div>
     </div>
     <InvestmentsTable data={data} />
