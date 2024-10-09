@@ -15,3 +15,7 @@ export type CreateExit = {
   paymentMethodId: string;
   date: string;
 };
+
+export type TotalExits = {
+  total: number;
+};

@@ -3,10 +3,19 @@ import { api } from '@/lib/FetchClient';
 
 import { Tags } from '../types';
 
-import { CreateExit, Exit } from './types';
+import { CreateExit, Exit, TotalExits } from './types';
 
 export const getExits: ReadFn<ApiResponse<Exit>> = ({ config } = {}) =>
   api.authorized.get('/exits', {
+    ...config,
+    next: {
+      revalidate: 0,
+      tags: [Tags.EXITS],
+    },
+  });
+
+export const getTotalExits: ReadFn<TotalExits> = ({ config } = {}) =>
+  api.authorized.get('/exits/total', {
     ...config,
     next: {
       revalidate: 0,
