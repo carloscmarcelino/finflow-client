@@ -1,17 +1,28 @@
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import { Suspense } from 'react';
 
 import { getInvestments, getTotalInvestments } from '@/api/investments/endpoints';
 import { InvestmentsPage } from '@/modules/investments';
 
 const Page = async () => {
-  const { data } = await getInvestments();
+  const queryClient = new QueryClient();
 
-  const tatalData = await getTotalInvestments();
+  await queryClient.prefetchQuery({
+    queryKey: ['get-investments'],
+    queryFn: () => getInvestments(),
+  });
+
+  await queryClient.prefetchQuery({
+    queryKey: ['get-total-investments'],
+    queryFn: () => getTotalInvestments(),
+  });
 
   return (
-    <Suspense>
-      <InvestmentsPage data={data} totalData={tatalData} />
-    </Suspense>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <Suspense fallback={<></>}>
+        <InvestmentsPage />
+      </Suspense>
+    </HydrationBoundary>
   );
 };
 

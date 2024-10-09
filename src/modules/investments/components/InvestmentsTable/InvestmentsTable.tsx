@@ -6,9 +6,9 @@ import { Table } from '@/components/Table';
 import { investmentsColumns } from './investmentsColumns';
 
 type InvestmentsTableProps = {
-  data: Investment[];
+  data?: Investment[];
 };
 
 export const InvestmentsTable = ({ data }: InvestmentsTableProps) => (
-  <Table columns={investmentsColumns} data={data} />
+  <Table columns={investmentsColumns} data={data ?? []} />
 );

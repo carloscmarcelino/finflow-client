@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { CalendarIcon } from 'lucide-react';
 import * as React from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -23,6 +24,7 @@ export const DatePicker = ({ value, onChange }: DatePickerProps) => (
             !value && 'text-muted-foreground',
           )}
         >
+          <CalendarIcon className="mr-2 h-4 w-4" />
           {value ? (
             <>
               {dayjs(value).format('MMM')} - {dayjs(value).format('DD/MM/YYYY')}
