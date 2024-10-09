@@ -16,7 +16,7 @@ export const getTotalInvestments: ReadFn<TotalInvestments> = ({ config } = {}) =
   api.authorized.get('/investments/total', {
     ...config,
     next: {
-      tags: [Tags.INVESTMENTS, 'total'],
+      tags: [Tags.INVESTMENTS],
     },
   });
 

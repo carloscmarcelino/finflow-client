@@ -3,7 +3,7 @@ import { api } from '@/lib/FetchClient';
 import { ApiResponse, ReadFn } from '../__common__/types';
 import { Tags } from '../types';
 
-import { CreateEntrie, Entrie } from './types';
+import { CreateEntrie, Entrie, TotalEntries } from './types';
 
 export const createEntrie = (body: CreateEntrie) =>
   api.authorized.post('/entries', {
@@ -15,6 +15,15 @@ export const createEntrie = (body: CreateEntrie) =>
 
 export const getEntries: ReadFn<ApiResponse<Entrie>> = ({ config } = {}) =>
   api.authorized.get('/entries', {
+    ...config,
+    next: {
+      revalidate: 0,
+      tags: [Tags.ENTRIES],
+    },
+  });
+
+export const getTotalEntries: ReadFn<TotalEntries> = ({ config } = {}) =>
+  api.authorized.get('/entries/total', {
     ...config,
     next: {
       revalidate: 0,
