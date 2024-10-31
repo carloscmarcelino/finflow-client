@@ -9,8 +9,10 @@ const Page = async () => {
   const queryClient = new QueryClient();
 
   const params = {
-    startDate: dayjs().startOf('month').toISOString(),
+    startDate: dayjs().startOf('year').toISOString(),
     endDate: dayjs().toISOString(),
+    limit: 5,
+    page: 1,
   } as GetEntriesParams;
 
   await queryClient.prefetchQuery({

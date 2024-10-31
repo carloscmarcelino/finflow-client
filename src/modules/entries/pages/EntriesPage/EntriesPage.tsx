@@ -2,7 +2,7 @@
 
 import dayjs from 'dayjs';
 import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { GetEntriesParams, useGetEntries, useGetTotalEntries } from '@/api/entries';
@@ -24,13 +24,13 @@ export const EntriesPage = ({ params }: EntriesPageProps) => {
     },
   });
 
-  const { data: entriesData, isLoading: isLoadingEntries } = useGetEntries({
-    ...(dayjs(watch('period').from).isValid() && {
-      startDate: dayjs(watch('period').from).toISOString(),
-    }),
-    ...(dayjs(watch('period').to).isValid() && {
-      endDate: dayjs(watch('period').to).toISOString(),
-    }),
+  const [currentPage, setCurrentPage] = useState(params.page);
+
+  const { data, isLoading, isFetching } = useGetEntries({
+    startDate: watch('period').from?.toISOString(),
+    endDate: watch('period').to?.toISOString(),
+    limit: params.limit,
+    page: currentPage,
   });
 
   const { data: totalEntriesData, isLoading: isLoadingTotalEntries } = useGetTotalEntries();
@@ -64,7 +64,13 @@ export const EntriesPage = ({ params }: EntriesPageProps) => {
         />
       </div>
 
-      <EntriesTable data={entriesData?.data} isLoading={isLoadingEntries} />
+      <EntriesTable
+        data={data?.data}
+        isLoading={isLoading}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        isFetching={isFetching}
+      />
     </main>
   );
 };

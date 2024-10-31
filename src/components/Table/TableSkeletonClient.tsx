@@ -17,5 +17,6 @@ export const TableSkeletonClient = () => (
     <Skeleton className="w-full h-10 rounded-sm" />
     <Skeleton className="w-full h-10 rounded-sm" />
     <Skeleton className="w-full h-10 rounded-sm" />
+    <Skeleton className="w-full h-10 rounded-sm" />
   </div>
 );

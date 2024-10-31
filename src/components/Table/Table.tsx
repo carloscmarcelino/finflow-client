@@ -7,9 +7,10 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { MouseEvent, ReactNode } from 'react';
+import { Dispatch, MouseEvent, ReactNode, SetStateAction } from 'react';
 
 import { cn } from '@/lib/utils';
+import { Pagination } from '@/modules/entries/components/EntriesTable/Pagination';
 
 import { TableSkeletonClient } from './TableSkeletonClient';
 
@@ -25,6 +26,9 @@ export type TableProps<Data extends Record<string, unknown>> = {
   children?: ReactNode;
   theadClassNames?: string;
   tbodyClassNames?: string;
+  currentPage?: number;
+  setCurrentPage?: Dispatch<SetStateAction<number>>;
+  isFetching?: boolean;
 } & Omit<TableOptions<Data>, 'getCoreRowModel' | 'columns' | 'data'>;
 
 export const Table = <Data extends Record<string, unknown>>({
@@ -39,6 +43,9 @@ export const Table = <Data extends Record<string, unknown>>({
   theadClassNames,
   tbodyClassNames,
   children,
+  currentPage,
+  setCurrentPage,
+  isFetching,
   ...rest
 }: TableProps<Data>) => {
   const table = useReactTable<Data>({
@@ -98,6 +105,13 @@ export const Table = <Data extends Record<string, unknown>>({
           )}
         </table>
       </div>
+
+      <Pagination
+        data={data}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        isFetching={isFetching}
+      />
 
       {isLoading && <TableSkeletonClient />}
 
