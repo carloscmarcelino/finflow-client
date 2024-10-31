@@ -20,9 +20,9 @@ export const InvestmentsPage = () => {
     },
   });
 
-  const { data: investmentsData } = useGetInvestments();
+  const { data: investmentsData, isLoading: isLoadingInvestments } = useGetInvestments();
 
-  const { data: totalData } = useGetTotalInvestments();
+  const { data: totalData, isLoading: isLoadingTotalInvestments } = useGetTotalInvestments();
 
   return (
     <main className="flex flex-col gap-10 max-w-[1280px] mx-auto py-10">
@@ -42,7 +42,7 @@ export const InvestmentsPage = () => {
 
         <div className="flex rounded-xl bg-white shadow-2xl px-14 py-7 gap-10">
           <div className="flex flex-col gap-2">
-            <p className="text-description">Investido esse mês:</p>
+            <p className="text-description">Investido:</p>
             <p className="text-description font-bold">
               {toBRL(totalData?.totalInvestedThisMonth ?? 0)}
             </p>

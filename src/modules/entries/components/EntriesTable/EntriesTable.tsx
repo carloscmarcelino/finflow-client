@@ -6,9 +6,10 @@ import { Table } from '@/components/Table';
 import { entriesColumns } from './columns';
 
 type EntriesTableProps = {
-  data: Entrie[];
+  data?: Entrie[];
+  isLoading: boolean;
 };
 
-export const EntriesTable = ({ data }: EntriesTableProps) => (
-  <Table columns={entriesColumns} data={data} />
+export const EntriesTable = ({ data, isLoading }: EntriesTableProps) => (
+  <Table columns={entriesColumns} data={data ?? []} isLoading={isLoading} />
 );

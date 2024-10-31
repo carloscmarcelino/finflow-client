@@ -49,7 +49,7 @@ export type DeleteFn = (options: {
 export type ReadManyFn<TResponse> = (options: {
   params: Params;
   config?: FetchOptions;
-}) => Promise<GetManyResponse<TResponse>>;
+}) => Promise<TResponse>;
 
 export type ApiResponse<T> = {
   data: T[];

@@ -1,17 +1,34 @@
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
+import dayjs from 'dayjs';
 import { Suspense } from 'react';
 
-import { getEntries, getTotalEntries } from '@/api/entries';
+import { getEntries, GetEntriesParams, getTotalEntries } from '@/api/entries';
 import { EntriesPage } from '@/modules/entries';
 
 const Page = async () => {
-  const { data } = await getEntries();
+  const queryClient = new QueryClient();
 
-  const totalEntries = await getTotalEntries();
+  const params = {
+    startDate: dayjs().startOf('month').toISOString(),
+    endDate: dayjs().toISOString(),
+  } as GetEntriesParams;
+
+  await queryClient.prefetchQuery({
+    queryKey: ['get-entries', ...Object.values(params)],
+    queryFn: () => getEntries({ params }),
+  });
+
+  await queryClient.prefetchQuery({
+    queryKey: ['get-total-entries'],
+    queryFn: () => getTotalEntries(),
+  });
 
   return (
-    <Suspense>
-      <EntriesPage data={data} totalEntries={totalEntries} />
-    </Suspense>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <Suspense>
+        <EntriesPage params={params} />
+      </Suspense>
+    </HydrationBoundary>
   );
 };
 

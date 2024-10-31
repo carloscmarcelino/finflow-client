@@ -20,7 +20,7 @@ export const ExitsPage = ({ data, totalData }: ExitsPageProps) => (
         <Button className="bg-blue">Adicionar</Button>
       </Link>
       <div className="flex flex-col gap-2 rounded-xl bg-white shadow-2xl px-14 py-7">
-        <p className="text-description">Gastos desse mês:</p>
+        <p className="text-description">Gastos:</p>
         <p className="text-description font-bold">{toBRL(totalData.total)}</p>
       </div>
     </div>
