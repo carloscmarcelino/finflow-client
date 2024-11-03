@@ -38,17 +38,22 @@ export const EntriesPage = ({ params }: EntriesPageProps) => {
 
   const [currentPage, setCurrentPage] = useState(params.page);
 
+  const dateParams = {
+    ...(watch('period')?.from && {
+      startDate: watch('period')?.from?.toISOString(),
+    }),
+    ...(watch('period')?.to && { endDate: watch('period')?.to?.toISOString() }),
+  };
+
   const { data, isLoading, isFetching } = useGetEntries({
-    startDate: watch('period').from?.toISOString(),
-    endDate: watch('period').to?.toISOString(),
+    ...dateParams,
     limit: params.limit,
     page: currentPage,
     ...(watch('search') !== '' && { search: watch('search') }),
   });
 
   const { data: totalEntriesData, isLoading: isLoadingTotalEntries } = useGetTotalEntries({
-    startDate: watch('period').from?.toISOString(),
-    endDate: watch('period').to?.toISOString(),
+    ...dateParams,
   });
 
   return (
@@ -105,7 +110,12 @@ export const EntriesPage = ({ params }: EntriesPageProps) => {
             variant="outline"
             className="h-[42px] shadow-sm"
             onClick={() => {
-              blobDownload('entries/export');
+              blobDownload({
+                endpoint: 'entries/export',
+                params: {
+                  ...dateParams,
+                },
+              });
             }}
           >
             Gerar XLSX
