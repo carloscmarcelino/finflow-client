@@ -12,6 +12,7 @@ import { InputSearch } from '@/components/InputSearch';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { toBRL } from '@/utils/formatters/toBRL';
+import { blobDownload } from '@/utils/functions/blobDownload';
 
 import { EntriesTable } from '../../components';
 import { EntiresFilterType, entriesFilterValidator } from '../../validators';
@@ -26,6 +27,7 @@ export const EntriesPage = ({ params }: EntriesPageProps) => {
     watch,
     register,
     formState: { errors },
+    reset,
   } = useForm<EntiresFilterType>({
     resolver: zodResolver(entriesFilterValidator),
     defaultValues: {
@@ -84,6 +86,30 @@ export const EntriesPage = ({ params }: EntriesPageProps) => {
               <RangeDatePicker value={field.value} onChange={field.onChange} />
             )}
           />
+        </div>
+
+        <div className="flex items-end flex-end">
+          <Button
+            variant="outline"
+            className="h-[42px] shadow-sm"
+            onClick={() => {
+              reset();
+            }}
+          >
+            Limpar filtros
+          </Button>
+        </div>
+
+        <div className="flex items-end flex-end">
+          <Button
+            variant="outline"
+            className="h-[42px] shadow-sm"
+            onClick={() => {
+              blobDownload('entries/export');
+            }}
+          >
+            Gerar XLSX
+          </Button>
         </div>
       </div>
 
