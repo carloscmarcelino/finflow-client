@@ -9,7 +9,7 @@ const Page = async () => {
   const queryClient = new QueryClient();
 
   const params = {
-    startDate: dayjs().startOf('year').toISOString(),
+    startDate: dayjs().startOf('month').toISOString(),
     endDate: dayjs().toISOString(),
     limit: 5,
     page: 1,
@@ -21,8 +21,14 @@ const Page = async () => {
   });
 
   await queryClient.prefetchQuery({
-    queryKey: ['get-total-entries'],
-    queryFn: () => getTotalEntries(),
+    queryKey: ['get-total-entries', ...Object.values(params)],
+    queryFn: () =>
+      getTotalEntries({
+        params: {
+          startDate: params.startDate,
+          endDate: params.endDate,
+        },
+      }),
   });
 
   return (

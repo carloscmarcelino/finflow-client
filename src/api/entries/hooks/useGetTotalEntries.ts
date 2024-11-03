@@ -2,8 +2,13 @@ import { useQuery } from '@tanstack/react-query';
 
 import { getTotalEntries } from '../endpoints';
 
-export const useGetTotalEntries = () =>
+type UseGetTotalEntriesParams = {
+  startDate?: string;
+  endDate?: string;
+};
+
+export const useGetTotalEntries = (params: UseGetTotalEntriesParams) =>
   useQuery({
-    queryKey: ['get-total-entries'],
-    queryFn: () => getTotalEntries(),
+    queryKey: ['get-total-entries', ...Object.values(params)],
+    queryFn: () => getTotalEntries({ params }),
   });

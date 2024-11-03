@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQueryClient } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -51,6 +52,8 @@ export const EditEntrieModal = ({ data }: EditEntrieModalProps) => {
     },
   });
 
+  const queryClient = useQueryClient();
+
   const onSubmit = (values: CreateEntrieSchemaType) => {
     mutate(
       {
@@ -58,8 +61,14 @@ export const EditEntrieModal = ({ data }: EditEntrieModalProps) => {
         body: { ...values, value: brlToNumber(values.value), date: values.date.toISOString() },
       },
       {
-        onSuccess: () => {
-          revalidateTagFn(Tags.EXITS);
+        onSuccess: async () => {
+          await queryClient.invalidateQueries({
+            queryKey: ['get-entries'],
+          });
+          await queryClient.invalidateQueries({
+            queryKey: ['get-total-entries'],
+          });
+          await revalidateTagFn(Tags.EXITS);
           onClose();
           toast.success('entrada editada com sucesso');
         },

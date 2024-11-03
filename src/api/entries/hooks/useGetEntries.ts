@@ -7,6 +7,7 @@ export type GetEntriesParams = {
   endDate?: string;
   limit: number;
   page: number;
+  search?: string;
 };
 
 export const useGetEntries = (params: GetEntriesParams) =>

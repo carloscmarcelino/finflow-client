@@ -1,5 +1,6 @@
 'use client';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import dayjs from 'dayjs';
 import Link from 'next/link';
 import React, { useState } from 'react';
@@ -7,20 +8,29 @@ import { Controller, useForm } from 'react-hook-form';
 
 import { GetEntriesParams, useGetEntries, useGetTotalEntries } from '@/api/entries';
 import { RangeDatePicker } from '@/components/DatePicker';
+import { InputSearch } from '@/components/InputSearch';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { toBRL } from '@/utils/formatters/toBRL';
 
 import { EntriesTable } from '../../components';
+import { EntiresFilterType, entriesFilterValidator } from '../../validators';
 
 type EntriesPageProps = {
   params: GetEntriesParams;
 };
 
 export const EntriesPage = ({ params }: EntriesPageProps) => {
-  const { control, watch } = useForm({
+  const {
+    control,
+    watch,
+    register,
+    formState: { errors },
+  } = useForm<EntiresFilterType>({
+    resolver: zodResolver(entriesFilterValidator),
     defaultValues: {
       period: { from: dayjs(params.startDate).toDate(), to: dayjs(params.endDate).toDate() },
+      search: '',
     },
   });
 
@@ -31,9 +41,13 @@ export const EntriesPage = ({ params }: EntriesPageProps) => {
     endDate: watch('period').to?.toISOString(),
     limit: params.limit,
     page: currentPage,
+    ...(watch('search') !== '' && { search: watch('search') }),
   });
 
-  const { data: totalEntriesData, isLoading: isLoadingTotalEntries } = useGetTotalEntries();
+  const { data: totalEntriesData, isLoading: isLoadingTotalEntries } = useGetTotalEntries({
+    startDate: watch('period').from?.toISOString(),
+    endDate: watch('period').to?.toISOString(),
+  });
 
   return (
     <main className="flex flex-col gap-10 max-w-[1280px] mx-auto py-10">
@@ -55,13 +69,22 @@ export const EntriesPage = ({ params }: EntriesPageProps) => {
         </div>
       </div>
 
-      <div className="flex flex-col gap-2 rounded-xl bg-white shadow-2xl px-14 py-7 w-max">
-        <p className="ml-5 text-description">Periodo</p>
-        <Controller
-          name="period"
-          control={control}
-          render={({ field }) => <RangeDatePicker value={field.value} onChange={field.onChange} />}
-        />
+      <div className="flex rounded-xl bg-white shadow-2xl px-14 py-7 gap-10">
+        <div className="flex flex-col gap-2 w-max">
+          <p className="ml-5 text-sm font-medium text-gray-700">Pesquisar</p>
+          <InputSearch register={register('search')} error={errors.search} />
+        </div>
+
+        <div className="flex flex-col gap-2 w-max">
+          <p className="ml-5 text-sm font-medium text-gray-700">Periodo</p>
+          <Controller
+            name="period"
+            control={control}
+            render={({ field }) => (
+              <RangeDatePicker value={field.value} onChange={field.onChange} />
+            )}
+          />
+        </div>
       </div>
 
       <EntriesTable

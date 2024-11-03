@@ -106,13 +106,6 @@ export const Table = <Data extends Record<string, unknown>>({
         </table>
       </div>
 
-      <Pagination
-        data={data}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        isFetching={isFetching}
-      />
-
       {isLoading && <TableSkeletonClient />}
 
       {!data.length && !isLoading && (
@@ -122,6 +115,13 @@ export const Table = <Data extends Record<string, unknown>>({
       )}
 
       {children}
+
+      <Pagination
+        data={data}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        isFetching={isFetching}
+      />
     </div>
   );
 };
