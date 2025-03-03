@@ -20,7 +20,7 @@ export const LoginPage = () => {
   } = useForm<LoginType>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      username: 'ir2023',
+      username: 'carloscmarcelino',
       password: '123carlos',
     },
   });
