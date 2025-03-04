@@ -1,17 +1,42 @@
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
+import dayjs from 'dayjs';
 import { Suspense } from 'react';
 
-import { getExits, getTotalExits } from '@/api/exits';
+import { getExits, GetExitsParams, getTotalExits } from '@/api/exits';
 import { ExitsPage } from '@/modules/exits';
 
 const Page = async () => {
-  const { data } = await getExits();
+  const queryClient = new QueryClient();
 
-  const totalData = await getTotalExits();
+  const params = {
+    startDate: dayjs().startOf('month').toISOString(),
+    endDate: dayjs().toISOString(),
+    limit: 5,
+    page: 1,
+  } as GetExitsParams;
+
+  await queryClient.prefetchQuery({
+    queryKey: ['get-exits', ...Object.values(params)],
+    queryFn: () => getExits({ params }),
+  });
+
+  await queryClient.prefetchQuery({
+    queryKey: ['get-total-exits', ...Object.values(params)],
+    queryFn: () =>
+      getTotalExits({
+        params: {
+          startDate: params.startDate,
+          endDate: params.endDate,
+        },
+      }),
+  });
 
   return (
-    <Suspense>
-      <ExitsPage data={data} totalData={totalData} />
-    </Suspense>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <Suspense>
+        <ExitsPage params={params} />
+      </Suspense>
+    </HydrationBoundary>
   );
 };
 

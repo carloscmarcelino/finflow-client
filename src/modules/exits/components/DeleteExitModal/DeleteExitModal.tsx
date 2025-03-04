@@ -1,3 +1,4 @@
+import { useQueryClient } from '@tanstack/react-query';
 import React from 'react';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { toast } from 'sonner';
@@ -28,9 +29,17 @@ export const DeleteExitModal = ({ data }: DeleteExitModalProps) => {
 
   const { open, onOpen, onClose } = useDisclosure();
 
+  const queryClient = useQueryClient();
+
   const onSubmit = () => {
     mutateAsync(data.id, {
-      onSuccess: () => {
+      onSuccess: async () => {
+        await queryClient.invalidateQueries({
+          queryKey: ['get-exits'],
+        });
+        await queryClient.invalidateQueries({
+          queryKey: ['get-total-exits'],
+        });
         revalidateTagFn(Tags.EXITS);
         toast.success('saida deletada com sucesso');
       },

@@ -2,7 +2,9 @@ import { api } from '@/lib/FetchClient';
 
 import { ApiResponse, Broker, ReadFn, TypesOfInvestment } from './types';
 
-export const getPaymentMethods: ReadFn<ApiResponse<{ name: string }>> = ({ config } = {}) =>
+export const getPaymentMethods: ReadFn<ApiResponse<{ name: string; id: string }>> = ({
+  config,
+} = {}) =>
   api.authorized.get('/payment-methods', {
     ...config,
     next: {

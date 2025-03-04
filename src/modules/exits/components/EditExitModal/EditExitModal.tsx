@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQueryClient } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -54,6 +55,8 @@ export const EditExitModal = ({ data }: EditExitModalProps) => {
     },
   });
 
+  const queryClient = useQueryClient();
+
   const onSubmit = (values: CreateExitSchemaType) => {
     mutate(
       {
@@ -66,7 +69,13 @@ export const EditExitModal = ({ data }: EditExitModalProps) => {
         },
       },
       {
-        onSuccess: () => {
+        onSuccess: async () => {
+          await queryClient.invalidateQueries({
+            queryKey: ['get-exits'],
+          });
+          await queryClient.invalidateQueries({
+            queryKey: ['get-total-exits'],
+          });
           revalidateTagFn(Tags.EXITS);
           onClose();
           toast.success('saida editada com sucesso');

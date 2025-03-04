@@ -1,6 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQueryClient } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
 import React from 'react';
@@ -37,9 +38,13 @@ export const CreateExitPage = () => {
 
   const paymentMethodsOptions = data?.data?.map((item) => ({ label: item.name, value: item }));
 
+  console.log(paymentMethodsOptions);
+
   const { mutate, isPending } = useCreateExit();
 
   const router = useRouter();
+
+  const queryClient = useQueryClient();
 
   const onSubmit = (values: CreateExitSchemaType) => {
     mutate(
@@ -50,7 +55,14 @@ export const CreateExitPage = () => {
         date: values.date.toISOString(),
       },
       {
-        onSuccess: () => {
+        onSuccess: async () => {
+          await queryClient.invalidateQueries({
+            queryKey: ['get-exits'],
+          });
+          await queryClient.invalidateQueries({
+            queryKey: ['get-total-exits'],
+          });
+
           revalidateTagFn(Tags.EXITS);
           router.push('/saidas');
           toast.success('saida criada com sucesso');

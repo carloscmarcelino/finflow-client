@@ -1,22 +1,24 @@
-import { ApiResponse, ReadFn } from '@/api/__common__/types';
+import { ApiResponse, ReadManyFn } from '@/api/__common__/types';
 import { api } from '@/lib/FetchClient';
 
 import { Tags } from '../types';
 
 import { CreateExit, Exit, TotalExits } from './types';
 
-export const getExits: ReadFn<ApiResponse<Exit>> = ({ config } = {}) =>
+export const getExits: ReadManyFn<ApiResponse<Exit>> = ({ config, params }) =>
   api.authorized.get('/exits', {
     ...config,
+    params,
     next: {
       revalidate: 0,
       tags: [Tags.EXITS],
     },
   });
 
-export const getTotalExits: ReadFn<TotalExits> = ({ config } = {}) =>
+export const getTotalExits: ReadManyFn<TotalExits> = ({ config, params }) =>
   api.authorized.get('/exits/total', {
     ...config,
+    params,
     next: {
       revalidate: 0,
       tags: [Tags.EXITS],
