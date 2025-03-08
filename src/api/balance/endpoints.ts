@@ -7,7 +7,5 @@ export const getBalance = async (params?: GetBalanceParams) => {
 
   const response = await api.authorized().get<Balance>('balance');
 
-  console.log(response);
-
   return response.json();
 };

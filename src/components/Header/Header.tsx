@@ -10,9 +10,7 @@ import { HeaderOptions } from './HeaderOptions';
 export const Header = async () => {
   const session = await auth();
 
-  console.log('session ----> ', session);
-
-  // if (!session?.user) return <></>;
+  if (!session) return <></>;
 
   const params = {
     startDate: dayjs().startOf('month').toISOString(),

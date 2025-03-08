@@ -21,8 +21,6 @@ export const HeaderOptions = ({ session, balance }: HeaderOptionsProps) => {
     queryFn: () => getBalance(),
   });
 
-  console.log(data);
-
   return (
     <header className="w-full py-5 bg-white">
       <div className="flex items-center justify-between max-w-[1280px] mx-auto">
