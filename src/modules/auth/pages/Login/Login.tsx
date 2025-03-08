@@ -28,7 +28,11 @@ export const LoginPage = () => {
 
   const onSubmit = (data: LoginType) => {
     startTransition(() => {
-      signIn('credentials', data);
+      signIn('credentials', {
+        ...data,
+        redirect: true,
+        redirectTo: '/entradas',
+      });
     });
   };
 

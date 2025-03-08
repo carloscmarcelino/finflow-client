@@ -3,12 +3,11 @@
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import { Session } from 'next-auth';
+import { signOut } from 'next-auth/react';
 
 import { getBalance } from '@/api/balance';
 
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '../ui/dropdown-menu';
-
-import { signoutAction } from './signoutAction';
 
 type HeaderOptionsProps = {
   session?: Session | null;
@@ -46,8 +45,8 @@ export const HeaderOptions = ({ session, balance }: HeaderOptionsProps) => {
             </DropdownMenuTrigger>
             <DropdownMenuContent className="p-4">
               <button
-                onClick={async () => {
-                  await signoutAction();
+                onClick={() => {
+                  signOut();
                 }}
                 className="text-description"
               >

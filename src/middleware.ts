@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server';
 
 import { auth } from './lib/auth';
 
-const protectedRoutes = ['/', '/entradas', '/investimentos', '/dashboard'];
+const protectedRoutes = ['/', '/entradas', '/investimentos', '/saidas'];
 const publicRoutes = ['/login', '/cadastro'];
 
 export async function middleware(request: NextRequest) {
