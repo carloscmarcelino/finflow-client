@@ -3,7 +3,7 @@ import api from '@/lib/api';
 import { User } from './types';
 
 export const postLogin = async (body: BodyInit) => {
-  const response = await api.unauthorized().post<User>('/auth/login', {
+  const response = await api.unauthorized().post<User>('auth/login', {
     body,
     headers: {
       'Content-Type': 'application/json',
@@ -14,7 +14,7 @@ export const postLogin = async (body: BodyInit) => {
 };
 
 export const createUser = async (body: BodyInit) => {
-  const response = await api.unauthorized().post('/users/signup', {
+  const response = await api.unauthorized().post('users/signup', {
     body,
     headers: {
       'Content-Type': 'application/json',

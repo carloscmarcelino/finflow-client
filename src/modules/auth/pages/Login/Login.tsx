@@ -2,6 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
+import { signIn } from 'next-auth/react';
 import React, { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -9,8 +10,6 @@ import { InputText } from '@/components/InputText';
 import { Button } from '@/components/ui/button';
 
 import { loginSchema, LoginType } from '../../validators';
-
-import { loginAction } from './action';
 
 export const LoginPage = () => {
   const {
@@ -29,7 +28,7 @@ export const LoginPage = () => {
 
   const onSubmit = (data: LoginType) => {
     startTransition(() => {
-      loginAction(data);
+      signIn('credentials', data);
     });
   };
 
