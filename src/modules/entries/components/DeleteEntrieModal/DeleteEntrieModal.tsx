@@ -2,10 +2,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { toast } from 'sonner';
 
-import revalidateTagFn from '@/api/actions/revalidateTagFn';
-import { Entrie } from '@/api/entries';
-import { useDeleteEntrie } from '@/api/entries/hooks/useDeleteEntrie';
-import { Tags } from '@/api/types';
+import { Entry, useDeleteEntry } from '@/api';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -18,14 +15,14 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { TOAST_ERROR_MESSAGE } from '@/config';
-import { useDisclosure } from '@/hooks';
+import { useDisclosure } from '@/hooks/useDisclosure';
 
 type DeleteEntrieModalProps = {
-  data: Entrie;
+  data: Entry;
 };
 
 export const DeleteEntrieModal = ({ data }: DeleteEntrieModalProps) => {
-  const { mutateAsync, isPending } = useDeleteEntrie();
+  const { mutateAsync, isPending } = useDeleteEntry();
 
   const { open, onOpen, onClose } = useDisclosure();
 
@@ -40,7 +37,6 @@ export const DeleteEntrieModal = ({ data }: DeleteEntrieModalProps) => {
         await queryClient.invalidateQueries({
           queryKey: ['get-total-entries'],
         });
-        revalidateTagFn(Tags.EXITS);
         toast.success('entrada deletada com sucesso');
       },
       onError: () => {

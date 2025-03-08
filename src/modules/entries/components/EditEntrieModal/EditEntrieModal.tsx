@@ -6,9 +6,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { FaRegEdit } from 'react-icons/fa';
 import { toast } from 'sonner';
 
-import revalidateTagFn from '@/api/actions/revalidateTagFn';
-import { Entrie, useEditEntrie } from '@/api/entries';
-import { Tags } from '@/api/types';
+import { Entry, useEditEntry } from '@/api';
 import { DatePicker } from '@/components/DatePicker';
 import { InputText } from '@/components/InputText';
 import { Button } from '@/components/ui/button';
@@ -22,19 +20,17 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { TOAST_ERROR_MESSAGE } from '@/config';
-import { useDisclosure } from '@/hooks';
-import { brlToNumber } from '@/utils/formatters/brlToNumber';
-import { toBRL } from '@/utils/formatters/toBRL';
-import { Mask } from '@/utils/functions/mask';
+import { useDisclosure } from '@/hooks/useDisclosure';
+import { brlToNumber, Mask, toBRL } from '@/utils/mask';
 
 import { createEntrieSchema, CreateEntrieSchemaType } from '../../validators';
 
 type EditEntrieModalProps = {
-  data: Entrie;
+  data: Entry;
 };
 
 export const EditEntrieModal = ({ data }: EditEntrieModalProps) => {
-  const { mutate, isPending } = useEditEntrie();
+  const { mutate, isPending } = useEditEntry();
 
   const { open, onOpen, onClose } = useDisclosure();
 
@@ -58,7 +54,11 @@ export const EditEntrieModal = ({ data }: EditEntrieModalProps) => {
     mutate(
       {
         id: data.id,
-        body: { ...values, value: brlToNumber(values.value), date: values.date.toISOString() },
+        body: JSON.stringify({
+          ...values,
+          value: brlToNumber(values.value),
+          date: values.date.toISOString(),
+        }),
       },
       {
         onSuccess: async () => {
@@ -68,7 +68,6 @@ export const EditEntrieModal = ({ data }: EditEntrieModalProps) => {
           await queryClient.invalidateQueries({
             queryKey: ['get-total-entries'],
           });
-          await revalidateTagFn(Tags.EXITS);
           onClose();
           toast.success('entrada editada com sucesso');
         },

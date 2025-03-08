@@ -9,7 +9,7 @@ import {
 } from '@tanstack/react-table';
 import { Dispatch, MouseEvent, ReactNode, SetStateAction } from 'react';
 
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/cn';
 import { Pagination } from '@/modules/entries/components/EntriesTable/Pagination';
 
 import { TableSkeletonClient } from './TableSkeletonClient';

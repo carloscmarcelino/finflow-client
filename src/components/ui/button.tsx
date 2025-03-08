@@ -3,7 +3,7 @@ import { type VariantProps } from 'class-variance-authority';
 import { ButtonHTMLAttributes, forwardRef } from 'react';
 import { FaSpinner } from 'react-icons/fa';
 
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/cn';
 import { buttonVariants } from '@/styles/theme';
 
 type ButtonProps = {

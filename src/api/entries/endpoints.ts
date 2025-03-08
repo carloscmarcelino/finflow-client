@@ -1,42 +1,38 @@
-import { api } from '@/lib/FetchClient';
+import api from '@/lib/api';
 
-import { ApiResponse, ReadManyFn } from '../__common__/types';
-import { Tags } from '../types';
+import { Entry, GetEntriesParams, GetTotalEntriesParams, TotalEntries } from './types';
 
-import { CreateEntrie, Entrie, TotalEntries } from './types';
-
-export const createEntrie = (body: CreateEntrie) =>
-  api.authorized.post('/entries', {
+export const createEntry = async (body: BodyInit) => {
+  const response = await api.authorized().post('/entries', {
     body,
     headers: {
       'Content-Type': 'application/json',
     },
   });
 
-export const getEntries: ReadManyFn<ApiResponse<Entrie>> = ({ params, config }) =>
-  api.authorized.get('/entries', {
-    ...config,
-    params,
-    next: {
-      revalidate: 0,
-      tags: [Tags.ENTRIES],
-    },
+  return response.json();
+};
+
+export const getEntries = async (params: GetEntriesParams) => {
+  const response = await api.authorized().get<Entry[]>('/entries', { searchParams: params });
+  const data = await response.json();
+
+  return data;
+};
+
+export const getTotalEntries = async (params: GetTotalEntriesParams) => {
+  const response = await api.authorized().get<TotalEntries>('/entries/total', {
+    searchParams: params,
   });
+  const data = await response.json();
 
-export const getTotalEntries: ReadManyFn<TotalEntries> = ({ config, params }) =>
-  api.authorized.get('/entries/total', {
-    ...config,
-    params,
-    next: {
-      revalidate: 0,
-      tags: [Tags.ENTRIES],
-    },
-  });
+  return data;
+};
 
-export const deleteEntrie = (id: string) => api.authorized.delete(`/entries/${id}`);
+export const deleteEntry = (id: string) => api.authorized().delete(`/entries/${id}`);
 
-export const editEntrie = ({ id, body }: { id: string; body: CreateEntrie }) =>
-  api.authorized.patch(`/entries/${id}`, {
+export const editEntry = ({ id, body }: { id: string; body: BodyInit }) =>
+  api.authorized().patch(`/entries/${id}`, {
     body,
     headers: {
       'Content-Type': 'application/json',

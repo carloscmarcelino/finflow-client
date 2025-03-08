@@ -1,4 +1,4 @@
-import { TypesOfInvestment } from '../__common__/types';
+import { TypesOfInvestment } from '../common';
 
 export type Investment = {
   id: string;
@@ -7,14 +7,6 @@ export type Investment = {
   value: number;
   yield: string;
   broker: string;
-};
-
-export type CreateInvestment = {
-  type: TypesOfInvestment;
-  value: number;
-  yield: number;
-  broker: string;
-  date: string;
 };
 
 export type TotalInvestments = {

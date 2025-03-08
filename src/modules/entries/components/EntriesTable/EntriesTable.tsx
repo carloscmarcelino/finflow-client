@@ -1,12 +1,12 @@
 import React, { Dispatch, SetStateAction } from 'react';
 
-import { Entrie } from '@/api/entries';
+import { Entry } from '@/api';
 import { Table } from '@/components/Table';
 
 import { entriesColumns } from './columns';
 
 type EntriesTableProps = {
-  data?: Entrie[];
+  data?: Entry[];
   isLoading: boolean;
   currentPage: number;
   setCurrentPage: Dispatch<SetStateAction<number>>;

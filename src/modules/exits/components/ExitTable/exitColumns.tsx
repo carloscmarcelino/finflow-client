@@ -2,7 +2,7 @@ import { createColumnHelper } from '@tanstack/react-table';
 import dayjs from 'dayjs';
 
 import { Exit } from '@/api/exits';
-import { toBRL } from '@/utils/formatters/toBRL';
+import { toBRL } from '@/utils';
 
 import { DeleteExitModal } from '../DeleteExitModal';
 import { EditExitModal } from '../EditExitModal';

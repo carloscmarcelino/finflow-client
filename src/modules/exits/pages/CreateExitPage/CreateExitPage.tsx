@@ -8,16 +8,13 @@ import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import { useGetPaymentMethods } from '@/api/__common__/hooks';
-import revalidateTagFn from '@/api/actions/revalidateTagFn';
+import { useGetPaymentMethods } from '@/api';
 import { useCreateExit } from '@/api/exits';
-import { Tags } from '@/api/types';
 import { CustomSelect } from '@/components/CustomSelect';
 import { DatePicker } from '@/components/DatePicker';
 import { InputText } from '@/components/InputText';
 import { Button } from '@/components/ui/button';
-import { brlToNumber } from '@/utils/formatters/brlToNumber';
-import { Mask } from '@/utils/functions/mask';
+import { brlToNumber, Mask } from '@/utils/mask';
 
 import { createExitSchema, CreateExitSchemaType } from '../../validators';
 
@@ -36,9 +33,7 @@ export const CreateExitPage = () => {
 
   const { data, isPending: isLoadingPaymentMethods } = useGetPaymentMethods();
 
-  const paymentMethodsOptions = data?.data?.map((item) => ({ label: item.name, value: item }));
-
-  console.log(paymentMethodsOptions);
+  const paymentMethodsOptions = data?.map((item) => ({ label: item.name, value: item }));
 
   const { mutate, isPending } = useCreateExit();
 
@@ -48,12 +43,12 @@ export const CreateExitPage = () => {
 
   const onSubmit = (values: CreateExitSchemaType) => {
     mutate(
-      {
+      JSON.stringify({
         amount: brlToNumber(values.amount),
         paymentMethodId: values.paymentMethod.value.id,
         description: values.description,
         date: values.date.toISOString(),
-      },
+      }),
       {
         onSuccess: async () => {
           await queryClient.invalidateQueries({
@@ -63,7 +58,6 @@ export const CreateExitPage = () => {
             queryKey: ['get-total-exits'],
           });
 
-          revalidateTagFn(Tags.EXITS);
           router.push('/saidas');
           toast.success('saida criada com sucesso');
         },

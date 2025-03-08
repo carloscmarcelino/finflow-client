@@ -6,12 +6,13 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
-import { GetExitsParams, useGetExits, useGetTotalExits } from '@/api/exits';
+import { GetExitsParams } from '@/api';
+import { useGetExits, useGetTotalExits } from '@/api/exits';
 import { RangeDatePicker } from '@/components/DatePicker';
 import { InputSearch } from '@/components/InputSearch';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { toBRL } from '@/utils/formatters/toBRL';
+import { toBRL } from '@/utils';
 
 import { ExitTable } from '../../components';
 import { ExitsFilterType, exitsFilterValidator } from '../../validators';
@@ -78,13 +79,11 @@ export const ExitsPage = ({ params }: ExitsPageProps) => {
           )}
         </div>
       </div>
-
       <div className="flex rounded-xl bg-white shadow-2xl px-14 py-7 gap-10">
         <div className="flex flex-col gap-2 w-max">
           <p className="ml-5 text-sm font-medium text-gray-700">Pesquisar</p>
           <InputSearch register={register('search')} error={errors.search} />
         </div>
-
         <div className="flex flex-col gap-2 w-max">
           <p className="ml-5 text-sm font-medium text-gray-700">Periodo</p>
           <Controller
@@ -108,9 +107,8 @@ export const ExitsPage = ({ params }: ExitsPageProps) => {
           </Button>
         </div>
       </div>
-
       <ExitTable
-        data={exitsData?.data}
+        data={exitsData}
         isLoading={isLoadingExits}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}

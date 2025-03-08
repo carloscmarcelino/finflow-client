@@ -6,10 +6,8 @@ import { Controller, useForm } from 'react-hook-form';
 import { FaRegEdit } from 'react-icons/fa';
 import { toast } from 'sonner';
 
-import { useGetPaymentMethods } from '@/api/__common__/hooks';
-import revalidateTagFn from '@/api/actions/revalidateTagFn';
+import { useGetPaymentMethods } from '@/api';
 import { Exit, useEditExit } from '@/api/exits';
-import { Tags } from '@/api/types';
 import { CustomSelect } from '@/components/CustomSelect';
 import { DatePicker } from '@/components/DatePicker';
 import { InputText } from '@/components/InputText';
@@ -25,9 +23,7 @@ import {
 } from '@/components/ui/dialog';
 import { TOAST_ERROR_MESSAGE } from '@/config';
 import { useDisclosure } from '@/hooks';
-import { brlToNumber } from '@/utils/formatters/brlToNumber';
-import { toBRL } from '@/utils/formatters/toBRL';
-import { Mask } from '@/utils/functions/mask';
+import { brlToNumber, Mask, toBRL } from '@/utils/mask';
 
 import { createExitSchema, CreateExitSchemaType } from '../../validators';
 
@@ -61,12 +57,12 @@ export const EditExitModal = ({ data }: EditExitModalProps) => {
     mutate(
       {
         id: data.id,
-        body: {
+        body: JSON.stringify({
           amount: brlToNumber(values.amount),
           paymentMethodId: values.paymentMethod.value.id,
           description: values.description,
           date: values.date.toISOString(),
-        },
+        }),
       },
       {
         onSuccess: async () => {
@@ -76,7 +72,6 @@ export const EditExitModal = ({ data }: EditExitModalProps) => {
           await queryClient.invalidateQueries({
             queryKey: ['get-total-exits'],
           });
-          revalidateTagFn(Tags.EXITS);
           onClose();
           toast.success('saida editada com sucesso');
         },
@@ -89,7 +84,7 @@ export const EditExitModal = ({ data }: EditExitModalProps) => {
 
   const { data: paymentMethodsData, isPending: isLoadingPaymentMethods } = useGetPaymentMethods();
 
-  const paymentMethodsOptions = paymentMethodsData?.data?.map((item) => ({
+  const paymentMethodsOptions = paymentMethodsData?.map((item) => ({
     label: item.name,
     value: item,
   }));

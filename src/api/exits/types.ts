@@ -1,3 +1,5 @@
+import { DateRangeParams } from '@/types';
+
 export type Exit = {
   id: string;
   date: string;
@@ -9,13 +11,8 @@ export type Exit = {
   };
 };
 
-export type CreateExit = {
-  description: string;
-  amount: number;
-  paymentMethodId: string;
-  date: string;
-};
-
 export type TotalExits = {
   total: number;
 };
+
+export type GetTotalExitsParams = DateRangeParams;

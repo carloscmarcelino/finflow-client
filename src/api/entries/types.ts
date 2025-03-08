@@ -1,10 +1,6 @@
-export type CreateEntrie = {
-  value: number;
-  description: string;
-  date: string;
-};
+import { DateRangeParams, PaginatedSearchParams } from '@/types';
 
-export type Entrie = {
+export type Entry = {
   value: number;
   date: string;
   id: string;
@@ -14,3 +10,9 @@ export type Entrie = {
 export type TotalEntries = {
   total: number;
 };
+
+export type GetEntriesParams = PaginatedSearchParams;
+
+export type GetTotalEntriesParams = DateRangeParams;
+
+export type GetExitsParams = PaginatedSearchParams;

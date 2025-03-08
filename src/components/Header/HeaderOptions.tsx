@@ -18,7 +18,7 @@ type HeaderOptionsProps = {
 export const HeaderOptions = ({ session, balance }: HeaderOptionsProps) => {
   const { data } = useQuery({
     queryKey: ['balance'],
-    queryFn: () => getBalance({ params: {} }),
+    queryFn: () => getBalance(),
   });
 
   console.log(data);

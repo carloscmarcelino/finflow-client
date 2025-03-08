@@ -9,7 +9,7 @@ import { useGetTotalInvestments } from '@/api/investments/hooks';
 import { useGetInvestments } from '@/api/investments/hooks/useGetInvestments';
 import { RangeDatePicker } from '@/components/DatePicker/RangeDatePicker';
 import { Button } from '@/components/ui/button';
-import { toBRL } from '@/utils/formatters/toBRL';
+import { toBRL } from '@/utils';
 
 import { InvestmentsTable } from '../../components';
 
@@ -53,7 +53,7 @@ export const InvestmentsPage = () => {
           </div>
         </div>
       </div>
-      <InvestmentsTable data={investmentsData?.data} />
+      <InvestmentsTable data={investmentsData} />
     </main>
   );
 };

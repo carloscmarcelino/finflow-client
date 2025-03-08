@@ -6,15 +6,12 @@ import { useRouter } from 'next/navigation';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import revalidateTagFn from '@/api/actions/revalidateTagFn';
-import { useCreateEntrie } from '@/api/entries';
-import { Tags } from '@/api/types';
+import { useCreateEntry } from '@/api';
 import { DatePicker } from '@/components/DatePicker';
 import { InputText } from '@/components/InputText';
 import { Button } from '@/components/ui/button';
 import { TOAST_ERROR_MESSAGE } from '@/config';
-import { brlToNumber } from '@/utils/formatters/brlToNumber';
-import { Mask } from '@/utils/functions/mask';
+import { brlToNumber, Mask } from '@/utils/mask';
 
 import { createEntrieSchema, CreateEntrieSchemaType } from '../../validators/createEntrieSchema';
 
@@ -31,16 +28,19 @@ export const CreateEntriePage = () => {
     },
   });
 
-  const { mutate, isPending } = useCreateEntrie();
+  const { mutate, isPending } = useCreateEntry();
 
   const router = useRouter();
 
   const onSubmit = (values: CreateEntrieSchemaType) => {
     mutate(
-      { ...values, value: brlToNumber(values.value), date: values.date.toISOString() },
+      JSON.stringify({
+        ...values,
+        value: brlToNumber(values.value),
+        date: values.date.toISOString(),
+      }),
       {
         onSuccess: () => {
-          revalidateTagFn(Tags.ENTRIES);
           router.push('/entradas');
           toast.success('entrada criada com sucesso');
         },

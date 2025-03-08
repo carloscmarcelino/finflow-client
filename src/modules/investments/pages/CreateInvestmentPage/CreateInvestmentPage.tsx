@@ -7,17 +7,14 @@ import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import { useGetBrokers, useGetTypesOfInvestments } from '@/api/__common__/hooks';
-import revalidateTagFn from '@/api/actions/revalidateTagFn';
+import { useGetBrokers, useGetTypesOfInvestments } from '@/api';
 import { useCreateInvestment } from '@/api/investments/hooks';
-import { Tags } from '@/api/types';
 import { CustomSelect } from '@/components/CustomSelect';
 import { DatePicker } from '@/components/DatePicker';
 import { InputText } from '@/components/InputText';
 import { Button } from '@/components/ui/button';
 import { TOAST_ERROR_MESSAGE } from '@/config';
-import { brlToNumber } from '@/utils/formatters/brlToNumber';
-import { Mask } from '@/utils/functions/mask';
+import { brlToNumber, Mask } from '@/utils/mask';
 
 import { createInvestmentSchema, CreateInvestmentType } from '../../validators';
 
@@ -36,11 +33,11 @@ export const CreateInvestmentPage = () => {
 
   const { data: typesData, isLoading: isLoadingTypes } = useGetTypesOfInvestments();
 
-  const typeOptions = typesData?.data.map((type) => ({ label: type.name, value: type.id }));
+  const typeOptions = typesData?.map((type) => ({ label: type.name, value: type.id }));
 
   const { data: brokersData, isLoading } = useGetBrokers();
 
-  const brokerOptions = brokersData?.data.map((broker) => ({
+  const brokerOptions = brokersData?.map((broker) => ({
     label: broker.nome_social,
     value: broker.nome_social,
   }));
@@ -51,7 +48,7 @@ export const CreateInvestmentPage = () => {
 
   const onSubmit = (values: CreateInvestmentType) => {
     mutate(
-      {
+      JSON.stringify({
         value: brlToNumber(values.value),
         yield: Number(values.yield),
         broker: values.broker.value,
@@ -60,10 +57,9 @@ export const CreateInvestmentPage = () => {
           name: values.type.label,
         },
         date: values.date.toISOString(),
-      },
+      }),
       {
         onSuccess: () => {
-          revalidateTagFn(Tags.INVESTMENTS);
           router.push('/investimentos');
           toast.success('investimento criado com sucesso');
         },

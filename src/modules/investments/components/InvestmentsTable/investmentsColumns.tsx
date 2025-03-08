@@ -2,7 +2,7 @@ import { createColumnHelper } from '@tanstack/react-table';
 import dayjs from 'dayjs';
 
 import { Investment } from '@/api/investments/types';
-import { toBRL } from '@/utils/formatters/toBRL';
+import { toBRL } from '@/utils';
 
 import { DeleteInvestmentModal } from '../DeleteInvestmentModal';
 import { EditInvestmentModal } from '../EditInvestmentModal';

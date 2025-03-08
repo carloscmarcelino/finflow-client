@@ -1,13 +1,13 @@
-import { api } from '@/lib/FetchClient';
+import api from '@/lib/api';
 
-import { ReadManyFn } from '../__common__/types';
-import { Tags } from '../types';
+import { Balance, GetBalanceParams } from './types';
 
-export const getBalance: ReadManyFn<{ total: number }> = ({ config }) =>
-  api.authorized.get('/balance', {
-    ...config,
-    next: {
-      revalidate: 0,
-      tags: [Tags.BALANCE],
-    },
-  });
+export const getBalance = async (params?: GetBalanceParams) => {
+  // const response = await api.authorized().get<Balance>('/balance', { searchParams: params });
+
+  const response = await api.authorized().get<Balance>('balance');
+
+  console.log(response);
+
+  return response.json();
+};

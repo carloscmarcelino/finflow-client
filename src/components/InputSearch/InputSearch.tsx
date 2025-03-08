@@ -2,7 +2,7 @@ import debounce from 'lodash.debounce';
 import React, { ChangeEvent } from 'react';
 import { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 
-import { MaskFormatter } from '@/utils/functions/mask';
+import { MaskFormatter } from '@/utils/mask';
 
 type InputSearchProps = {
   label?: string;

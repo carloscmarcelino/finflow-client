@@ -1,20 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { getExits } from '../endpoints';
+import { GetExitsParams } from '@/api/entries';
 
-export type GetExitsParams = {
-  startDate?: string;
-  endDate?: string;
-  limit: number;
-  page: number;
-  search?: string;
-};
+import { getExits } from '../endpoints';
 
 export const useGetExits = (params: GetExitsParams) =>
   useQuery({
     queryKey: ['get-exits', params],
     queryFn: () => {
       const skip = (params.page - 1) * params.limit;
-      return getExits({ params: { ...params, skip, limit: params.limit } });
+      const queryParams = { ...params, skip, limit: params.limit };
+      return getExits(queryParams);
     },
   });

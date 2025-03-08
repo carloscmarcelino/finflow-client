@@ -5,11 +5,9 @@ import { Controller, useForm } from 'react-hook-form';
 import { FaRegEdit } from 'react-icons/fa';
 import { toast } from 'sonner';
 
-import { useGetBrokers, useGetTypesOfInvestments } from '@/api/__common__/hooks';
-import revalidateTagFn from '@/api/actions/revalidateTagFn';
+import { useGetBrokers, useGetTypesOfInvestments } from '@/api';
 import { useEditInvestment } from '@/api/investments/hooks/useEditInvestment';
 import { Investment } from '@/api/investments/types';
-import { Tags } from '@/api/types';
 import { CustomSelect } from '@/components/CustomSelect';
 import { DatePicker } from '@/components/DatePicker';
 import { InputText } from '@/components/InputText';
@@ -25,9 +23,7 @@ import {
 } from '@/components/ui/dialog';
 import { TOAST_ERROR_MESSAGE } from '@/config';
 import { useDisclosure } from '@/hooks';
-import { brlToNumber } from '@/utils/formatters/brlToNumber';
-import { toBRL } from '@/utils/formatters/toBRL';
-import { Mask } from '@/utils/functions/mask';
+import { brlToNumber, Mask, toBRL } from '@/utils/mask';
 
 import { createInvestmentSchema, CreateInvestmentType } from '../../validators';
 
@@ -58,20 +54,20 @@ export const EditInvestmentModal = ({ data }: EditInvestmentModalProps) => {
 
   const { data: brokersData, isLoading } = useGetBrokers();
 
-  const brokerOptions = brokersData?.data.map((broker) => ({
+  const brokerOptions = brokersData?.map((broker) => ({
     label: broker.nome_social,
     value: broker.nome_social,
   }));
 
   const { data: typesData, isLoading: isLoadingTypes } = useGetTypesOfInvestments();
 
-  const typeOptions = typesData?.data.map((type) => ({ label: type.name, value: type.id }));
+  const typeOptions = typesData?.map((type) => ({ label: type.name, value: type.id }));
 
   const onSubmit = (values: CreateInvestmentType) => {
     mutate(
       {
         id: data.id,
-        body: {
+        body: JSON.stringify({
           ...values,
           value: brlToNumber(values.value),
           yield: Number(values.yield),
@@ -81,11 +77,10 @@ export const EditInvestmentModal = ({ data }: EditInvestmentModalProps) => {
             name: values.type.label,
           },
           date: values.date.toISOString(),
-        },
+        }),
       },
       {
         onSuccess: () => {
-          revalidateTagFn(Tags.INVESTMENTS);
           onClose();
           toast.success('investimento editado com sucesso');
         },

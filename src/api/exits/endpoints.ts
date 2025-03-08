@@ -1,42 +1,33 @@
-import { ApiResponse, ReadManyFn } from '@/api/__common__/types';
-import { api } from '@/lib/FetchClient';
+import api from '@/lib/api';
 
-import { Tags } from '../types';
+import { GetExitsParams } from '../entries';
 
-import { CreateExit, Exit, TotalExits } from './types';
+import { Exit, GetTotalExitsParams, TotalExits } from './types';
 
-export const getExits: ReadManyFn<ApiResponse<Exit>> = ({ config, params }) =>
-  api.authorized.get('/exits', {
-    ...config,
-    params,
-    next: {
-      revalidate: 0,
-      tags: [Tags.EXITS],
-    },
+export const getExits = async (params: GetExitsParams) => {
+  const response = await api.authorized().get<Exit[]>('/exits', { searchParams: params });
+  return response.json();
+};
+
+export const getTotalExits = async (params: GetTotalExitsParams) => {
+  const response = await api.authorized().get<TotalExits>('/exits/total', {
+    searchParams: params,
   });
+  return response.json();
+};
 
-export const getTotalExits: ReadManyFn<TotalExits> = ({ config, params }) =>
-  api.authorized.get('/exits/total', {
-    ...config,
-    params,
-    next: {
-      revalidate: 0,
-      tags: [Tags.EXITS],
-    },
-  });
+export const deleteExit = (id: string) => api.authorized().delete(`/exits/${id}`);
 
-export const deleteExit = (id: string) => api.authorized.delete(`/exits/${id}`);
-
-export const createExit = (body: CreateExit) =>
-  api.authorized.post('/exits', {
+export const createExit = (body: BodyInit) =>
+  api.authorized().post('/exits', {
     body,
     headers: {
       'Content-Type': 'application/json',
     },
   });
 
-export const editExit = ({ id, body }: { id: string; body: CreateExit }) =>
-  api.authorized.patch(`/exits/${id}`, {
+export const editExit = ({ id, body }: { id: string; body: BodyInit }) =>
+  api.authorized().patch(`/exits/${id}`, {
     body,
     headers: {
       'Content-Type': 'application/json',

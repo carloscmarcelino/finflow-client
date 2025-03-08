@@ -1,32 +1,25 @@
-import { api } from '@/lib/FetchClient';
+import api from '@/lib/api';
 
-import { LoginFn, RefreshFn } from './types';
+import { User } from './types';
 
-export const postLogin: LoginFn = ({ username, password, config }) =>
-  api.unauthorized.post('/auth/login', {
-    body: {
-      username,
-      password,
-    },
+export const postLogin = async (body: BodyInit) => {
+  const response = await api.unauthorized().post<User>('/auth/login', {
+    body,
     headers: {
       'Content-Type': 'application/json',
     },
-    ...config,
   });
 
-export const postRefreshToken: RefreshFn = ({ access_token }) =>
-  api.unauthorized.post('/auth/refresh-token', {
-    body: { access_token },
-  });
+  return response.json();
+};
 
-export const createUser: LoginFn = ({ username, password, config }) =>
-  api.unauthorized.post('/users/signup', {
-    body: {
-      username,
-      password,
-    },
+export const createUser = async (body: BodyInit) => {
+  const response = await api.unauthorized().post('/users/signup', {
+    body,
     headers: {
       'Content-Type': 'application/json',
     },
-    ...config,
   });
+
+  return response.json();
+};

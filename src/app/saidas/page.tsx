@@ -2,7 +2,8 @@ import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query
 import dayjs from 'dayjs';
 import { Suspense } from 'react';
 
-import { getExits, GetExitsParams, getTotalExits } from '@/api/exits';
+import { GetExitsParams } from '@/api';
+import { getExits, getTotalExits } from '@/api/exits';
 import { ExitsPage } from '@/modules/exits';
 
 const Page = async () => {
@@ -17,17 +18,15 @@ const Page = async () => {
 
   await queryClient.prefetchQuery({
     queryKey: ['get-exits', ...Object.values(params)],
-    queryFn: () => getExits({ params }),
+    queryFn: () => getExits(params),
   });
 
   await queryClient.prefetchQuery({
     queryKey: ['get-total-exits', ...Object.values(params)],
     queryFn: () =>
       getTotalExits({
-        params: {
-          startDate: params.startDate,
-          endDate: params.endDate,
-        },
+        startDate: params.startDate,
+        endDate: params.endDate,
       }),
   });
 

@@ -35,6 +35,7 @@
     "date-fns": "^4.1.0",
     "dayjs": "^1.11.13",
     "framer-motion": "^11.2.13",
+    "ky": "^1.7.5",
     "lodash.debounce": "^4.0.8",
     "lucide-react": "^0.427.0",
     "next": "14.2.5",

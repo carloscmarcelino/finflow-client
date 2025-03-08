@@ -17,17 +17,15 @@ const Page = async () => {
 
   await queryClient.prefetchQuery({
     queryKey: ['get-entries', ...Object.values(params)],
-    queryFn: () => getEntries({ params }),
+    queryFn: () => getEntries(params),
   });
 
   await queryClient.prefetchQuery({
     queryKey: ['get-total-entries', ...Object.values(params)],
     queryFn: () =>
       getTotalEntries({
-        params: {
-          startDate: params.startDate,
-          endDate: params.endDate,
-        },
+        startDate: params.startDate,
+        endDate: params.endDate,
       }),
   });
 

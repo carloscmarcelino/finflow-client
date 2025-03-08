@@ -3,9 +3,7 @@ import React from 'react';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { toast } from 'sonner';
 
-import revalidateTagFn from '@/api/actions/revalidateTagFn';
 import { Exit, useDeleteExit } from '@/api/exits';
-import { Tags } from '@/api/types';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -40,7 +38,6 @@ export const DeleteExitModal = ({ data }: DeleteExitModalProps) => {
         await queryClient.invalidateQueries({
           queryKey: ['get-total-exits'],
         });
-        revalidateTagFn(Tags.EXITS);
         toast.success('saida deletada com sucesso');
       },
       onError: () => {

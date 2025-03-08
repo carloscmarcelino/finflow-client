@@ -19,6 +19,10 @@ export const RegisterPage = () => {
     formState: { errors },
   } = useForm<LoginType>({
     resolver: zodResolver(loginSchema),
+    defaultValues: {
+      username: 'carloscmarcelino',
+      password: '123carlos',
+    },
   });
 
   const { mutate, isPending } = useCreateUser();
@@ -26,7 +30,7 @@ export const RegisterPage = () => {
   const router = useRouter();
 
   const onSubmit = (data: LoginType) => {
-    mutate(data, {
+    mutate(JSON.stringify(data), {
       onSuccess: () => {
         toast.success('conta criada com sucesso');
         router.push('/login');

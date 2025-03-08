@@ -1,37 +1,31 @@
-import { api } from '@/lib/FetchClient';
+import api from '@/lib/api';
 
-import { ApiResponse, ReadFn } from '../__common__/types';
-import { Tags } from '../types';
+import { Investment, TotalInvestments } from './types';
 
-import { CreateInvestment, Investment, TotalInvestments } from './types';
+export const getInvestments = async () => {
+  const response = await api.authorized().get<Investment[]>('/investments');
 
-export const getInvestments: ReadFn<ApiResponse<Investment>> = ({ config } = {}) =>
-  api.authorized.get('/investments', {
-    ...config,
-    next: {
-      tags: [Tags.INVESTMENTS],
-    },
-  });
-export const getTotalInvestments: ReadFn<TotalInvestments> = ({ config } = {}) =>
-  api.authorized.get('/investments/total', {
-    ...config,
-    next: {
-      tags: [Tags.INVESTMENTS],
-    },
-  });
+  return response.json();
+};
 
-export const createInvestment = (body: CreateInvestment) =>
-  api.authorized.post('/investments', {
+export const getTotalInvestments = async () => {
+  const response = await api.authorized().get<TotalInvestments>('/investments/total');
+
+  return response.json();
+};
+
+export const createInvestment = (body: BodyInit) =>
+  api.authorized().post('/investments', {
     body,
     headers: {
       'Content-Type': 'application/json',
     },
   });
 
-export const deleteInvestment = (id: string) => api.authorized.delete(`/investments/${id}`);
+export const deleteInvestment = (id: string) => api.authorized().delete(`/investments/${id}`);
 
-export const editInvestment = ({ id, body }: { id: string; body: CreateInvestment }) =>
-  api.authorized.patch(`/investments/${id}`, {
+export const editInvestment = ({ id, body }: { id: string; body: BodyInit }) =>
+  api.authorized().patch(`/investments/${id}`, {
     body,
     headers: {
       'Content-Type': 'application/json',

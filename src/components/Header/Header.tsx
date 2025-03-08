@@ -1,22 +1,25 @@
+import dayjs from 'dayjs';
 import React from 'react';
 
-import { auth } from '@/auth';
-import { toBRL } from '@/utils/formatters/toBRL';
+import { getBalance } from '@/api/balance';
+import { auth } from '@/lib/auth';
+import { toBRL } from '@/utils/mask';
 
 import { HeaderOptions } from './HeaderOptions';
 
 export const Header = async () => {
   const session = await auth();
 
-  if (!session?.user) return <></>;
+  console.log('session ----> ', session);
 
-  // const params = {
-  //   startDate: dayjs().startOf('month').toISOString(),
-  //   endDate: dayjs().toISOString(),
-  // };
+  // if (!session?.user) return <></>;
 
-  // const balance = await getBalance({ params });
+  const params = {
+    startDate: dayjs().startOf('month').toISOString(),
+    endDate: dayjs().toISOString(),
+  };
 
-  // return <HeaderOptions session={session} balance={toBRL(balance.total)} />;
-  return <HeaderOptions session={session} balance={toBRL(0)} />;
+  const { balance } = await getBalance(params);
+
+  return <HeaderOptions session={session} balance={toBRL(balance)} />;
 };

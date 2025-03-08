@@ -2,13 +2,13 @@ import { createColumnHelper } from '@tanstack/react-table';
 import dayjs from 'dayjs';
 import React from 'react';
 
-import { Entrie } from '@/api/entries';
-import { toBRL } from '@/utils/formatters/toBRL';
+import { Entry } from '@/api';
+import { toBRL } from '@/utils/mask';
 
 import { DeleteEntrieModal } from '../DeleteEntrieModal';
 import { EditEntrieModal } from '../EditEntrieModal';
 
-const columnHelper = createColumnHelper<Entrie>();
+const columnHelper = createColumnHelper<Entry>();
 
 export const entriesColumns = [
   columnHelper.accessor((row) => row.date, {

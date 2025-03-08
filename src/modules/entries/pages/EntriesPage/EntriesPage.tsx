@@ -11,8 +11,8 @@ import { RangeDatePicker } from '@/components/DatePicker';
 import { InputSearch } from '@/components/InputSearch';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { toBRL } from '@/utils/formatters/toBRL';
-import { blobDownload } from '@/utils/functions/blobDownload';
+import { blobDownload } from '@/utils';
+import { toBRL } from '@/utils/mask';
 
 import { EntriesTable } from '../../components';
 import { EntiresFilterType, entriesFilterValidator } from '../../validators';
@@ -45,7 +45,11 @@ export const EntriesPage = ({ params }: EntriesPageProps) => {
     ...(watch('period')?.to && { endDate: watch('period')?.to?.toISOString() }),
   };
 
-  const { data, isLoading, isFetching } = useGetEntries({
+  const {
+    data: entriesData,
+    isLoading: isLoadingEntries,
+    isFetching: isFetchingEntries,
+  } = useGetEntries({
     ...dateParams,
     limit: params.limit,
     page: currentPage,
@@ -124,11 +128,11 @@ export const EntriesPage = ({ params }: EntriesPageProps) => {
       </div>
 
       <EntriesTable
-        data={data?.data}
-        isLoading={isLoading}
+        data={entriesData}
+        isLoading={isLoadingEntries}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
-        isFetching={isFetching}
+        isFetching={isFetchingEntries}
       />
     </main>
   );
