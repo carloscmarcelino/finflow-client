@@ -6,7 +6,7 @@ import { getExits } from '../endpoints';
 
 export const useGetExits = (params: GetExitsParams) =>
   useQuery({
-    queryKey: ['get-exits', params],
+    queryKey: ['get-exits', ...Object.values(params)],
     queryFn: () => {
       const skip = (params.page - 1) * params.limit;
       const queryParams = { ...params, skip, limit: params.limit };

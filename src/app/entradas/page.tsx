@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import { Suspense } from 'react';
 
 import { getEntries, GetEntriesParams, getTotalEntries } from '@/api/entries';
+import { entriesQueryKey } from '@/api/entries/queryKey';
 import { EntriesPage } from '@/modules/entries';
 
 const Page = async () => {
@@ -16,12 +17,12 @@ const Page = async () => {
   } as GetEntriesParams;
 
   await queryClient.prefetchQuery({
-    queryKey: ['get-entries', ...Object.values(params)],
+    queryKey: [entriesQueryKey.get, ...Object.values(params)],
     queryFn: () => getEntries(params),
   });
 
   await queryClient.prefetchQuery({
-    queryKey: ['get-total-entries', ...Object.values(params)],
+    queryKey: [entriesQueryKey.getTotal, ...Object.values(params)],
     queryFn: () =>
       getTotalEntries({
         startDate: params.startDate,

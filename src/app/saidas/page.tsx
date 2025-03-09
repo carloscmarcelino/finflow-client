@@ -23,11 +23,7 @@ const Page = async () => {
 
   await queryClient.prefetchQuery({
     queryKey: ['get-total-exits', ...Object.values(params)],
-    queryFn: () =>
-      getTotalExits({
-        startDate: params.startDate,
-        endDate: params.endDate,
-      }),
+    queryFn: () => getTotalExits(params),
   });
 
   return (

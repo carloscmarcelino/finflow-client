@@ -45,20 +45,21 @@ export const EntriesPage = ({ params }: EntriesPageProps) => {
     ...(watch('period')?.to && { endDate: watch('period')?.to?.toISOString() }),
   };
 
-  const {
-    data: entriesData,
-    isLoading: isLoadingEntries,
-    isFetching: isFetchingEntries,
-  } = useGetEntries({
+  const queryParams = {
     ...dateParams,
     limit: params.limit,
     page: currentPage,
     ...(watch('search') !== '' && { search: watch('search') }),
-  });
+  };
 
-  const { data: totalEntriesData, isLoading: isLoadingTotalEntries } = useGetTotalEntries({
-    ...dateParams,
-  });
+  const {
+    data: entriesData,
+    isLoading: isLoadingEntries,
+    isFetching: isFetchingEntries,
+  } = useGetEntries(queryParams);
+
+  const { data: totalEntriesData, isLoading: isLoadingTotalEntries } =
+    useGetTotalEntries(queryParams);
 
   return (
     <main className="flex flex-col gap-10 max-w-[1280px] mx-auto py-10">
@@ -128,7 +129,7 @@ export const EntriesPage = ({ params }: EntriesPageProps) => {
       </div>
 
       <EntriesTable
-        data={entriesData}
+        data={entriesData?.data}
         isLoading={isLoadingEntries}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}

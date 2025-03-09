@@ -1,9 +1,10 @@
 import api from '@/lib/api';
+import { ApiResponse } from '@/types';
 
 import { Entry, GetEntriesParams, GetTotalEntriesParams, TotalEntries } from './types';
 
 export const createEntry = async (body: BodyInit) => {
-  const response = await api.authorized().post('/entries', {
+  const response = await api.authorized().post('entries', {
     body,
     headers: {
       'Content-Type': 'application/json',
@@ -14,14 +15,16 @@ export const createEntry = async (body: BodyInit) => {
 };
 
 export const getEntries = async (params: GetEntriesParams) => {
-  const response = await api.authorized().get<Entry[]>('/entries', { searchParams: params });
+  const response = await api
+    .authorized()
+    .get<ApiResponse<Entry[]>>('entries', { searchParams: params });
   const data = await response.json();
 
   return data;
 };
 
 export const getTotalEntries = async (params: GetTotalEntriesParams) => {
-  const response = await api.authorized().get<TotalEntries>('/entries/total', {
+  const response = await api.authorized().get<TotalEntries>('entries/total', {
     searchParams: params,
   });
   const data = await response.json();

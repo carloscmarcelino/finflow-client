@@ -6,7 +6,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { FaRegEdit } from 'react-icons/fa';
 import { toast } from 'sonner';
 
-import { Entry, useEditEntry } from '@/api';
+import { entriesQueryKey, Entry, useEditEntry } from '@/api';
 import { DatePicker } from '@/components/DatePicker';
 import { InputText } from '@/components/InputText';
 import { Button } from '@/components/ui/button';
@@ -63,10 +63,10 @@ export const EditEntrieModal = ({ data }: EditEntrieModalProps) => {
       {
         onSuccess: async () => {
           await queryClient.invalidateQueries({
-            queryKey: ['get-entries'],
+            queryKey: [entriesQueryKey.get],
           });
           await queryClient.invalidateQueries({
-            queryKey: ['get-total-entries'],
+            queryKey: [entriesQueryKey.getTotal],
           });
           onClose();
           toast.success('entrada editada com sucesso');

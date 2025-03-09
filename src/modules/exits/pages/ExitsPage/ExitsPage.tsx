@@ -38,27 +38,23 @@ export const ExitsPage = ({ params }: ExitsPageProps) => {
 
   const [currentPage, setCurrentPage] = useState(params.page);
 
-  const dateParams = {
+  const queryParams = {
     ...(watch('period')?.from && {
       startDate: watch('period')?.from?.toISOString(),
     }),
     ...(watch('period')?.to && { endDate: watch('period')?.to?.toISOString() }),
+    limit: params.limit,
+    page: currentPage,
+    ...(watch('search') !== '' && { search: watch('search') }),
   };
 
   const {
     data: exitsData,
     isLoading: isLoadingExits,
     isFetching: isFetchingExits,
-  } = useGetExits({
-    ...dateParams,
-    limit: params.limit,
-    page: currentPage,
-    ...(watch('search') !== '' && { search: watch('search') }),
-  });
+  } = useGetExits(queryParams);
 
-  const { data: totalExitsData, isLoading: isLoadingTotalExits } = useGetTotalExits({
-    ...dateParams,
-  });
+  const { data: totalExitsData, isLoading: isLoadingTotalExits } = useGetTotalExits(queryParams);
 
   return (
     <main className="flex flex-col gap-10 max-w-[1280px] mx-auto py-10">

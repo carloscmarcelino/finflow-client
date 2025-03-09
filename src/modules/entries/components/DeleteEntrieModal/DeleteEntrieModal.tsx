@@ -2,7 +2,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { toast } from 'sonner';
 
-import { Entry, useDeleteEntry } from '@/api';
+import { entriesQueryKey, Entry, useDeleteEntry } from '@/api';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -32,10 +32,10 @@ export const DeleteEntrieModal = ({ data }: DeleteEntrieModalProps) => {
     mutateAsync(data.id, {
       onSuccess: async () => {
         await queryClient.invalidateQueries({
-          queryKey: ['get-entries'],
+          queryKey: [entriesQueryKey.get],
         });
         await queryClient.invalidateQueries({
-          queryKey: ['get-total-entries'],
+          queryKey: [entriesQueryKey.getTotal],
         });
         toast.success('entrada deletada com sucesso');
       },
