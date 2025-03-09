@@ -33,6 +33,21 @@ export const authConfig = {
       }
       return session;
     },
+    async authorized({ auth, request: { nextUrl } }) {
+      const PUBLIC =
+        nextUrl.pathname.startsWith('/login') || nextUrl.pathname.startsWith('/cadastro');
+
+      const isLoggedIn = !!auth?.user;
+      const isOnPrivate = nextUrl.pathname.startsWith('/') && !PUBLIC;
+
+      if (isOnPrivate) {
+        return !!isLoggedIn;
+      } else if (isLoggedIn) {
+        return Response.redirect(new URL('/entradas', nextUrl));
+      }
+
+      return true;
+    },
   },
   trustHost: true,
   secret: AUTH_SECRET,

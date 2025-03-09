@@ -32,10 +32,10 @@ export const getTotalEntries = async (params: GetTotalEntriesParams) => {
   return data;
 };
 
-export const deleteEntry = (id: string) => api.authorized().delete(`/entries/${id}`);
+export const deleteEntry = (id: string) => api.authorized().delete(`entries/${id}`);
 
 export const editEntry = ({ id, body }: { id: string; body: BodyInit }) =>
-  api.authorized().patch(`/entries/${id}`, {
+  api.authorized().patch(`entries/${id}`, {
     body,
     headers: {
       'Content-Type': 'application/json',
