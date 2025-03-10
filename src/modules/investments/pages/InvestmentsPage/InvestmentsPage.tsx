@@ -8,10 +8,11 @@ import { Controller, useForm } from 'react-hook-form';
 import { useGetTotalInvestments } from '@/api/investments/hooks';
 import { useGetInvestments } from '@/api/investments/hooks/useGetInvestments';
 import { RangeDatePicker } from '@/components/DatePicker/RangeDatePicker';
+import { Table } from '@/components/Table';
 import { Button } from '@/components/ui/button';
 import { toBRL } from '@/utils';
 
-import { InvestmentsTable } from '../../components';
+import { investmentsColumns } from './investmentsColumns';
 
 export const InvestmentsPage = () => {
   const { control } = useForm({
@@ -53,7 +54,7 @@ export const InvestmentsPage = () => {
           </div>
         </div>
       </div>
-      <InvestmentsTable data={investmentsData} />
+      <Table columns={investmentsColumns} data={investmentsData ?? []} />
     </main>
   );
 };

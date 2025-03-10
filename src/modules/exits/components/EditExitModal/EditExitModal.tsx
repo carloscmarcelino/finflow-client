@@ -6,8 +6,8 @@ import { Controller, useForm } from 'react-hook-form';
 import { FaRegEdit } from 'react-icons/fa';
 import { toast } from 'sonner';
 
-import { useGetPaymentMethods } from '@/api';
-import { Exit, useEditExit } from '@/api/exits';
+import { revalidateBalanceTag, useGetPaymentMethods } from '@/api';
+import { Exit, exitsQueryKey, useEditExit } from '@/api/exits';
 import { CustomSelect } from '@/components/CustomSelect';
 import { DatePicker } from '@/components/DatePicker';
 import { InputText } from '@/components/InputText';
@@ -67,11 +67,12 @@ export const EditExitModal = ({ data }: EditExitModalProps) => {
       {
         onSuccess: async () => {
           await queryClient.invalidateQueries({
-            queryKey: ['get-exits'],
+            queryKey: [exitsQueryKey.get],
           });
           await queryClient.invalidateQueries({
-            queryKey: ['get-total-exits'],
+            queryKey: [exitsQueryKey.getTotal],
           });
+          await revalidateBalanceTag();
           onClose();
           toast.success('saida editada com sucesso');
         },
@@ -84,7 +85,7 @@ export const EditExitModal = ({ data }: EditExitModalProps) => {
 
   const { data: paymentMethodsData, isPending: isLoadingPaymentMethods } = useGetPaymentMethods();
 
-  const paymentMethodsOptions = paymentMethodsData?.map((item) => ({
+  const paymentMethodsOptions = paymentMethodsData?.data?.map((item) => ({
     label: item.name,
     value: item,
   }));

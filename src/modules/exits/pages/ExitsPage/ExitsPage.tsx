@@ -10,12 +10,14 @@ import { GetExitsParams } from '@/api';
 import { useGetExits, useGetTotalExits } from '@/api/exits';
 import { RangeDatePicker } from '@/components/DatePicker';
 import { InputSearch } from '@/components/InputSearch';
+import { Table } from '@/components/Table';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { toBRL } from '@/utils';
 
-import { ExitTable } from '../../components';
 import { ExitsFilterType, exitsFilterValidator } from '../../validators';
+
+import { exitColumns } from './exitColumns';
 
 type ExitsPageProps = {
   params: GetExitsParams;
@@ -90,7 +92,6 @@ export const ExitsPage = ({ params }: ExitsPageProps) => {
             )}
           />
         </div>
-
         <div className="flex items-end flex-end">
           <Button
             variant="outline"
@@ -103,8 +104,9 @@ export const ExitsPage = ({ params }: ExitsPageProps) => {
           </Button>
         </div>
       </div>
-      <ExitTable
-        data={exitsData}
+      <Table
+        columns={exitColumns}
+        data={exitsData?.data ?? []}
         isLoading={isLoadingExits}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}

@@ -1,11 +1,14 @@
 import api from '@/lib/api';
+import { ApiResponse } from '@/types';
 
 import { GetExitsParams } from '../entries';
 
 import { Exit, GetTotalExitsParams, TotalExits } from './types';
 
 export const getExits = async (params: GetExitsParams) => {
-  const response = await api.authorized().get<Exit[]>('exits', { searchParams: params });
+  const response = await api.authorized().get<ApiResponse<Exit[]>>('exits', {
+    searchParams: params,
+  });
   return response.json();
 };
 

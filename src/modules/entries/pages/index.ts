@@ -1,2 +1,2 @@
 export * from './EntriesPage';
-export * from './CreateEntriePage';
+export * from './CreateEntryPage';

@@ -1,1 +1,2 @@
-export * from './InvestmentsTable';
+export * from './DeleteInvestmentModal';
+export * from './EditInvestmentModal';

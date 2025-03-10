@@ -10,8 +10,8 @@ import {
 import { Dispatch, MouseEvent, ReactNode, SetStateAction } from 'react';
 
 import { cn } from '@/lib/cn';
-import { Pagination } from '@/modules/entries/components/EntriesTable/Pagination';
 
+import { Pagination } from './Pagination';
 import { TableSkeletonClient } from './TableSkeletonClient';
 
 export type TableProps<Data extends Record<string, unknown>> = {

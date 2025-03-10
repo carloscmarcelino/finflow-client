@@ -8,8 +8,8 @@ import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import { useGetPaymentMethods } from '@/api';
-import { useCreateExit } from '@/api/exits';
+import { revalidateBalanceTag, useGetPaymentMethods } from '@/api';
+import { exitsQueryKey, useCreateExit } from '@/api/exits';
 import { CustomSelect } from '@/components/CustomSelect';
 import { DatePicker } from '@/components/DatePicker';
 import { InputText } from '@/components/InputText';
@@ -31,9 +31,12 @@ export const CreateExitPage = () => {
     },
   });
 
-  const { data, isPending: isLoadingPaymentMethods } = useGetPaymentMethods();
+  const { data: paymentMethodsData, isPending: isLoadingPaymentMethods } = useGetPaymentMethods();
 
-  const paymentMethodsOptions = data?.map((item) => ({ label: item.name, value: item }));
+  const paymentMethodsOptions = paymentMethodsData?.data.map((item) => ({
+    label: item.name,
+    value: item,
+  }));
 
   const { mutate, isPending } = useCreateExit();
 
@@ -52,12 +55,12 @@ export const CreateExitPage = () => {
       {
         onSuccess: async () => {
           await queryClient.invalidateQueries({
-            queryKey: ['get-exits'],
+            queryKey: [exitsQueryKey.get],
           });
           await queryClient.invalidateQueries({
-            queryKey: ['get-total-exits'],
+            queryKey: [exitsQueryKey.getTotal],
           });
-
+          await revalidateBalanceTag();
           router.push('/saidas');
           toast.success('saida criada com sucesso');
         },

@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { Suspense } from 'react';
 
 import { GetExitsParams } from '@/api';
-import { getExits, getTotalExits } from '@/api/exits';
+import { exitsQueryKey, getExits, getTotalExits } from '@/api/exits';
 import { ExitsPage } from '@/modules/exits';
 
 const Page = async () => {
@@ -17,12 +17,12 @@ const Page = async () => {
   } as GetExitsParams;
 
   await queryClient.prefetchQuery({
-    queryKey: ['get-exits', ...Object.values(params)],
+    queryKey: [exitsQueryKey.get, ...Object.values(params)],
     queryFn: () => getExits(params),
   });
 
   await queryClient.prefetchQuery({
-    queryKey: ['get-total-exits', ...Object.values(params)],
+    queryKey: [exitsQueryKey.getTotal, ...Object.values(params)],
     queryFn: () => getTotalExits(params),
   });
 

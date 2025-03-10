@@ -9,13 +9,15 @@ import { Controller, useForm } from 'react-hook-form';
 import { GetEntriesParams, useGetEntries, useGetTotalEntries } from '@/api/entries';
 import { RangeDatePicker } from '@/components/DatePicker';
 import { InputSearch } from '@/components/InputSearch';
+import { Table } from '@/components/Table';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { blobDownload } from '@/utils';
 import { toBRL } from '@/utils/mask';
 
-import { EntriesTable } from '../../components';
 import { EntiresFilterType, entriesFilterValidator } from '../../validators';
+
+import { entriesColumns } from './columns';
 
 type EntriesPageProps = {
   params: GetEntriesParams;
@@ -80,13 +82,11 @@ export const EntriesPage = ({ params }: EntriesPageProps) => {
           )}
         </div>
       </div>
-
       <div className="flex rounded-xl bg-white shadow-2xl px-14 py-7 gap-10">
         <div className="flex flex-col gap-2 w-max">
           <p className="ml-5 text-sm font-medium text-gray-700">Pesquisar</p>
           <InputSearch register={register('search')} error={errors.search} />
         </div>
-
         <div className="flex flex-col gap-2 w-max">
           <p className="ml-5 text-sm font-medium text-gray-700">Periodo</p>
           <Controller
@@ -97,7 +97,6 @@ export const EntriesPage = ({ params }: EntriesPageProps) => {
             )}
           />
         </div>
-
         <div className="flex items-end flex-end">
           <Button
             variant="outline"
@@ -109,7 +108,6 @@ export const EntriesPage = ({ params }: EntriesPageProps) => {
             Limpar filtros
           </Button>
         </div>
-
         <div className="flex items-end flex-end">
           <Button
             variant="outline"
@@ -127,9 +125,9 @@ export const EntriesPage = ({ params }: EntriesPageProps) => {
           </Button>
         </div>
       </div>
-
-      <EntriesTable
-        data={entriesData?.data}
+      <Table
+        columns={entriesColumns}
+        data={entriesData?.data ?? []}
         isLoading={isLoadingEntries}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}

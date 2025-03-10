@@ -1,9 +1,10 @@
 import { useMutation } from '@tanstack/react-query';
 
 import { editExit } from '../endpoints';
+import { exitsQueryKey } from '../queryKey';
 
 export const useEditExit = () =>
   useMutation({
-    mutationKey: ['edit-exit'],
+    mutationKey: [exitsQueryKey.edit],
     mutationFn: editExit,
   });

@@ -4,4 +4,4 @@ export const entriesQueryKey = {
   create: 'create-entry',
   edit: 'edit-entry',
   delete: 'delete-entry',
-};
+} as const;

@@ -1,9 +1,10 @@
 import { useMutation } from '@tanstack/react-query';
 
 import { editInvestment } from '../endpoints';
+import { investmentsQueryKey } from '../queryKey';
 
 export const useEditInvestment = () =>
   useMutation({
-    mutationKey: ['edit-investment'],
+    mutationKey: [investmentsQueryKey.edit],
     mutationFn: editInvestment,
   });

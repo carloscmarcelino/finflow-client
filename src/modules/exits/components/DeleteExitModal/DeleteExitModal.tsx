@@ -3,7 +3,8 @@ import React from 'react';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { toast } from 'sonner';
 
-import { Exit, useDeleteExit } from '@/api/exits';
+import { revalidateBalanceTag } from '@/api';
+import { Exit, exitsQueryKey, useDeleteExit } from '@/api/exits';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -33,11 +34,12 @@ export const DeleteExitModal = ({ data }: DeleteExitModalProps) => {
     mutateAsync(data.id, {
       onSuccess: async () => {
         await queryClient.invalidateQueries({
-          queryKey: ['get-exits'],
+          queryKey: [exitsQueryKey.get],
         });
         await queryClient.invalidateQueries({
-          queryKey: ['get-total-exits'],
+          queryKey: [exitsQueryKey.getTotal],
         });
+        await revalidateBalanceTag();
         toast.success('saida deletada com sucesso');
       },
       onError: () => {

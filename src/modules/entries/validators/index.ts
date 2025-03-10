@@ -1,2 +1,2 @@
-export * from './createEntrieSchema';
+export * from './createEntrySchema';
 export * from './entriesFilterValidator';
