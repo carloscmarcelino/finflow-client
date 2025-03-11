@@ -1,17 +1,20 @@
 import { useQuery } from '@tanstack/react-query';
 
+import { SearchQueryParams } from '@/types';
+
 import { getEntries } from '../endpoints';
 import { entriesQueryKey } from '../queryKey';
-import { GetEntriesParams } from '../types';
 
-export const useGetEntries = (params: GetEntriesParams) =>
+export const useGetEntries = (params: SearchQueryParams) =>
   useQuery({
     queryKey: [entriesQueryKey.get, ...Object.values(params)],
     queryFn: () => {
-      const skip = (params.page - 1) * params.limit;
+      if (params.page && params.limit) {
+        const skip = (params.page - 1) * params.limit;
 
-      const queryParams = { ...params, skip, limit: params.limit };
+        const queryParams = { ...params, skip, limit: params.limit };
 
-      return getEntries(queryParams);
+        return getEntries(queryParams);
+      }
     },
   });

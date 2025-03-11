@@ -27,7 +27,7 @@ export type TableProps<Data extends Record<string, unknown>> = {
   theadClassNames?: string;
   tbodyClassNames?: string;
   currentPage?: number;
-  setCurrentPage?: Dispatch<SetStateAction<number>>;
+  setCurrentPage?: Dispatch<SetStateAction<number | undefined>>;
   isFetching?: boolean;
 } & Omit<TableOptions<Data>, 'getCoreRowModel' | 'columns' | 'data'>;
 

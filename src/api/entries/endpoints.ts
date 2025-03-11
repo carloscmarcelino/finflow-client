@@ -1,7 +1,7 @@
 import api from '@/lib/api';
-import { ApiResponse } from '@/types';
+import { ApiResponse, SearchQueryParams } from '@/types';
 
-import { Entry, GetEntriesParams, GetTotalEntriesParams, TotalEntries } from './types';
+import { Entry, TotalEntries } from './types';
 
 export const createEntry = async (body: BodyInit) => {
   const response = await api.authorized().post('entries', {
@@ -14,7 +14,7 @@ export const createEntry = async (body: BodyInit) => {
   return response.json();
 };
 
-export const getEntries = async (params: GetEntriesParams) => {
+export const getEntries = async (params: SearchQueryParams) => {
   const response = await api
     .authorized()
     .get<ApiResponse<Entry[]>>('entries', { searchParams: params });
@@ -23,7 +23,7 @@ export const getEntries = async (params: GetEntriesParams) => {
   return data;
 };
 
-export const getTotalEntries = async (params: GetTotalEntriesParams) => {
+export const getTotalEntries = async (params: SearchQueryParams) => {
   const response = await api.authorized().get<TotalEntries>('entries/total', {
     searchParams: params,
   });

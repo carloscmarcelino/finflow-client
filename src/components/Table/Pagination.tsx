@@ -6,18 +6,18 @@ import { Button } from '@/components/ui/button';
 type PaginationProps = {
   data?: unknown[];
   currentPage?: number;
-  setCurrentPage?: Dispatch<SetStateAction<number>>;
+  setCurrentPage?: Dispatch<SetStateAction<number | undefined>>;
   isFetching?: boolean;
 };
 
 export const Pagination = ({ data, currentPage, setCurrentPage, isFetching }: PaginationProps) => {
   const handleNextPage = () => {
-    setCurrentPage?.((prevPage) => prevPage + 1);
+    setCurrentPage?.((prevPage) => prevPage && prevPage + 1);
   };
 
   const handlePreviousPage = () => {
     if (currentPage ?? 0 > 1) {
-      setCurrentPage?.((prevPage) => prevPage - 1);
+      setCurrentPage?.((prevPage) => prevPage && prevPage - 1);
     }
   };
 

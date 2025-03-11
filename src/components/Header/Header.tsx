@@ -17,7 +17,7 @@ export const Header = async () => {
     endDate: dayjs().toISOString(),
   };
 
-  const { balance } = await getBalance(params);
+  const balanceData = await getBalance(params);
 
-  return <HeaderOptions session={session} balance={toBRL(balance)} />;
+  return <HeaderOptions session={session} balance={toBRL(balanceData?.balance ?? 0)} />;
 };

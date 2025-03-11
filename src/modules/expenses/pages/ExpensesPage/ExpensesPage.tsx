@@ -3,36 +3,35 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import dayjs from 'dayjs';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
-import { useGetEntries, useGetTotalEntries } from '@/api';
+import { useGetExpenses, useGetTotalExpenses } from '@/api';
 import { RangeDatePicker } from '@/components/DatePicker';
 import { InputSearch } from '@/components/InputSearch';
 import { Table } from '@/components/Table';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { SearchQueryParams } from '@/types';
-import { blobDownload } from '@/utils';
-import { toBRL } from '@/utils/mask';
+import { toBRL } from '@/utils';
 
-import { EntiresFilterType, entriesFilterValidator } from '../../validators';
+import { expensesFilterSchema, ExpensesFilterType } from '../../validators';
 
-import { entriesColumns } from './columns';
+import { expenseColumns } from './expenseColumns';
 
-type EntriesPageProps = {
+type ExpensesPageProps = {
   params: SearchQueryParams;
 };
 
-export const EntriesPage = ({ params }: EntriesPageProps) => {
+export const ExpensesPage = ({ params }: ExpensesPageProps) => {
   const {
-    control,
-    watch,
     register,
     formState: { errors },
     reset,
-  } = useForm<EntiresFilterType>({
-    resolver: zodResolver(entriesFilterValidator),
+    control,
+    watch,
+  } = useForm<ExpensesFilterType>({
+    resolver: zodResolver(expensesFilterSchema),
     defaultValues: {
       period: { from: dayjs(params.startDate).toDate(), to: dayjs(params.endDate).toDate() },
       search: '',
@@ -41,45 +40,41 @@ export const EntriesPage = ({ params }: EntriesPageProps) => {
 
   const [currentPage, setCurrentPage] = useState(params.page);
 
-  const dateParams = {
+  const queryParams = {
     ...(watch('period')?.from && {
       startDate: watch('period')?.from?.toISOString(),
     }),
     ...(watch('period')?.to && { endDate: watch('period')?.to?.toISOString() }),
-  };
-
-  const queryParams = {
-    ...dateParams,
     limit: params.limit,
     page: currentPage,
     ...(watch('search') !== '' && { search: watch('search') }),
   };
 
   const {
-    data: entriesData,
-    isLoading: isLoadingEntries,
-    isFetching: isFetchingEntries,
-  } = useGetEntries(queryParams);
+    data: expensesData,
+    isLoading: isLoadingExpenses,
+    isFetching: isFetchingExpenses,
+  } = useGetExpenses(queryParams);
 
-  const { data: totalEntriesData, isLoading: isLoadingTotalEntries } =
-    useGetTotalEntries(queryParams);
+  const { data: totalExpensesData, isLoading: isLoadingTotalExpenses } =
+    useGetTotalExpenses(queryParams);
 
   return (
     <main className="flex flex-col gap-10 max-w-[1280px] mx-auto py-10">
       <div className="flex justify-between">
-        <Link href="/entradas/criar">
+        <Link href="/despesas/criar">
           <Button className="bg-blue">Adicionar</Button>
         </Link>
         <div className="flex flex-col gap-2 rounded-xl bg-white shadow-2xl px-14 py-7">
-          {isLoadingTotalEntries ? (
+          {isLoadingTotalExpenses ? (
             <Skeleton className="w-28 h-6" />
           ) : (
-            <p className="text-description">Total ganho:</p>
+            <p className="text-description">Gastos:</p>
           )}
-          {isLoadingTotalEntries ? (
+          {isLoadingTotalExpenses ? (
             <Skeleton className="w-28 h-6" />
           ) : (
-            <p className="text-description font-bold">{toBRL(totalEntriesData?.total ?? 0)}</p>
+            <p className="text-description font-bold">{toBRL(totalExpensesData?.total ?? 0)}</p>
           )}
         </div>
       </div>
@@ -109,30 +104,14 @@ export const EntriesPage = ({ params }: EntriesPageProps) => {
             Limpar filtros
           </Button>
         </div>
-        <div className="flex items-end flex-end">
-          <Button
-            variant="outline"
-            className="h-[42px] shadow-sm"
-            onClick={() => {
-              blobDownload({
-                endpoint: 'entries/export',
-                params: {
-                  ...dateParams,
-                },
-              });
-            }}
-          >
-            Gerar XLSX
-          </Button>
-        </div>
       </div>
       <Table
-        columns={entriesColumns}
-        data={entriesData?.data ?? []}
-        isLoading={isLoadingEntries}
+        columns={expenseColumns}
+        data={expensesData?.data ?? []}
+        isLoading={isLoadingExpenses}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
-        isFetching={isFetchingEntries}
+        isFetching={isFetchingExpenses}
       />
     </main>
   );

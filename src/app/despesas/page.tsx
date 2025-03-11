@@ -2,8 +2,8 @@ import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query
 import dayjs from 'dayjs';
 import { Suspense } from 'react';
 
-import { getEntries, getTotalEntries, entriesQueryKey } from '@/api';
-import { EntriesPage } from '@/modules/entries';
+import { expensesQueryKey, getExpenses, getTotalExpenses } from '@/api';
+import { ExpensesPage } from '@/modules/expenses';
 import { SearchQueryParams } from '@/types';
 
 const Page = async () => {
@@ -17,23 +17,19 @@ const Page = async () => {
   } as SearchQueryParams;
 
   await queryClient.prefetchQuery({
-    queryKey: [entriesQueryKey.get, ...Object.values(params)],
-    queryFn: () => getEntries(params),
+    queryKey: [expensesQueryKey.get, ...Object.values(params)],
+    queryFn: () => getExpenses(params),
   });
 
   await queryClient.prefetchQuery({
-    queryKey: [entriesQueryKey.getTotal, ...Object.values(params)],
-    queryFn: () =>
-      getTotalEntries({
-        startDate: params.startDate,
-        endDate: params.endDate,
-      }),
+    queryKey: [expensesQueryKey.getTotal, ...Object.values(params)],
+    queryFn: () => getTotalExpenses(params),
   });
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <Suspense>
-        <EntriesPage params={params} />
+        <ExpensesPage params={params} />
       </Suspense>
     </HydrationBoundary>
   );

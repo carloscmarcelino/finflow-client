@@ -1,5 +1,3 @@
-import { DateRangeParams, PaginatedSearchParams } from '@/types';
-
 export type Entry = {
   value: number;
   date: string;
@@ -10,9 +8,3 @@ export type Entry = {
 export type TotalEntries = {
   total: number;
 };
-
-export type GetEntriesParams = PaginatedSearchParams;
-
-export type GetTotalEntriesParams = DateRangeParams;
-
-export type GetExitsParams = PaginatedSearchParams;
