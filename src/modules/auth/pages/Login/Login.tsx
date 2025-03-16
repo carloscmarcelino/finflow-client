@@ -31,30 +31,30 @@ export const LoginPage = () => {
       signIn('credentials', {
         ...data,
         redirect: true,
-        redirectTo: '/entradas',
+        redirectTo: '/',
       });
     });
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="flex items-center justify-center min-h-screen">
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
-        <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-6">
-          <InputText label="Username" error={errors.username} register={register('username')} />
-
-          <InputText label="Password" error={errors.password} register={register('password')} />
-
-          <Button type="submit" className="self-center bg-blue w-32" isLoading={isPending}>
+        <h2 className="text-title text-purple font-bold">Login</h2>
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col my-6 gap-4">
+          <div className="flex flex-col gap-2">
+            <InputText label="Username" error={errors.username} register={register('username')} />
+            <InputText label="Password" error={errors.password} register={register('password')} />
+          </div>
+          <Button type="submit" className="self-center" isLoading={isPending}>
             Login
           </Button>
         </form>
-        <p className="text-center text-gray-500 text-sm mt-4">
-          Dont have an account?{' '}
+        <div className="flex flex-col items-center text-subtitle text-gray2">
+          <p>Dont have an account?</p>
           <Link href="/cadastro">
-            <p className="text-blue-600 hover:underline">Sign up</p>
+            <p className="text-purple hover:underline">Sign up</p>
           </Link>
-        </p>
+        </div>
       </div>
     </div>
   );

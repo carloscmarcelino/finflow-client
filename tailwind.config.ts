@@ -11,36 +11,22 @@ const tailwindConfig = {
     extend: {
       colors: {
         primary: {
-          DEFAULT: 'var(--primary)',
+          DEFAULT: 'var(--dark)',
         },
         white: 'var(--white)',
         dark: 'var(--dark)',
-        dark2: 'var(--dark-2)',
-        dark3: 'var(--dark-3)',
+        gray: 'var(--gray)',
+        purple: 'var(--purple)',
         blue: 'var(--blue)',
+        background: 'var(--background)',
       },
       fontSize: {
-        title: ['24px', '29.17px'],
+        title: ['20px', '30px'],
+        subtitle: ['14px', '21px'],
         description: ['16px', '24px'],
-        text1: ['12px', '14.58px'],
-      },
-      keyframes: {
-        'accordion-down': {
-          from: { height: '0' },
-          to: { height: 'var(--radix-accordion-content-height)' },
-        },
-        'accordion-up': {
-          from: { height: 'var(--radix-accordion-content-height)' },
-          to: { height: '0' },
-        },
-      },
-      animation: {
-        'accordion-down': 'accordion-down 0.2s ease-out',
-        'accordion-up': 'accordion-up 0.2s ease-out',
       },
     },
   },
-  plugins: [require('tailwindcss-animate')],
 } satisfies Config;
 
 export default tailwindConfig;

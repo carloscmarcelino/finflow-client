@@ -17,7 +17,7 @@ export const GlobalProvider = ({ children }: GlobalProviderProps) => (
       <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
         <div className="flex">
           <Sidebar />
-          <div className="w-full">{children}</div>
+          <div className="w-full px-6 py-8">{children}</div>
         </div>
         <Toaster />
       </ThemeProvider>

@@ -1,3 +1,4 @@
+import { ExpensesCategory } from '../categories';
 import { PaymentMethod } from '../common';
 
 export type Expense = {
@@ -6,6 +7,7 @@ export type Expense = {
   description: string;
   amount: string;
   paymentMethod: PaymentMethod;
+  expensesCategory: ExpensesCategory;
 };
 
 export type TotalExpenses = {

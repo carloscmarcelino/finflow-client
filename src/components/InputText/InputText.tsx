@@ -1,6 +1,7 @@
 import React, { ChangeEvent } from 'react';
 import { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 
+import { cn } from '@/lib/cn';
 import { MaskFormatter } from '@/utils/mask';
 
 type InputTextProps = {
@@ -18,19 +19,24 @@ export const InputText = ({ label, error, register, mask }: InputTextProps) => {
   };
 
   return (
-    <div>
-      <label htmlFor={label} className="block text-sm font-medium text-gray-700">
-        {label}
-      </label>
-      <input
-        id={label}
-        type={label}
-        className={`mt-1 block w-full px-4 py-2 border ${
-          error ? 'border-red-500' : 'border-gray-300'
-        } rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500`}
-        {...register}
-        onChangeCapture={handleChangeInputValue}
-      />
+    <div className="flex flex-col">
+      <div className="flex flex-col">
+        <label htmlFor={label} className="text-subtitle text-gray">
+          {label}
+        </label>
+        <input
+          id={label}
+          type={label}
+          className={cn(
+            'text-subtitle text-gray w-full px-4 py-2 rounded-md shadow-md border border-purple focus:outline-none focus:ring-1 focus:ring-purple',
+            {
+              'focus:ring-red-500 border-red-500': error,
+            },
+          )}
+          {...register}
+          onChangeCapture={handleChangeInputValue}
+        />
+      </div>
       {error && <span className="text-red-500 text-sm">{error.message}</span>}
     </div>
   );

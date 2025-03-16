@@ -8,7 +8,7 @@ import { Controller, useForm } from 'react-hook-form';
 
 import { useGetExpenses, useGetTotalExpenses } from '@/api';
 import { RangeDatePicker } from '@/components/DatePicker';
-import { InputSearch } from '@/components/InputSearch';
+import { InputText } from '@/components/InputText';
 import { Table } from '@/components/Table';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -81,7 +81,7 @@ export const ExpensesPage = ({ params }: ExpensesPageProps) => {
       <div className="flex rounded-xl bg-white shadow-2xl px-14 py-7 gap-10">
         <div className="flex flex-col gap-2 w-max">
           <p className="ml-5 text-sm font-medium text-gray-700">Pesquisar</p>
-          <InputSearch register={register('search')} error={errors.search} />
+          <InputText register={register('search')} error={errors.search} />
         </div>
         <div className="flex flex-col gap-2 w-max">
           <p className="ml-5 text-sm font-medium text-gray-700">Periodo</p>
@@ -95,8 +95,6 @@ export const ExpensesPage = ({ params }: ExpensesPageProps) => {
         </div>
         <div className="flex items-end flex-end">
           <Button
-            variant="outline"
-            className="h-[42px] shadow-sm"
             onClick={() => {
               reset();
             }}

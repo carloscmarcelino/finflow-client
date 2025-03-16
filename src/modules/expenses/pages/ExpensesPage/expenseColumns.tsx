@@ -27,6 +27,11 @@ export const expenseColumns = [
     cell: (info) => <p>{info.getValue()}</p>,
     header: () => <p>Descrição</p>,
   }),
+  columnHelper.accessor((row) => row.expensesCategory.name, {
+    id: 'expensesCategory',
+    cell: (info) => <p>{info.getValue()}</p>,
+    header: () => <p>Categoria da despesa</p>,
+  }),
   columnHelper.accessor((row) => row.paymentMethod.name, {
     id: 'paymentMethod',
     cell: (info) => <p>{info.getValue()}</p>,

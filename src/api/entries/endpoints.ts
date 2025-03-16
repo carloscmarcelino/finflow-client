@@ -17,7 +17,7 @@ export const createEntry = async (body: BodyInit) => {
 export const getEntries = async (params: SearchQueryParams) => {
   const response = await api
     .authorized()
-    .get<ApiResponse<Entry[]>>('entries', { searchParams: params });
+    .get<ApiResponse<Entry>>('entries', { searchParams: params });
   const data = await response.json();
 
   return data;

@@ -4,7 +4,7 @@ import { ApiResponse, SearchQueryParams } from '@/types';
 import { Expense, TotalExpenses } from './types';
 
 export const getExpenses = async (params: SearchQueryParams) => {
-  const response = await api.authorized().get<ApiResponse<Expense[]>>('expenses', {
+  const response = await api.authorized().get<ApiResponse<Expense>>('expenses', {
     searchParams: params,
   });
   return response.json();

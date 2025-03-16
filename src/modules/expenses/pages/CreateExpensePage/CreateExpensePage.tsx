@@ -13,6 +13,7 @@ import {
   useGetPaymentMethods,
   expensesQueryKey,
   useCreateExpense,
+  useGetExpensesCategories,
 } from '@/api';
 import { CustomSelect } from '@/components/CustomSelect';
 import { DatePicker } from '@/components/DatePicker';
@@ -37,6 +38,13 @@ export const CreateExpensePage = () => {
 
   const { data: paymentMethodsData, isPending: isLoadingPaymentMethods } = useGetPaymentMethods();
 
+  const { data: categoriesData, isPending: isLoadingCategories } = useGetExpensesCategories();
+
+  const categoriesOptions = categoriesData?.data.map((item) => ({
+    label: item.name,
+    value: item,
+  }));
+
   const paymentMethodsOptions = paymentMethodsData?.data.map((item) => ({
     label: item.name,
     value: item,
@@ -55,6 +63,7 @@ export const CreateExpensePage = () => {
         paymentMethodId: values.paymentMethod.value.id,
         description: values.description,
         date: values.date.toISOString(),
+        categoryId: values.expenseCategory.value.id,
       }),
       {
         onSuccess: async () => {
@@ -93,6 +102,14 @@ export const CreateExpensePage = () => {
           label="Descrição"
           error={errors.description}
           register={register('description')}
+        />
+        <CustomSelect
+          label="Categoria da despesa"
+          name="expenseCategory"
+          options={categoriesOptions}
+          isLoading={isLoadingCategories}
+          control={control}
+          error={errors.expenseCategory}
         />
         <CustomSelect
           label="Metodo de pagamento"

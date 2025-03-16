@@ -55,20 +55,20 @@ export const Sidebar = () => {
       <div className="flex flex-col items-center ">
         <p className="text-title mb-6">FinFlow</p>
         <div className="flex flex-col items-center gap-3 mb-6">
-          <div className="flex items-center justify-center bg-gray4 w-20 h-20 rounded-full">
-            <UserIcon />
+          <div className="flex items-center justify-center bg-gray w-20 h-20 rounded-full">
+            <UserIcon className="text-white" />
           </div>
           <div className="flex flex-col items-center gap-[0.375rem]">
-            <p className="text-text text-purple1 font-bold">{session.data?.user?.name}</p>
-            <p className="text-subtitle text-gray3">role</p>
+            <p className="text-description text-purple font-bold">{session.data?.user?.name}</p>
+            <p className="text-subtitle text-gray">role</p>
           </div>
         </div>
         <div className="flex flex-col gap-3">
           {sidebarItems.map((sidebar) => (
             <Link key={sidebar.label} href={sidebar.href}>
               <div
-                className={cn('flex items-center gap-3 px-4 py-3 min-w-40 rounded-xl text-gray3', {
-                  'bg-purple2 text-white': pathname === sidebar.href,
+                className={cn('flex items-center gap-3 px-4 py-3 min-w-40 rounded-xl text-gray', {
+                  'bg-purple text-white': pathname === sidebar.href,
                 })}
               >
                 <sidebar.icon className="w-5 h-5" />
@@ -79,8 +79,7 @@ export const Sidebar = () => {
         </div>
       </div>
       <Button
-        variant="ghost"
-        className="text-subtitle text-gray3 gap-2"
+        variant="unstyled"
         onClick={() => {
           signOut();
         }}

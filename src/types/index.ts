@@ -12,6 +12,6 @@ export type PaginationParams = {
 export type SearchQueryParams = DateRangeParams & PaginationParams;
 
 export type ApiResponse<T> = {
-  data: T;
+  data: T[];
   total: number;
 };

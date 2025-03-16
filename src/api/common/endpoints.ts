@@ -4,7 +4,7 @@ import { ApiResponse } from '@/types';
 import { Broker, PaymentMethod, TypesOfInvestment } from './types';
 
 export const getPaymentMethods = async () => {
-  const response = await api.authorized().get<ApiResponse<PaymentMethod[]>>('payment-methods');
+  const response = await api.authorized().get<ApiResponse<PaymentMethod>>('payment-methods');
   const data = await response.json();
 
   return data;
