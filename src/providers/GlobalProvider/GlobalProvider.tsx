@@ -1,7 +1,7 @@
 import { SessionProvider } from 'next-auth/react';
 import { ReactNode } from 'react';
 
-import { Header } from '@/components/Header/Header';
+import { Sidebar } from '@/components/Sidebar';
 import { Toaster } from '@/components/ui/sonner';
 
 import { TanstackProvider } from '../TanstackProvider';
@@ -15,8 +15,10 @@ export const GlobalProvider = ({ children }: GlobalProviderProps) => (
   <SessionProvider>
     <TanstackProvider>
       <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
-        <Header />
-        {children}
+        <div className="flex">
+          <Sidebar />
+          <div className="w-full">{children}</div>
+        </div>
         <Toaster />
       </ThemeProvider>
     </TanstackProvider>
