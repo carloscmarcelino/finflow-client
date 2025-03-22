@@ -9,11 +9,11 @@
 
   :root {
     --dark: #000000;
-    --white: #FFFFFF;
-    --gray: #7A7A7A;
-    --purple: #6523E9;
-    --blue: #3F5AFF;
-    --background: #F3F6FF;
+    --white: #ffffff;
+    --gray: #7a7a7a;
+    --purple: #6523e9;
+    --blue: #3f5aff;
+    --background: #f3f6ff;
     --red: #cc1f59;
   }
 }

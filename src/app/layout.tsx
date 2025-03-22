@@ -13,8 +13,9 @@ const montserratFont = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: 'MoneyMap',
-  description: 'MoneyMap',
+  title: 'FinFlow',
+  description:
+    'Simplifique sua vida financeira com o FinFlow - a plataforma completa para gerenciar investimentos, despesas e receitas. Tome decisões financeiras inteligentes com análises detalhadas e visualizações claras do seu patrimônio.',
 };
 
 type RootLayoutProps = Readonly<{

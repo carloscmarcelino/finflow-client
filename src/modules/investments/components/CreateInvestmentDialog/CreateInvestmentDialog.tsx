@@ -1,14 +1,19 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQueryClient } from '@tanstack/react-query';
 import dayjs from 'dayjs';
-import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import { useGetBrokers, useGetTypesOfInvestments, useCreateInvestment } from '@/api';
-import { DialogDispatch } from '@/components/DialogDispatch';
+import {
+  useGetBrokers,
+  useGetTypesOfInvestments,
+  useCreateInvestment,
+  investmentsQueryKey,
+} from '@/api';
+import { DialogDispatch, DialogDispatchVariant } from '@/components/DialogDispatch';
 import { CustomSelect, DatePicker, InputText } from '@/components/Form';
 import { TOAST_ERROR_MESSAGE } from '@/config';
 import { useDisclosure } from '@/hooks';
@@ -24,6 +29,7 @@ export const CreateInvestmentDialog = () => {
     formState: { errors },
     handleSubmit,
     control,
+    reset,
   } = useForm<CreateInvestmentType>({
     resolver: zodResolver(createInvestmentSchema),
     defaultValues: {
@@ -44,7 +50,7 @@ export const CreateInvestmentDialog = () => {
 
   const { mutate, isPending } = useCreateInvestment();
 
-  const router = useRouter();
+  const queryClient = useQueryClient();
 
   const onSubmit = (values: CreateInvestmentType) => {
     mutate(
@@ -59,9 +65,16 @@ export const CreateInvestmentDialog = () => {
         date: values.date.toISOString(),
       }),
       {
-        onSuccess: () => {
-          router.push('/investimentos');
-          toast.success('investimento criado com sucesso');
+        onSuccess: async () => {
+          await queryClient.invalidateQueries({
+            queryKey: [investmentsQueryKey.get],
+          });
+          await queryClient.invalidateQueries({
+            queryKey: [investmentsQueryKey.getTotal],
+          });
+          toast.success('Investimento criado com sucesso');
+          reset();
+          onClose();
         },
         onError: () => {
           toast.error(TOAST_ERROR_MESSAGE);
@@ -76,8 +89,8 @@ export const CreateInvestmentDialog = () => {
       onOpen={onOpen}
       onClose={onClose}
       onSubmit={handleSubmit(onSubmit)}
-      title="Criar investimento"
       isLoading={isPending}
+      variant={DialogDispatchVariant.CREATE}
     >
       <DatePicker label="Data" name="date" control={control} error={errors.date?.message} />
       <CustomSelect

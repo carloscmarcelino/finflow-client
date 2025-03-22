@@ -2,7 +2,7 @@ import { SessionProvider } from 'next-auth/react';
 import { ReactNode } from 'react';
 
 import { Sidebar } from '@/components/Sidebar';
-import { Toaster } from '@/components/ui/sonner';
+import { Toaster } from '@/components/ui';
 
 import { TanstackProvider } from '../TanstackProvider';
 import { ThemeProvider } from '../ThemeProvider';

@@ -8,7 +8,7 @@ import { toast } from 'sonner';
 import { z } from 'zod';
 
 import { categoriesQueryKey, useCreateExpensesCategory } from '@/api';
-import { DialogDispatch } from '@/components/DialogDispatch';
+import { DialogDispatch, DialogDispatchVariant } from '@/components/DialogDispatch';
 import { InputText } from '@/components/Form';
 import { INVALID_FORMAT, TOAST_ERROR_MESSAGE } from '@/config';
 import { useDisclosure } from '@/hooks';
@@ -58,8 +58,8 @@ export const CreateCategoryExpenseDialog = () => {
       onOpen={onOpen}
       onClose={onClose}
       onSubmit={handleSubmit(onSubmit)}
-      title="Despesas"
       isLoading={isLoadingCreateExpenses}
+      variant={DialogDispatchVariant.CREATE}
     >
       <InputText
         label="Adicionar categoria"

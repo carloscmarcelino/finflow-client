@@ -6,7 +6,7 @@ import React from 'react';
 
 import { ExpensesCategory, useGetExpensesCategories } from '@/api';
 import { Table } from '@/components/Table';
-import { TabsContent } from '@/components/ui/tabs';
+import { TabsContent } from '@/components/ui';
 
 import { CreateCategoryExpenseDialog } from './CreateCategoryExpenseDialog';
 

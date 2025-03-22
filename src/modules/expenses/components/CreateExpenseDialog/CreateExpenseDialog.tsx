@@ -3,7 +3,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import dayjs from 'dayjs';
-import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -15,7 +14,7 @@ import {
   useGetExpensesCategories,
   useGetPaymentMethods,
 } from '@/api';
-import { DialogDispatch } from '@/components/DialogDispatch';
+import { DialogDispatch, DialogDispatchVariant } from '@/components/DialogDispatch';
 import { CustomSelect, DatePicker, InputText } from '@/components/Form';
 import { useDisclosure } from '@/hooks';
 import { brlToNumber, Mask } from '@/utils';
@@ -30,6 +29,7 @@ export const CreateExpenseDialog = () => {
     formState: { errors },
     handleSubmit,
     control,
+    reset,
   } = useForm<CreateExpenseType>({
     resolver: zodResolver(createExpenseSchema),
     defaultValues: {
@@ -53,8 +53,6 @@ export const CreateExpenseDialog = () => {
 
   const { mutate, isPending } = useCreateExpense();
 
-  const router = useRouter();
-
   const queryClient = useQueryClient();
 
   const onSubmit = (values: CreateExpenseType) => {
@@ -75,8 +73,9 @@ export const CreateExpenseDialog = () => {
             queryKey: [expensesQueryKey.getTotal],
           });
           await revalidateBalanceTag();
-          router.push('/despesas');
-          toast.success('saida criada com sucesso');
+          toast.success('Despesa criada com sucesso');
+          reset();
+          onClose();
         },
       },
     );
@@ -88,39 +87,37 @@ export const CreateExpenseDialog = () => {
       onOpen={onOpen}
       onClose={onClose}
       onSubmit={handleSubmit(onSubmit)}
-      title="Criar despesa"
       isLoading={isPending}
+      variant={DialogDispatchVariant.CREATE}
     >
-      <>
-        <DatePicker label="Data" name="date" control={control} error={errors.date?.message} />
-        <InputText
-          label="Valor"
-          error={errors.amount?.message}
-          register={register('amount')}
-          mask={Mask.brl}
-        />
-        <InputText
-          label="Descrição"
-          error={errors.description?.message}
-          register={register('description')}
-        />
-        <CustomSelect
-          label="Categoria da despesa"
-          name="expenseCategory"
-          options={categoriesOptions}
-          isLoading={isLoadingCategories}
-          control={control}
-          error={errors.expenseCategory?.message}
-        />
-        <CustomSelect
-          label="Metodo de pagamento"
-          name="paymentMethod"
-          options={paymentMethodsOptions}
-          isLoading={isLoadingPaymentMethods}
-          control={control}
-          error={errors.paymentMethod?.message}
-        />
-      </>
+      <DatePicker label="Data" name="date" control={control} error={errors.date?.message} />
+      <InputText
+        label="Valor"
+        error={errors.amount?.message}
+        register={register('amount')}
+        mask={Mask.brl}
+      />
+      <InputText
+        label="Descrição"
+        error={errors.description?.message}
+        register={register('description')}
+      />
+      <CustomSelect
+        label="Categoria da despesa"
+        name="expenseCategory"
+        options={categoriesOptions}
+        isLoading={isLoadingCategories}
+        control={control}
+        error={errors.expenseCategory?.message}
+      />
+      <CustomSelect
+        label="Metodo de pagamento"
+        name="paymentMethod"
+        options={paymentMethodsOptions}
+        isLoading={isLoadingPaymentMethods}
+        control={control}
+        error={errors.paymentMethod?.message}
+      />
     </DialogDispatch>
   );
 };

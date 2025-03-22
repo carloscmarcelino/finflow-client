@@ -1,7 +1,7 @@
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import React, { Dispatch, SetStateAction } from 'react';
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui';
 
 type PaginationProps = {
   data?: unknown[];

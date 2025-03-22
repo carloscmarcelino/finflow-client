@@ -2,21 +2,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import dayjs from 'dayjs';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { FaRegEdit } from 'react-icons/fa';
 import { toast } from 'sonner';
 
 import { useGetBrokers, useGetTypesOfInvestments, useEditInvestment, Investment } from '@/api';
+import { DialogDispatch, DialogDispatchVariant } from '@/components/DialogDispatch';
 import { CustomSelect, DatePicker, InputText } from '@/components/Form';
-import { Button } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
 import { TOAST_ERROR_MESSAGE } from '@/config';
 import { useDisclosure } from '@/hooks';
 import { brlToNumber, Mask, toBRL } from '@/utils/mask';
@@ -88,59 +78,43 @@ export const EditInvestmentModal = ({ data }: EditInvestmentModalProps) => {
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={isOpen ? onClose : onOpen}>
-      <DialogTrigger asChild>
-        <Button variant="unstyled">
-          <FaRegEdit />
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <DialogHeader>
-            <DialogTitle>Editar</DialogTitle>
-          </DialogHeader>
-
-          <div className="flex flex-col max-w-[20rem] gap-4 my-10">
-            <DatePicker label="Data" name="date" control={control} error={errors.date?.message} />
-            <CustomSelect
-              label="Tipo"
-              name="type"
-              options={typeOptions}
-              isLoading={isLoadingTypes}
-              control={control}
-              error={errors.type?.message}
-            />
-            <InputText
-              label="Valor"
-              error={errors.value?.message}
-              register={register('value')}
-              mask={Mask.brl}
-            />
-            <InputText
-              label="Rendimento"
-              error={errors.yield?.message}
-              register={register('yield')}
-              mask={Mask.yield}
-            />
-            <CustomSelect
-              label="Banco"
-              name="broker"
-              options={brokerOptions}
-              isLoading={isLoading}
-              control={control}
-              error={errors.broker?.message}
-            />
-          </div>
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button variant="rounded-red">Cancelar</Button>
-            </DialogClose>
-            <Button type="submit" isLoading={isPending} className="w-32">
-              Editar
-            </Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
+    <DialogDispatch
+      isOpen={isOpen}
+      onOpen={onOpen}
+      onClose={onClose}
+      onSubmit={handleSubmit(onSubmit)}
+      isLoading={isPending}
+      variant={DialogDispatchVariant.EDIT}
+    >
+      <DatePicker label="Data" name="date" control={control} error={errors.date?.message} />
+      <CustomSelect
+        label="Tipo"
+        name="type"
+        options={typeOptions}
+        isLoading={isLoadingTypes}
+        control={control}
+        error={errors.type?.message}
+      />
+      <InputText
+        label="Valor"
+        error={errors.value?.message}
+        register={register('value')}
+        mask={Mask.brl}
+      />
+      <InputText
+        label="Rendimento"
+        error={errors.yield?.message}
+        register={register('yield')}
+        mask={Mask.yield}
+      />
+      <CustomSelect
+        label="Banco"
+        name="broker"
+        options={brokerOptions}
+        isLoading={isLoading}
+        control={control}
+        error={errors.broker?.message}
+      />
+    </DialogDispatch>
   );
 };

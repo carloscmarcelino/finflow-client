@@ -9,8 +9,7 @@ import { useForm } from 'react-hook-form';
 import { useGetEntries, useGetTotalEntries, useGetBalance } from '@/api';
 import { InputText, RangeDatePicker } from '@/components/Form';
 import { Table } from '@/components/Table';
-import { Button } from '@/components/ui/button';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Button, Skeleton } from '@/components/ui';
 import { SearchQueryParams } from '@/types';
 import { blobDownload, toBRL } from '@/utils';
 

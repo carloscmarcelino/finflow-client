@@ -5,7 +5,7 @@ import React from 'react';
 import { Entry } from '@/api';
 import { toBRL } from '@/utils/mask';
 
-import { DeleteEntryModal, EditEntryModal } from '../../components';
+import { DeleteEntryDialog, EditEntryModal } from '../../components';
 
 const columnHelper = createColumnHelper<Entry>();
 
@@ -34,7 +34,7 @@ export const entriesColumns = [
     cell: ({ getValue }) => (
       <div className="flex gap-5">
         <EditEntryModal data={getValue()} />
-        <DeleteEntryModal data={getValue()} />
+        <DeleteEntryDialog data={getValue()} />
       </div>
     ),
     header: () => <p>Ações</p>,

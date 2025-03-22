@@ -8,7 +8,7 @@ import { toast } from 'sonner';
 
 import { useCreateUser } from '@/api';
 import { InputText } from '@/components/Form';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui';
 import { TOAST_ERROR_MESSAGE } from '@/config';
 
 import { loginSchema, LoginType } from '../../validators';

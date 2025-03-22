@@ -7,7 +7,7 @@ import React, { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { InputText } from '@/components/Form';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui';
 
 import { loginSchema, LoginType } from '../../validators';
 

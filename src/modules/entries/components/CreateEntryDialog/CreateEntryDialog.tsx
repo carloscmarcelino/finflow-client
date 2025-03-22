@@ -3,13 +3,12 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import dayjs from 'dayjs';
-import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
 import { entriesQueryKey, revalidateBalanceTag, useCreateEntry } from '@/api';
-import { DialogDispatch } from '@/components/DialogDispatch';
+import { DialogDispatch, DialogDispatchVariant } from '@/components/DialogDispatch';
 import { DatePicker, InputText } from '@/components/Form';
 import { TOAST_ERROR_MESSAGE } from '@/config';
 import { useDisclosure } from '@/hooks';
@@ -25,6 +24,7 @@ export const CreateEntryDialog = () => {
     formState: { errors },
     handleSubmit,
     control,
+    reset,
   } = useForm<CreateEntrySchemaType>({
     resolver: zodResolver(createEntrySchema),
     defaultValues: {
@@ -33,8 +33,6 @@ export const CreateEntryDialog = () => {
   });
 
   const { mutate, isPending } = useCreateEntry();
-
-  const router = useRouter();
 
   const queryClient = useQueryClient();
 
@@ -54,8 +52,9 @@ export const CreateEntryDialog = () => {
             queryKey: [entriesQueryKey.getTotal],
           });
           await revalidateBalanceTag();
-          router.push('/entradas');
-          toast.success('entrada criada com sucesso');
+          toast.success('Entrada criada com sucesso');
+          onClose();
+          reset();
         },
         onError: () => {
           toast.error(TOAST_ERROR_MESSAGE);
@@ -65,30 +64,26 @@ export const CreateEntryDialog = () => {
   };
 
   return (
-    <>
-      <DialogDispatch
-        isOpen={isOpen}
-        onOpen={onOpen}
-        onClose={onClose}
-        onSubmit={handleSubmit(onSubmit)}
-        title="Criar entrada"
-        isLoading={isPending}
-      >
-        <>
-          <DatePicker label="Data" name="date" control={control} error={errors.date?.message} />
-          <InputText
-            label="Valor"
-            error={errors.value?.message}
-            register={register('value')}
-            mask={Mask.brl}
-          />
-          <InputText
-            label="Descrição"
-            error={errors.description?.message}
-            register={register('description')}
-          />
-        </>
-      </DialogDispatch>
-    </>
+    <DialogDispatch
+      isOpen={isOpen}
+      onOpen={onOpen}
+      onClose={onClose}
+      onSubmit={handleSubmit(onSubmit)}
+      isLoading={isPending}
+      variant={DialogDispatchVariant.CREATE}
+    >
+      <DatePicker label="Data" name="date" control={control} error={errors.date?.message} />
+      <InputText
+        label="Valor"
+        error={errors.value?.message}
+        register={register('value')}
+        mask={Mask.brl}
+      />
+      <InputText
+        label="Descrição"
+        error={errors.description?.message}
+        register={register('description')}
+      />
+    </DialogDispatch>
   );
 };

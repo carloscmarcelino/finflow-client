@@ -1,7 +1,7 @@
 import ky, { BeforeRequestHook } from 'ky';
 import { getSession } from 'next-auth/react';
 
-import { API_URL, IS_CLIENT } from '@/config';
+import { API_URL } from '@/config';
 
 import { auth } from './auth';
 
@@ -10,25 +10,19 @@ const kyConfig = ky.create({
   timeout: false,
 });
 
-const clientAuthorizedRequest: BeforeRequestHook = async (request) => {
-  const session = await getSession();
-  const accessToken = session?.user?.access_token;
+export const isClient = () => typeof window !== 'undefined';
 
-  request.headers.set('Authorization', `Bearer ${accessToken}`);
-};
-
-const serverAuthorizedRequest: BeforeRequestHook = async (request) => {
-  const session = await auth();
-  const accessToken = session?.user?.access_token;
-
-  request.headers.set('Authorization', `Bearer ${accessToken}`);
+const authorizedRequest: BeforeRequestHook = async (request) => {
+  const session = await (isClient() ? getSession() : auth());
+  const token = session?.access_token;
+  request.headers.set('Authorization', `Bearer ${token}`);
 };
 
 const api = {
   authorized: () =>
     kyConfig.extend({
       hooks: {
-        beforeRequest: [IS_CLIENT ? clientAuthorizedRequest : serverAuthorizedRequest],
+        beforeRequest: [authorizedRequest],
       },
     }),
   unauthorized: () =>
