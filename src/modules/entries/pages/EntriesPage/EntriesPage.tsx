@@ -7,9 +7,10 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { useGetEntries, useGetTotalEntries, useGetBalance } from '@/api';
+import { CardValue } from '@/components/Card';
 import { InputText, RangeDatePicker } from '@/components/Form';
 import { Table } from '@/components/Table';
-import { Button, Skeleton } from '@/components/ui';
+import { Button } from '@/components/ui';
 import { SearchQueryParams } from '@/types';
 import { blobDownload, toBRL } from '@/utils';
 
@@ -111,30 +112,16 @@ export const EntriesPage = ({ params }: EntriesPageProps) => {
           </div>
         </div>
         <div className="flex gap-10">
-          <div className="flex flex-col gap-2">
-            {isLoadingTotalEntries ? (
-              <Skeleton className="w-28 h-6" />
-            ) : (
-              <p className="text-description">Total ganho:</p>
-            )}
-            {isLoadingTotalEntries ? (
-              <Skeleton className="w-28 h-6" />
-            ) : (
-              <p className="text-title font-bold">{toBRL(totalEntriesData?.total ?? 0)}</p>
-            )}
-          </div>
-          <div className="flex flex-col gap-2">
-            {isLoadingBalance ? (
-              <Skeleton className="w-28 h-6" />
-            ) : (
-              <p className="text-description">Saldo:</p>
-            )}
-            {isLoadingBalance ? (
-              <Skeleton className="w-28 h-6" />
-            ) : (
-              <p className="text-title font-bold">{toBRL(balanceData?.balance ?? 0)}</p>
-            )}
-          </div>
+          <CardValue
+            isLoading={isLoadingTotalEntries}
+            title="Total ganho"
+            value={toBRL(totalEntriesData?.total ?? 0)}
+          />
+          <CardValue
+            isLoading={isLoadingBalance}
+            title="Saldo"
+            value={toBRL(balanceData?.balance ?? 0)}
+          />
         </div>
       </div>
       <Table

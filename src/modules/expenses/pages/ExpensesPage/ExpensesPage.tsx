@@ -7,9 +7,10 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { useGetBalance, useGetExpenses, useGetTotalExpenses } from '@/api';
+import { CardValue } from '@/components/Card';
 import { InputText, RangeDatePicker } from '@/components/Form';
 import { Table } from '@/components/Table';
-import { Button, Skeleton } from '@/components/ui';
+import { Button } from '@/components/ui';
 import { SearchQueryParams } from '@/types';
 import { blobDownload, toBRL } from '@/utils';
 
@@ -114,30 +115,16 @@ export const ExpensesPage = ({ params }: ExpensesPageProps) => {
           </div>
         </div>
         <div className="flex gap-10">
-          <div className="flex flex-col gap-2">
-            {isLoadingTotalExpenses ? (
-              <Skeleton className="w-28 h-6" />
-            ) : (
-              <p className="text-description">Total gasto:</p>
-            )}
-            {isLoadingTotalExpenses ? (
-              <Skeleton className="w-28 h-6" />
-            ) : (
-              <p className="text-title font-bold">{toBRL(totalExpensesData?.total ?? 0)}</p>
-            )}
-          </div>
-          <div className="flex flex-col gap-2">
-            {isLoadingBalance ? (
-              <Skeleton className="w-28 h-6" />
-            ) : (
-              <p className="text-description">Saldo:</p>
-            )}
-            {isLoadingBalance ? (
-              <Skeleton className="w-28 h-6" />
-            ) : (
-              <p className="text-title font-bold">{toBRL(balanceData?.balance ?? 0)}</p>
-            )}
-          </div>
+          <CardValue
+            isLoading={isLoadingTotalExpenses}
+            value={toBRL(totalExpensesData?.total ?? 0)}
+            title="Total gasto"
+          />
+          <CardValue
+            isLoading={isLoadingBalance}
+            value={toBRL(balanceData?.balance ?? 0)}
+            title="Saldo"
+          />
         </div>
       </div>
       <Table

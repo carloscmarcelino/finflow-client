@@ -5,7 +5,7 @@ import { auth } from '@/lib/auth';
 
 type Params = Record<string, string>;
 
-type BlobDownloadProps = {
+export type BlobDownloadProps = {
   endpoint: string;
   params: Params;
 };

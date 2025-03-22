@@ -76,7 +76,8 @@ export const DialogDispatch = ({
   };
 
   const description = () => {
-    if (variant === DialogDispatchVariant.DELETE) return 'Essa ação não poderá ser desfeita.';
+    if (variant === DialogDispatchVariant.DELETE)
+      return 'Tem certeza que deseja deletar? Essa ação não poderá ser desfeita.';
 
     return null;
   };
@@ -85,18 +86,18 @@ export const DialogDispatch = ({
     <Dialog open={isOpen} onOpenChange={(open) => (open ? onOpen() : onClose())}>
       <DialogTrigger>{triggerButton()}</DialogTrigger>
       <DialogContent>
-        <form onSubmit={onSubmit} className={cn('flex flex-col gap-4')}>
-          <DialogHeader>
+        <form onSubmit={onSubmit} className={cn('flex flex-col gap-8')}>
+          <DialogHeader className="gap-4">
             <DialogTitle>{title()}</DialogTitle>
             {description() && <DialogDescription>{description()}</DialogDescription>}
           </DialogHeader>
           {children && <div className="flex flex-col gap-4 my-4">{children}</div>}
           <DialogFooter>
-            <Button type="submit" isLoading={isLoading}>
-              {title()}
-            </Button>
             <Button variant="rounded-red" onClick={onClose} type="button">
               Cancelar
+            </Button>
+            <Button type="submit" isLoading={isLoading}>
+              {title()}
             </Button>
           </DialogFooter>
         </form>
