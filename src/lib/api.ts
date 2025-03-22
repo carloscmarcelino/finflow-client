@@ -1,5 +1,5 @@
-import ky, { BeforeRequestHook } from 'ky';
-import { getSession } from 'next-auth/react';
+import ky, { AfterResponseHook, BeforeRequestHook } from 'ky';
+import { getSession, signOut } from 'next-auth/react';
 
 import { API_URL } from '@/config';
 
@@ -18,11 +18,19 @@ const authorizedRequest: BeforeRequestHook = async (request) => {
   request.headers.set('Authorization', `Bearer ${token}`);
 };
 
+const handleSingout: AfterResponseHook = async (request, options, response) => {
+  if (response.status === 401) {
+    await signOut({ redirect: true, redirectTo: '/login' });
+  }
+  return response;
+};
+
 const api = {
   authorized: () =>
     kyConfig.extend({
       hooks: {
         beforeRequest: [authorizedRequest],
+        afterResponse: [handleSingout],
       },
     }),
   unauthorized: () =>

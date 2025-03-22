@@ -30,6 +30,7 @@ export const authConfig = {
         session.user.email = token.email as string;
         session.user.name = token.name as string;
         session.user.access_token = token.access_token as string;
+        session.access_token = token.access_token;
       }
       return session;
     },
@@ -38,9 +39,8 @@ export const authConfig = {
         nextUrl.pathname.startsWith('/login') || nextUrl.pathname.startsWith('/cadastro');
 
       const isLoggedIn = !!auth?.user;
-      const isOnPrivate = nextUrl.pathname.startsWith('/') && !PUBLIC;
 
-      if (isOnPrivate) {
+      if (!PUBLIC) {
         return !!isLoggedIn;
       } else if (isLoggedIn) {
         return Response.redirect(new URL('/entradas', nextUrl));
