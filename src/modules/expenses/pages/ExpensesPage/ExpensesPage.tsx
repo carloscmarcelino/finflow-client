@@ -2,19 +2,19 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import dayjs from 'dayjs';
-import Link from 'next/link';
+import { Archive, Filter } from 'lucide-react';
 import { useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
-import { useGetExpenses, useGetTotalExpenses } from '@/api';
-import { RangeDatePicker } from '@/components/DatePicker';
-import { InputText } from '@/components/InputText';
+import { useGetBalance, useGetExpenses, useGetTotalExpenses } from '@/api';
+import { InputText, RangeDatePicker } from '@/components/Form';
 import { Table } from '@/components/Table';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { SearchQueryParams } from '@/types';
-import { toBRL } from '@/utils';
+import { blobDownload, toBRL } from '@/utils';
 
+import { CreateExpenseDialog } from '../../components';
 import { expensesFilterSchema, ExpensesFilterType } from '../../validators';
 
 import { expenseColumns } from './expenseColumns';
@@ -40,6 +40,13 @@ export const ExpensesPage = ({ params }: ExpensesPageProps) => {
 
   const [currentPage, setCurrentPage] = useState(params.page);
 
+  const dateParams = {
+    ...(watch('period')?.from && {
+      startDate: watch('period')?.from?.toISOString(),
+    }),
+    ...(watch('period')?.to && { endDate: watch('period')?.to?.toISOString() }),
+  };
+
   const queryParams = {
     ...(watch('period')?.from && {
       startDate: watch('period')?.from?.toISOString(),
@@ -59,48 +66,79 @@ export const ExpensesPage = ({ params }: ExpensesPageProps) => {
   const { data: totalExpensesData, isLoading: isLoadingTotalExpenses } =
     useGetTotalExpenses(queryParams);
 
+  // const params = {
+  //   startDate: dayjs().startOf('month').toISOString(),
+  //   endDate: dayjs().toISOString(),
+  // };
+  const { data: balanceData, isLoading: isLoadingBalance } = useGetBalance();
+
   return (
     <main className="flex flex-col gap-10 max-w-[1280px] mx-auto py-10">
-      <div className="flex justify-between">
-        <Link href="/despesas/criar">
-          <Button className="bg-blue">Adicionar</Button>
-        </Link>
-        <div className="flex flex-col gap-2 rounded-xl bg-white shadow-2xl px-14 py-7">
-          {isLoadingTotalExpenses ? (
-            <Skeleton className="w-28 h-6" />
-          ) : (
-            <p className="text-description">Gastos:</p>
-          )}
-          {isLoadingTotalExpenses ? (
-            <Skeleton className="w-28 h-6" />
-          ) : (
-            <p className="text-description font-bold">{toBRL(totalExpensesData?.total ?? 0)}</p>
-          )}
+      <div className="flex flex-col rounded-xl bg-white shadow-2xl px-14 py-7 gap-10">
+        <div className="flex justify-between">
+          <div className="flex gap-10">
+            <InputText
+              label="Pesquisar"
+              register={register('search')}
+              error={errors.search?.message}
+            />
+            <RangeDatePicker
+              label="Periodo"
+              control={control}
+              name="period"
+              error={errors.period?.message}
+            />
+          </div>
+          <div className="flex items-center gap-2">
+            <Button
+              onClick={() => {
+                reset();
+              }}
+            >
+              <Filter className="text-white h-4 w-4" />
+              Limpar filtros
+            </Button>
+            <Button
+              onClick={() => {
+                blobDownload({
+                  endpoint: 'expenses/export',
+                  params: {
+                    ...dateParams,
+                  },
+                });
+              }}
+            >
+              <Archive className="text-white h-4 w-4" />
+              Gerar XLSX
+            </Button>
+            <CreateExpenseDialog />
+          </div>
         </div>
-      </div>
-      <div className="flex rounded-xl bg-white shadow-2xl px-14 py-7 gap-10">
-        <div className="flex flex-col gap-2 w-max">
-          <p className="ml-5 text-sm font-medium text-gray-700">Pesquisar</p>
-          <InputText register={register('search')} error={errors.search} />
-        </div>
-        <div className="flex flex-col gap-2 w-max">
-          <p className="ml-5 text-sm font-medium text-gray-700">Periodo</p>
-          <Controller
-            name="period"
-            control={control}
-            render={({ field }) => (
-              <RangeDatePicker value={field.value} onChange={field.onChange} />
+        <div className="flex gap-10">
+          <div className="flex flex-col gap-2">
+            {isLoadingTotalExpenses ? (
+              <Skeleton className="w-28 h-6" />
+            ) : (
+              <p className="text-description">Total gasto:</p>
             )}
-          />
-        </div>
-        <div className="flex items-end flex-end">
-          <Button
-            onClick={() => {
-              reset();
-            }}
-          >
-            Limpar filtros
-          </Button>
+            {isLoadingTotalExpenses ? (
+              <Skeleton className="w-28 h-6" />
+            ) : (
+              <p className="text-title font-bold">{toBRL(totalExpensesData?.total ?? 0)}</p>
+            )}
+          </div>
+          <div className="flex flex-col gap-2">
+            {isLoadingBalance ? (
+              <Skeleton className="w-28 h-6" />
+            ) : (
+              <p className="text-description">Saldo:</p>
+            )}
+            {isLoadingBalance ? (
+              <Skeleton className="w-28 h-6" />
+            ) : (
+              <p className="text-title font-bold">{toBRL(balanceData?.balance ?? 0)}</p>
+            )}
+          </div>
         </div>
       </div>
       <Table

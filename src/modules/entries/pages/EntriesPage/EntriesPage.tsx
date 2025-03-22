@@ -2,21 +2,19 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import dayjs from 'dayjs';
-import { Archive, Filter, PlusIcon } from 'lucide-react';
-import Link from 'next/link';
+import { Archive, Filter } from 'lucide-react';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { useGetEntries, useGetTotalEntries } from '@/api';
-import { useGetBalance } from '@/api/balance/hooks';
-import { DataInputText } from '@/components/DatePicker/DataInputText';
-import { InputText } from '@/components/InputText';
+import { useGetEntries, useGetTotalEntries, useGetBalance } from '@/api';
+import { InputText, RangeDatePicker } from '@/components/Form';
 import { Table } from '@/components/Table';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { SearchQueryParams } from '@/types';
 import { blobDownload, toBRL } from '@/utils';
 
+import { CreateEntryDialog } from '../../components';
 import { EntiresFilterType, entriesFilterValidator } from '../../validators';
 
 import { entriesColumns } from './columns';
@@ -76,8 +74,17 @@ export const EntriesPage = ({ params }: EntriesPageProps) => {
       <div className="flex flex-col rounded-xl bg-white shadow-2xl px-14 py-7 gap-10">
         <div className="flex justify-between">
           <div className="flex gap-10">
-            <InputText label="Pesquisar" register={register('search')} error={errors.search} />
-            <DataInputText label="Periodo" control={control} name="period" />
+            <InputText
+              label="Pesquisar"
+              register={register('search')}
+              error={errors.search?.message}
+            />
+            <RangeDatePicker
+              label="Periodo"
+              control={control}
+              name="period"
+              error={errors.period?.message}
+            />
           </div>
           <div className="flex items-center gap-2">
             <Button
@@ -101,12 +108,7 @@ export const EntriesPage = ({ params }: EntriesPageProps) => {
               <Archive className="text-white h-4 w-4" />
               Gerar XLSX
             </Button>
-            <Link href="/entradas/criar">
-              <Button>
-                <PlusIcon className="text-white h-4 w-4" />
-                Adicionar
-              </Button>
-            </Link>
+            <CreateEntryDialog />
           </div>
         </div>
         <div className="flex gap-10">

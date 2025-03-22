@@ -11,14 +11,14 @@ export const getPaymentMethods = async () => {
 };
 
 export const getBrokers = async () => {
-  const response = await api.authorized().get<Broker[]>('broker');
+  const response = await api.authorized().get<ApiResponse<Broker>>('broker');
   const data = await response.json();
 
   return data;
 };
 
 export const getTypesOfInvestments = async () => {
-  const response = await api.authorized().get<TypesOfInvestment[]>('investments/types');
+  const response = await api.authorized().get<ApiResponse<TypesOfInvestment>>('investments/types');
   const data = await response.json();
 
   return data;

@@ -9,9 +9,10 @@ export const buttonVariants = cva(
       variant: {
         default: 'bg-purple text-description text-white gap-2',
         unstyled: 'bg-transparent text-description text-gray gap-2',
+        'rounded-red': 'bg-[#CC1F59] text-description text-white gap-2',
       },
       size: {
-        default: 'h-32 h-10 px-4 py-2',
+        default: 'w-32 h-10 px-4 py-2',
       },
     },
     defaultVariants: {

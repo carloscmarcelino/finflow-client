@@ -6,8 +6,8 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import { useCreateUser } from '@/api/auth';
-import { InputText } from '@/components/InputText';
+import { useCreateUser } from '@/api';
+import { InputText } from '@/components/Form';
 import { Button } from '@/components/ui/button';
 import { TOAST_ERROR_MESSAGE } from '@/config';
 
@@ -48,8 +48,16 @@ export const RegisterPage = () => {
         <h2 className="text-title text-purple font-bold">Sign Up</h2>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col my-6 gap-4">
           <div className="flex flex-col gap-2">
-            <InputText label="Username" error={errors.username} register={register('username')} />
-            <InputText label="Password" error={errors.password} register={register('password')} />
+            <InputText
+              label="Username"
+              error={errors.username?.message}
+              register={register('username')}
+            />
+            <InputText
+              label="Password"
+              error={errors.password?.message}
+              register={register('password')}
+            />
           </div>
           <Button type="submit" className="self-center" isLoading={isPending}>
             Cadastrar

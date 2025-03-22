@@ -1,16 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import dayjs from 'dayjs';
 import React from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { FaRegEdit } from 'react-icons/fa';
 import { toast } from 'sonner';
 
-import { useGetBrokers, useGetTypesOfInvestments } from '@/api';
-import { useEditInvestment } from '@/api/investments/hooks/useEditInvestment';
-import { Investment } from '@/api/investments/types';
-import { CustomSelect } from '@/components/CustomSelect';
-import { DatePicker } from '@/components/DatePicker';
-import { InputText } from '@/components/InputText';
+import { useGetBrokers, useGetTypesOfInvestments, useEditInvestment, Investment } from '@/api';
+import { CustomSelect, DatePicker, InputText } from '@/components/Form';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -34,7 +30,7 @@ type EditInvestmentModalProps = {
 export const EditInvestmentModal = ({ data }: EditInvestmentModalProps) => {
   const { mutate, isPending } = useEditInvestment();
 
-  const { open, onOpen, onClose } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const {
     register,
@@ -54,14 +50,14 @@ export const EditInvestmentModal = ({ data }: EditInvestmentModalProps) => {
 
   const { data: brokersData, isLoading } = useGetBrokers();
 
-  const brokerOptions = brokersData?.map((broker) => ({
+  const brokerOptions = brokersData?.data?.map((broker) => ({
     label: broker.nome_social,
     value: broker.nome_social,
   }));
 
   const { data: typesData, isLoading: isLoadingTypes } = useGetTypesOfInvestments();
 
-  const typeOptions = typesData?.map((type) => ({ label: type.name, value: type.id }));
+  const typeOptions = typesData?.data?.map((type) => ({ label: type.name, value: type.id }));
 
   const onSubmit = (values: CreateInvestmentType) => {
     mutate(
@@ -92,9 +88,9 @@ export const EditInvestmentModal = ({ data }: EditInvestmentModalProps) => {
   };
 
   return (
-    <Dialog open={open} onOpenChange={open ? onClose : onOpen}>
+    <Dialog open={isOpen} onOpenChange={isOpen ? onClose : onOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">
+        <Button variant="unstyled">
           <FaRegEdit />
         </Button>
       </DialogTrigger>
@@ -105,28 +101,24 @@ export const EditInvestmentModal = ({ data }: EditInvestmentModalProps) => {
           </DialogHeader>
 
           <div className="flex flex-col max-w-[20rem] gap-4 my-10">
-            <Controller
-              name="date"
-              control={control}
-              render={({ field }) => <DatePicker value={field.value} onChange={field.onChange} />}
-            />
+            <DatePicker label="Data" name="date" control={control} error={errors.date?.message} />
             <CustomSelect
               label="Tipo"
               name="type"
               options={typeOptions}
               isLoading={isLoadingTypes}
               control={control}
-              error={errors.type}
+              error={errors.type?.message}
             />
             <InputText
               label="Valor"
-              error={errors.value}
+              error={errors.value?.message}
               register={register('value')}
               mask={Mask.brl}
             />
             <InputText
               label="Rendimento"
-              error={errors.yield}
+              error={errors.yield?.message}
               register={register('yield')}
               mask={Mask.yield}
             />
@@ -136,12 +128,12 @@ export const EditInvestmentModal = ({ data }: EditInvestmentModalProps) => {
               options={brokerOptions}
               isLoading={isLoading}
               control={control}
-              error={errors.broker}
+              error={errors.broker?.message}
             />
           </div>
           <DialogFooter>
             <DialogClose asChild>
-              <Button variant="ghost">Cancelar</Button>
+              <Button variant="rounded-red">Cancelar</Button>
             </DialogClose>
             <Button type="submit" isLoading={isPending} className="w-32">
               Editar

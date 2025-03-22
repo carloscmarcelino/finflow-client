@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import React from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { FaRegEdit } from 'react-icons/fa';
 import { toast } from 'sonner';
 
@@ -13,9 +13,7 @@ import {
   expensesQueryKey,
   useEditExpense,
 } from '@/api';
-import { CustomSelect } from '@/components/CustomSelect';
-import { DatePicker } from '@/components/DatePicker';
-import { InputText } from '@/components/InputText';
+import { CustomSelect, DatePicker, InputText } from '@/components/Form';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -39,7 +37,7 @@ type EditExpenseModalProps = {
 export const EditExpenseModal = ({ data }: EditExpenseModalProps) => {
   const { mutate, isPending } = useEditExpense();
 
-  const { open, onOpen, onClose } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const {
     register,
@@ -96,9 +94,9 @@ export const EditExpenseModal = ({ data }: EditExpenseModalProps) => {
   }));
 
   return (
-    <Dialog open={open} onOpenChange={open ? onClose : onOpen}>
+    <Dialog open={isOpen} onOpenChange={isOpen ? onClose : onOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">
+        <Button variant="unstyled">
           <FaRegEdit />
         </Button>
       </DialogTrigger>
@@ -108,20 +106,16 @@ export const EditExpenseModal = ({ data }: EditExpenseModalProps) => {
             <DialogTitle>Editar</DialogTitle>
           </DialogHeader>
           <div className="flex flex-col max-w-[20rem] gap-4 my-10">
-            <Controller
-              name="date"
-              control={control}
-              render={({ field }) => <DatePicker value={field.value} onChange={field.onChange} />}
-            />
+            <DatePicker label="Data" name="date" control={control} error={errors.date?.message} />
             <InputText
               label="Valor"
-              error={errors.amount}
+              error={errors.amount?.message}
               register={register('amount')}
               mask={Mask.brl}
             />
             <InputText
               label="Descrição"
-              error={errors.description}
+              error={errors.description?.message}
               register={register('description')}
             />
             <CustomSelect
@@ -130,12 +124,12 @@ export const EditExpenseModal = ({ data }: EditExpenseModalProps) => {
               options={paymentMethodsOptions}
               isLoading={isLoadingPaymentMethods}
               control={control}
-              error={errors.paymentMethod}
+              error={errors.paymentMethod?.message}
             />
           </div>
           <DialogFooter>
             <DialogClose asChild>
-              <Button variant="ghost">Cancelar</Button>
+              <Button variant="rounded-red">Cancelar</Button>
             </DialogClose>
             <Button type="submit" isLoading={isPending} className="w-32">
               Editar

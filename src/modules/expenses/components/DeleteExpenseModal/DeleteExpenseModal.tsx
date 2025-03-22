@@ -25,7 +25,7 @@ type DeleteExpenseModalProps = {
 export const DeleteExpenseModal = ({ data }: DeleteExpenseModalProps) => {
   const { mutateAsync, isPending } = useDeleteExpense();
 
-  const { open, onOpen, onClose } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const queryClient = useQueryClient();
 
@@ -48,9 +48,9 @@ export const DeleteExpenseModal = ({ data }: DeleteExpenseModalProps) => {
   };
 
   return (
-    <Dialog open={open} onOpenChange={open ? onClose : onOpen}>
+    <Dialog open={isOpen} onOpenChange={isOpen ? onClose : onOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">
+        <Button variant="unstyled">
           <FaRegTrashAlt />
         </Button>
       </DialogTrigger>
@@ -61,7 +61,7 @@ export const DeleteExpenseModal = ({ data }: DeleteExpenseModalProps) => {
         </DialogHeader>
         <DialogFooter>
           <DialogClose asChild>
-            <Button variant="ghost">Cancelar</Button>
+            <Button variant="rounded-red">Cancelar</Button>
           </DialogClose>
           <Button onClick={onSubmit} isLoading={isPending} className="w-32">
             Apagar

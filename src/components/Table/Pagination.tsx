@@ -26,7 +26,7 @@ export const Pagination = ({ data, currentPage, setCurrentPage, isFetching }: Pa
       <Button
         onClick={handlePreviousPage}
         disabled={currentPage === 1 || isFetching}
-        variant="ghost"
+        variant="unstyled"
       >
         <ArrowLeft />
       </Button>
@@ -34,7 +34,7 @@ export const Pagination = ({ data, currentPage, setCurrentPage, isFetching }: Pa
       <Button
         onClick={handleNextPage}
         disabled={!data || isFetching || data?.length < 5}
-        variant="ghost"
+        variant="unstyled"
       >
         <ArrowRight />
       </Button>

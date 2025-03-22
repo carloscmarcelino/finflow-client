@@ -24,7 +24,7 @@ type DeleteEntryModalProps = {
 export const DeleteEntryModal = ({ data }: DeleteEntryModalProps) => {
   const { mutateAsync, isPending } = useDeleteEntry();
 
-  const { open, onOpen, onClose } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const queryClient = useQueryClient();
 
@@ -47,9 +47,9 @@ export const DeleteEntryModal = ({ data }: DeleteEntryModalProps) => {
   };
 
   return (
-    <Dialog open={open} onOpenChange={open ? onClose : onOpen}>
+    <Dialog open={isOpen} onOpenChange={isOpen ? onClose : onOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">
+        <Button>
           <FaRegTrashAlt />
         </Button>
       </DialogTrigger>
@@ -60,7 +60,7 @@ export const DeleteEntryModal = ({ data }: DeleteEntryModalProps) => {
         </DialogHeader>
         <DialogFooter>
           <DialogClose asChild>
-            <Button variant="ghost">Cancelar</Button>
+            <Button variant="rounded-red">Cancelar</Button>
           </DialogClose>
           <Button onClick={onSubmit} isLoading={isPending} className="w-32">
             Apagar

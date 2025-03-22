@@ -72,7 +72,7 @@ export function useDisclosure(props: UseDisclosureProps = {}) {
   }
 
   return {
-    open,
+    isOpen: open,
     onOpen,
     onClose,
     onToggle,

@@ -1,7 +1,7 @@
 import { createColumnHelper } from '@tanstack/react-table';
 import dayjs from 'dayjs';
 
-import { Investment } from '@/api/investments/types';
+import { Investment } from '@/api';
 import { toBRL } from '@/utils';
 
 import { DeleteInvestmentModal, EditInvestmentModal } from '../../components';

@@ -1,7 +1,7 @@
 import Credentials from 'next-auth/providers/credentials';
 
-import { postLogin } from '@/api/auth';
-import { loginSchema } from '@/modules/auth/validators';
+import { postLogin } from '@/api';
+import { loginSchema } from '@/modules/auth';
 
 export const CredentialsProvier = Credentials({
   async authorize(credentials) {

@@ -1,13 +1,12 @@
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-import { ExpensesTab } from '../components/ExpensesTab';
+import { CategoriesExpensesTab } from '../components';
 
 export const ConfigurationsPage = () => (
   <Tabs defaultValue="expenses">
     <TabsList>
       <TabsTrigger value="expenses">Despesas</TabsTrigger>
-      <TabsTrigger value="income">Receitas</TabsTrigger>
     </TabsList>
-    <ExpensesTab />
+    <CategoriesExpensesTab />
   </Tabs>
 );

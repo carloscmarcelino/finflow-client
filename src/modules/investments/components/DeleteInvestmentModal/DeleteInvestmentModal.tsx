@@ -2,8 +2,7 @@ import React from 'react';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { toast } from 'sonner';
 
-import { useDeleteInvestment } from '@/api/investments/hooks/useDeleteInvestment';
-import { Investment } from '@/api/investments/types';
+import { useDeleteInvestment, Investment } from '@/api';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -25,7 +24,7 @@ type DeleteInvestmentModalProps = {
 export const DeleteInvestmentModal = ({ data }: DeleteInvestmentModalProps) => {
   const { mutateAsync, isPending } = useDeleteInvestment();
 
-  const { open, onOpen, onClose } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const onSubmit = () => {
     mutateAsync(data.id, {
@@ -39,9 +38,9 @@ export const DeleteInvestmentModal = ({ data }: DeleteInvestmentModalProps) => {
   };
 
   return (
-    <Dialog open={open} onOpenChange={open ? onClose : onOpen}>
+    <Dialog open={isOpen} onOpenChange={isOpen ? onClose : onOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">
+        <Button variant="unstyled">
           <FaRegTrashAlt />
         </Button>
       </DialogTrigger>
@@ -52,7 +51,7 @@ export const DeleteInvestmentModal = ({ data }: DeleteInvestmentModalProps) => {
         </DialogHeader>
         <DialogFooter>
           <DialogClose asChild>
-            <Button variant="ghost">Cancelar</Button>
+            <Button variant="rounded-red">Cancelar</Button>
           </DialogClose>
           <Button onClick={onSubmit} isLoading={isPending} className="w-32">
             Apagar
