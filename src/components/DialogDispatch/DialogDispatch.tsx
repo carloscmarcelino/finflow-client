@@ -25,8 +25,7 @@ type DialogDispatchProps = {
   onOpen: () => void;
   onClose: () => void;
   onSubmit: (event?: BaseSyntheticEvent) => Promise<void> | void;
-  isLoading: boolean;
-  trigger?: ReactNode;
+  isLoading?: boolean;
   children?: ReactNode;
   variant: DialogDispatchVariant;
 };

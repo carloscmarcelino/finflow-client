@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 import { Archive, Filter } from 'lucide-react';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 import { useGetBalance, useGetTotalInvestments, useGetInvestments } from '@/api';
 import { CardValue } from '@/components/Card';
@@ -14,7 +15,7 @@ import { Button } from '@/components/ui';
 import { SearchQueryParams } from '@/types';
 import { blobDownload, toBRL } from '@/utils';
 
-import { CreateInvestmentDialog } from '../../components';
+import { CreateInvestmentDialog, SimulateInvestmentDialog } from '../../components';
 import {
   investmentsFilterSchema,
   InvestmentsFilterType,
@@ -80,9 +81,10 @@ export const InvestmentsPage = ({ params }: InvestmentsPageProps) => {
               error={errors.period?.message}
             />
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex gap-2">
             <Button
               onClick={() => {
+                toast.success('Filtros limpos com sucesso!');
                 reset();
               }}
             >
@@ -102,7 +104,10 @@ export const InvestmentsPage = ({ params }: InvestmentsPageProps) => {
               <Archive className="text-white h-4 w-4" />
               Gerar XLSX
             </Button>
-            <CreateInvestmentDialog />
+            <div className="flex flex-col gap-2">
+              <CreateInvestmentDialog />
+              <SimulateInvestmentDialog />
+            </div>
           </div>
         </div>
         <div className="flex gap-10">
