@@ -23,10 +23,7 @@ export const ContentSkeleton = () => (
           </div>
         </div>
       </div>
-      <div className="flex gap-10">
-        <CardSkeleton />
-        <CardSkeleton />
-      </div>
+      <CardSkeleton />
     </div>
     <TableSkeletonClient />
   </main>

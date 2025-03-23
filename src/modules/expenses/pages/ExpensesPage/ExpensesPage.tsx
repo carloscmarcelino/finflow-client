@@ -6,7 +6,7 @@ import { Archive, Filter } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { useGetBalance, useGetExpenses, useGetTotalExpenses } from '@/api';
+import { useGetExpenses, useGetTotalExpenses } from '@/api';
 import { CardValue } from '@/components/Card';
 import { InputText, RangeDatePicker } from '@/components/Form';
 import { Table } from '@/components/Table';
@@ -66,12 +66,6 @@ export const ExpensesPage = ({ params }: ExpensesPageProps) => {
   const { data: totalExpensesData, isLoading: isLoadingTotalExpenses } =
     useGetTotalExpenses(queryParams);
 
-  // const params = {
-  //   startDate: dayjs().startOf('month').toISOString(),
-  //   endDate: dayjs().toISOString(),
-  // };
-  const { data: balanceData, isLoading: isLoadingBalance } = useGetBalance();
-
   return (
     <main className="flex flex-col gap-10 max-w-[1280px] mx-auto py-10">
       <div className="flex flex-col rounded-xl bg-white shadow-2xl px-14 py-7 gap-10">
@@ -114,18 +108,11 @@ export const ExpensesPage = ({ params }: ExpensesPageProps) => {
             <CreateExpenseDialog />
           </div>
         </div>
-        <div className="flex gap-10">
-          <CardValue
-            isLoading={isLoadingTotalExpenses}
-            value={toBRL(totalExpensesData?.total ?? 0)}
-            title="Total gasto"
-          />
-          <CardValue
-            isLoading={isLoadingBalance}
-            value={toBRL(balanceData?.balance ?? 0)}
-            title="Saldo"
-          />
-        </div>
+        <CardValue
+          isLoading={isLoadingTotalExpenses}
+          value={toBRL(totalExpensesData?.total ?? 0)}
+          title="Total gasto"
+        />
       </div>
       <Table
         columns={expenseColumns}

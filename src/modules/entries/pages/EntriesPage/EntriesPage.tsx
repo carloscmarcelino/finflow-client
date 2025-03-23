@@ -6,7 +6,7 @@ import { Archive, Filter } from 'lucide-react';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { useGetEntries, useGetTotalEntries, useGetBalance } from '@/api';
+import { useGetEntries, useGetTotalEntries } from '@/api';
 import { CardValue } from '@/components/Card';
 import { InputText, RangeDatePicker } from '@/components/Form';
 import { Table } from '@/components/Table';
@@ -63,12 +63,6 @@ export const EntriesPage = ({ params }: EntriesPageProps) => {
   const { data: totalEntriesData, isLoading: isLoadingTotalEntries } =
     useGetTotalEntries(queryParams);
 
-  // const params = {
-  //   startDate: dayjs().startOf('month').toISOString(),
-  //   endDate: dayjs().toISOString(),
-  // };
-  const { data: balanceData, isLoading: isLoadingBalance } = useGetBalance();
-
   return (
     <main className="flex flex-col gap-10 max-w-[1280px] mx-auto py-10">
       <div className="flex flex-col rounded-xl bg-white shadow-2xl px-14 py-7 gap-10">
@@ -111,18 +105,11 @@ export const EntriesPage = ({ params }: EntriesPageProps) => {
             <CreateEntryDialog />
           </div>
         </div>
-        <div className="flex gap-10">
-          <CardValue
-            isLoading={isLoadingTotalEntries}
-            title="Total ganho"
-            value={toBRL(totalEntriesData?.total ?? 0)}
-          />
-          <CardValue
-            isLoading={isLoadingBalance}
-            title="Saldo"
-            value={toBRL(balanceData?.balance ?? 0)}
-          />
-        </div>
+        <CardValue
+          isLoading={isLoadingTotalEntries}
+          title="Total ganho"
+          value={toBRL(totalEntriesData?.total ?? 0)}
+        />
       </div>
       <Table
         columns={entriesColumns}

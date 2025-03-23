@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import { useGetBalance, useGetTotalInvestments, useGetInvestments } from '@/api';
+import { useGetTotalInvestments, useGetInvestments } from '@/api';
 import { CardValue } from '@/components/Card';
 import { InputText, RangeDatePicker } from '@/components/Form';
 import { Table } from '@/components/Table';
@@ -58,12 +58,6 @@ export const InvestmentsPage = ({ params }: InvestmentsPageProps) => {
 
   const { data: totalData, isLoading: isLoadingTotalInvestments } = useGetTotalInvestments();
 
-  // const params = {
-  //   startDate: dayjs().startOf('month').toISOString(),
-  //   endDate: dayjs().toISOString(),
-  // };
-  const { data: balanceData, isLoading: isLoadingBalance } = useGetBalance();
-
   return (
     <main className="flex flex-col gap-10 max-w-[1280px] mx-auto py-10">
       <div className="flex flex-col rounded-xl bg-white shadow-2xl px-14 py-7 gap-10">
@@ -110,18 +104,11 @@ export const InvestmentsPage = ({ params }: InvestmentsPageProps) => {
             </div>
           </div>
         </div>
-        <div className="flex gap-10">
-          <CardValue
-            isLoading={isLoadingTotalInvestments}
-            value={toBRL(totalData?.total ?? 0)}
-            title="Total investido"
-          />
-          <CardValue
-            isLoading={isLoadingBalance}
-            value={toBRL(balanceData?.balance ?? 0)}
-            title="Saldo"
-          />
-        </div>
+        <CardValue
+          isLoading={isLoadingTotalInvestments}
+          value={toBRL(totalData?.total ?? 0)}
+          title="Total investido"
+        />
       </div>
       <Table
         columns={investmentsColumns}
