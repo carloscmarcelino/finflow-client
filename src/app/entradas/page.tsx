@@ -3,10 +3,11 @@ import dayjs from 'dayjs';
 import { Suspense } from 'react';
 
 import { getEntries, getTotalEntries, entriesQueryKey } from '@/api';
+import { ContentSkeleton } from '@/components/skeleton';
 import { EntriesPage } from '@/modules/entries';
 import { SearchQueryParams } from '@/types';
 
-const Page = async () => {
+const EntriesContent = async () => {
   const queryClient = new QueryClient();
 
   const params = {
@@ -32,11 +33,15 @@ const Page = async () => {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <Suspense>
-        <EntriesPage params={params} />
-      </Suspense>
+      <EntriesPage params={params} />
     </HydrationBoundary>
   );
 };
+
+const Page = () => (
+  <Suspense fallback={<ContentSkeleton />}>
+    <EntriesContent />
+  </Suspense>
+);
 
 export default Page;
