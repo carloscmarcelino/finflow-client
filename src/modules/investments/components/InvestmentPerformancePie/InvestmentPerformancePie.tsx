@@ -45,7 +45,11 @@ export const InvestmentPerformancePie = ({ investmentsData }: InvestmentPerforma
     ],
   };
 
-  const options: ChartOptions<'pie'> = {};
+  const options: ChartOptions<'pie'> = { responsive: true };
 
-  return <Pie data={data} options={options} />;
+  return (
+    <div className="w-[18.75rem]">
+      <Pie data={data} options={options} />
+    </div>
+  );
 };

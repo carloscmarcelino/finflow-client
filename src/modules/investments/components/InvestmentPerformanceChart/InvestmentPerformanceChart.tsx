@@ -55,5 +55,9 @@ export const InvestmentPerformanceChart = ({
     },
   };
 
-  return <Line data={data} options={options} />;
+  return (
+    <div className="w-[37.5rem]">
+      <Line data={data} options={options} />
+    </div>
+  );
 };
