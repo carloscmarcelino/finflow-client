@@ -18,6 +18,7 @@ import { blobDownload, toBRL } from '@/utils';
 import {
   CreateInvestmentDialog,
   InvestmentPerformanceChart,
+  InvestmentPerformancePie,
   SimulateInvestmentDialog,
 } from '../../components';
 import {
@@ -123,7 +124,7 @@ export const InvestmentsPage = ({ params }: InvestmentsPageProps) => {
         isFetching={isFetchingInvestments}
       />
       <InvestmentPerformanceChart investmentsData={investmentsData?.data} />
-      {/* <InvestmentPerformancePie investmentsData={investmentsData?.data} /> */}
+      <InvestmentPerformancePie investmentsData={investmentsData?.data} />
     </main>
   );
 };

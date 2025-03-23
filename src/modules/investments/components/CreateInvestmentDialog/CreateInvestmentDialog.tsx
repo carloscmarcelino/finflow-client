@@ -9,9 +9,9 @@ import { toast } from 'sonner';
 
 import {
   useGetBrokers,
-  useGetTypesOfInvestments,
   useCreateInvestment,
   investmentsQueryKey,
+  useGetInvestmentsType,
 } from '@/api';
 import { DialogDispatch, DialogDispatchVariant } from '@/components/DialogDispatch';
 import { CustomSelect, DatePicker, InputText } from '@/components/Form';
@@ -37,7 +37,7 @@ export const CreateInvestmentDialog = () => {
     },
   });
 
-  const { data: typesData, isLoading: isLoadingTypes } = useGetTypesOfInvestments();
+  const { data: typesData, isLoading: isLoadingTypes } = useGetInvestmentsType();
 
   const typeOptions = typesData?.data?.map((type) => ({ label: type.name, value: type.id }));
 

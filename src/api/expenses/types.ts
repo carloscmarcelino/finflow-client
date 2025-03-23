@@ -1,5 +1,5 @@
 import { ExpensesCategory } from '../categories';
-import { PaymentMethod } from '../common';
+import { PaymentMethod } from '../configurations';
 
 export type Expense = {
   id: string;

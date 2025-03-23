@@ -1,10 +1,10 @@
-import { TypesOfInvestment } from '../common';
+import { InvestmentType } from '../configurations';
 
 export type Investment = {
   id: string;
   date: string;
-  type: TypesOfInvestment;
-  value: number;
+  type: InvestmentType;
+  value: string;
   yield: string;
   broker: string;
 };

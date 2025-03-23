@@ -29,7 +29,7 @@ export const InvestmentPerformanceChart = ({
     datasets: [
       {
         label: 'Investimentos',
-        data: investmentsData?.map((investment) => investment.value) ?? [],
+        data: investmentsData?.map((investment) => Number(investment.value)) ?? [],
         borderColor: '#6523e9',
         backgroundColor: '#6523e9',
         borderWidth: 7.5,

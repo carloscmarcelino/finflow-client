@@ -4,7 +4,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import { useGetBrokers, useGetTypesOfInvestments, useEditInvestment, Investment } from '@/api';
+import { useGetBrokers, useEditInvestment, Investment, useGetInvestmentsType } from '@/api';
 import { DialogDispatch, DialogDispatchVariant } from '@/components/DialogDispatch';
 import { CustomSelect, DatePicker, InputText } from '@/components/Form';
 import { TOAST_ERROR_MESSAGE } from '@/config';
@@ -31,7 +31,7 @@ export const EditInvestmentModal = ({ data }: EditInvestmentModalProps) => {
     resolver: zodResolver(createInvestmentSchema),
     defaultValues: {
       type: { label: data.type.name, value: data.type.id },
-      value: toBRL(data.value),
+      value: toBRL(Number(data.value)),
       yield: String(data.yield),
       broker: { label: data.broker, value: data.broker },
       date: dayjs(data.date).toDate(),
@@ -45,7 +45,7 @@ export const EditInvestmentModal = ({ data }: EditInvestmentModalProps) => {
     value: broker.nome_social,
   }));
 
-  const { data: typesData, isLoading: isLoadingTypes } = useGetTypesOfInvestments();
+  const { data: typesData, isLoading: isLoadingTypes } = useGetInvestmentsType();
 
   const typeOptions = typesData?.data?.map((type) => ({ label: type.name, value: type.id }));
 
