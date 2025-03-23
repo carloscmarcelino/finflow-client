@@ -1,15 +1,15 @@
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useQueryClient } from '@tanstack/react-query';
 import React from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import { z } from 'zod';
 
+import { paymentMethodQueryKey, useCreatePaymentMethod } from '@/api';
 import { DialogDispatch, DialogDispatchVariant } from '@/components/DialogDispatch';
 import { InputText } from '@/components/Form';
-import { useForm } from 'react-hook-form';
-import { useDisclosure } from '@/hooks';
-import { z } from 'zod';
 import { INVALID_FORMAT, TOAST_ERROR_MESSAGE } from '@/config';
-import { paymentMethodQueryKey, useCreatePaymentMethod } from '@/api';
-import { toast } from 'sonner';
-import { useQueryClient } from '@tanstack/react-query';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { useDisclosure } from '@/hooks';
 
 const schema = z.object({
   type: z.string().trim().min(1, INVALID_FORMAT),
@@ -66,7 +66,7 @@ export const CreatePaymentMethodDialog = () => {
       onSubmit={handleSubmit(onSubmit)}
       isLoading={isPending}
     >
-      <InputText label="Tipo" register={register('type')} error={errors.type?.message}></InputText>
+      <InputText label="Tipo" register={register('type')} error={errors.type?.message} />
     </DialogDispatch>
   );
 };
