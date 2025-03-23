@@ -2,12 +2,12 @@
 
 import React from 'react';
 
+import { useGetInvestmentsType } from '@/api';
 import { Table } from '@/components/Table';
 import { TabsContent } from '@/components/ui';
 
-import { investmentsTypeColumns } from './investmentsTypeColumns';
 import { CreateInvestmentTypeDialog } from './CreateInvestmentTypeDialog';
-import { useGetInvestmentsType } from '@/api';
+import { investmentsTypeColumns } from './investmentsTypeColumns';
 
 export const InvestmentsTypeTab = () => {
   const { data: investmentsData, isPending: isLoadingInvestments } = useGetInvestmentsType();

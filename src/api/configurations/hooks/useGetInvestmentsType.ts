@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import { investmentTypeQueryKey } from '../queryKey';
+
 import { getInvestmentsTypes } from '../endpoints';
+import { investmentTypeQueryKey } from '../queryKey';
 
 export const useGetInvestmentsType = () =>
   useQuery({

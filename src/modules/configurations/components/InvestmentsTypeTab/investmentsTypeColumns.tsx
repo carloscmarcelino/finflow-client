@@ -1,6 +1,7 @@
-import { InvestmentType } from '@/api';
 import { createColumnHelper } from '@tanstack/react-table';
 import { Pencil, Trash } from 'lucide-react';
+
+import { InvestmentType } from '@/api';
 
 const columnHelper = createColumnHelper<InvestmentType>();
 

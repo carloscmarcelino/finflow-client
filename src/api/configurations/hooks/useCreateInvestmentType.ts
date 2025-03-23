@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
-import { investmentTypeQueryKey } from '../queryKey';
+
 import { createInvestmentType } from '../endpoints';
+import { investmentTypeQueryKey } from '../queryKey';
 
 export const useCreateInvestmentType = () =>
   useMutation({

@@ -1,14 +1,14 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import { z } from 'zod';
 
+import { investmentTypeQueryKey, useCreateInvestmentType } from '@/api';
+import { DialogDispatch, DialogDispatchVariant } from '@/components/DialogDispatch';
+import { InputText } from '@/components/Form';
 import { INVALID_FORMAT, TOAST_ERROR_MESSAGE } from '@/config';
 import { useDisclosure } from '@/hooks';
-import { DialogDispatch, DialogDispatchVariant } from '@/components/DialogDispatch';
-import { toast } from 'sonner';
-import { useQueryClient } from '@tanstack/react-query';
-import { investmentTypeQueryKey, useCreateInvestmentType } from '@/api';
-import { InputText } from '@/components/Form';
 
 const schema = z.object({
   type: z.string().trim().min(1, INVALID_FORMAT),
