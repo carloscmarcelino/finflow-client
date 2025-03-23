@@ -12,10 +12,14 @@ import { CardValue } from '@/components/Card';
 import { InputText, RangeDatePicker } from '@/components/Form';
 import { Table } from '@/components/Table';
 import { Button } from '@/components/ui';
-import { SearchQueryParams } from '@/types';
+import { DateRangeParams, SearchQueryParams } from '@/types';
 import { blobDownload, toBRL } from '@/utils';
 
-import { CreateInvestmentDialog, SimulateInvestmentDialog } from '../../components';
+import {
+  CreateInvestmentDialog,
+  InvestmentPerformanceChart,
+  SimulateInvestmentDialog,
+} from '../../components';
 import {
   investmentsFilterSchema,
   InvestmentsFilterType,
@@ -43,7 +47,7 @@ export const InvestmentsPage = ({ params }: InvestmentsPageProps) => {
 
   const [currentPage, setCurrentPage] = useState(params.page);
 
-  const dateParams = {
+  const dateParams: DateRangeParams = {
     ...(watch('period')?.from && {
       startDate: watch('period')?.from?.toISOString(),
     }),
@@ -112,12 +116,14 @@ export const InvestmentsPage = ({ params }: InvestmentsPageProps) => {
       </div>
       <Table
         columns={investmentsColumns}
-        data={investmentsData ?? []}
+        data={investmentsData?.data ?? []}
         isLoading={isLoadingInvestments}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
         isFetching={isFetchingInvestments}
       />
+      <InvestmentPerformanceChart investmentsData={investmentsData?.data} />
+      {/* <InvestmentPerformancePie investmentsData={investmentsData?.data} /> */}
     </main>
   );
 };

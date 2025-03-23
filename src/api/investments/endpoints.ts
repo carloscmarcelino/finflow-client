@@ -1,9 +1,10 @@
 import api from '@/lib/api';
+import { ApiResponse } from '@/types';
 
 import { Investment, TotalInvestments } from './types';
 
 export const getInvestments = async () => {
-  const response = await api.authorized().get<Investment[]>('investments');
+  const response = await api.authorized().get<ApiResponse<Investment>>('investments');
 
   return response.json();
 };
