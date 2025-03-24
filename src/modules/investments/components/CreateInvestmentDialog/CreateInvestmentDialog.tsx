@@ -56,8 +56,11 @@ export const CreateInvestmentDialog = () => {
     mutate(
       JSON.stringify({
         value: brlToNumber(values.value),
-        yield: Number(values.yield),
-        bank: values.bank.value,
+        yield: Number(values.yield.replace('%', '')),
+        bank: {
+          id: values.bank.value,
+          name: values.bank.label,
+        },
         type: {
           id: values.type.value,
           name: values.type.label,

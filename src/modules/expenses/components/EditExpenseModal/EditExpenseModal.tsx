@@ -6,11 +6,11 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
 import {
-  revalidateBalanceTag,
   useGetPaymentMethods,
   Expense,
   expensesQueryKey,
   useEditExpense,
+  balanceQueryKey,
 } from '@/api';
 import { DialogDispatch, DialogDispatchVariant } from '@/components/DialogDispatch';
 import { CustomSelect, DatePicker, InputText } from '@/components/Form';
@@ -65,7 +65,9 @@ export const EditExpenseModal = ({ data }: EditExpenseModalProps) => {
           await queryClient.invalidateQueries({
             queryKey: [expensesQueryKey.getTotal],
           });
-          await revalidateBalanceTag();
+          await queryClient.invalidateQueries({
+            queryKey: [balanceQueryKey.get],
+          });
           onClose();
           toast.success('Despesa editada com sucesso');
         },

@@ -62,11 +62,8 @@ const formatBRL: MaskFormatter = (value, { intlOptions }) => {
   return formattedValue;
 };
 
-const formatYield: MaskFormatter = (value, { maskType = 'numbers' }) =>
-  applyMask(value, '**.**', maskType);
-
-const formatRate: MaskFormatter = (value, { maskType = 'numbers' }) => {
-  const formattedValue = applyMask(value, '**%', maskType);
+const formatYield: MaskFormatter = (value, { maskType = 'numbers' }) => {
+  const formattedValue = applyMask(value, '**.**%', maskType);
   return formattedValue.endsWith('%') ? formattedValue : formattedValue + '%';
 };
 
@@ -78,6 +75,5 @@ const formatPeriod: MaskFormatter = (value, { maskType = 'numbers' }) => {
 export const Mask = {
   brl: formatBRL,
   yield: formatYield,
-  rate: formatRate,
   period: formatPeriod,
 };

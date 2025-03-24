@@ -11,14 +11,16 @@ import {
 } from './types';
 
 export const getPaymentMethods = async () => {
-  const response = await api.authorized().get<ApiResponse<PaymentMethod>>('payment-methods');
+  const response = await api
+    .authorized()
+    .get<ApiResponse<PaymentMethod>>('configurations/payment-methods');
   const data = await response.json();
 
   return data;
 };
 
 export const createPaymentMethod = async (body: CreatePaymentMethodBody) => {
-  const response = await api.authorized().post<PaymentMethod>('payment-methods', {
+  const response = await api.authorized().post<PaymentMethod>('configurations/payment-methods', {
     body: JSON.stringify(body),
     headers: {
       'Content-Type': 'application/json',

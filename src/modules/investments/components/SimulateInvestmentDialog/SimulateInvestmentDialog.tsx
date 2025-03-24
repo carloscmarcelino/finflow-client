@@ -93,7 +93,7 @@ export const SimulateInvestmentDialog = () => {
               label="Taxa de juros (ano)"
               register={register('interestRate')}
               error={errors.interestRate?.message}
-              mask={Mask.rate}
+              mask={Mask.yield}
             />
             <InputText
               label="Período (ano)"
