@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 
-import { investmentTypeQueryKey, useCreateInvestmentType } from '@/api';
+import { bankQueryKey, useCreateBank } from '@/api';
 import { DialogDispatch, DialogDispatchVariant } from '@/components/DialogDispatch';
 import { InputText } from '@/components/Form';
 import { INVALID_FORMAT, TOAST_ERROR_MESSAGE } from '@/config';
@@ -14,9 +14,9 @@ const schema = z.object({
   name: z.string().trim().min(1, INVALID_FORMAT),
 });
 
-export type CreatePaymentMethodType = z.infer<typeof schema>;
+export type CreateBankType = z.infer<typeof schema>;
 
-export const CreateInvestmentTypeDialog = () => {
+export const CreateBankDialog = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const {
@@ -24,28 +24,28 @@ export const CreateInvestmentTypeDialog = () => {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<CreatePaymentMethodType>({
+  } = useForm<CreateBankType>({
     defaultValues: {
       name: '',
     },
     resolver: zodResolver(schema),
   });
 
-  const { mutateAsync: createInvestmentType, isPending } = useCreateInvestmentType();
+  const { mutateAsync: createBank, isPending } = useCreateBank();
 
   const queryClient = useQueryClient();
 
-  const onSubmit = (data: CreatePaymentMethodType) => {
-    createInvestmentType(
+  const onSubmit = (data: CreateBankType) => {
+    createBank(
       {
         name: data.name,
       },
       {
         onSuccess: async () => {
           await queryClient.invalidateQueries({
-            queryKey: [investmentTypeQueryKey.get],
+            queryKey: [bankQueryKey.get],
           });
-          toast.success('Tipo de investimento criado com sucesso');
+          toast.success('Banco criado com sucesso');
           reset();
           onClose();
         },
@@ -65,7 +65,7 @@ export const CreateInvestmentTypeDialog = () => {
       onSubmit={handleSubmit(onSubmit)}
       isLoading={isPending}
     >
-      <InputText label="Tipo" register={register('name')} error={errors.name?.message} />
+      <InputText label="Nome" register={register('name')} error={errors.name?.message} />
     </DialogDispatch>
   );
 };

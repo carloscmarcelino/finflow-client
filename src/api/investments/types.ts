@@ -1,4 +1,4 @@
-import { InvestmentType } from '../configurations';
+import { Bank, InvestmentType } from '../configurations';
 
 export type Investment = {
   id: string;
@@ -6,7 +6,7 @@ export type Investment = {
   type: InvestmentType;
   value: string;
   yield: string;
-  broker: string;
+  bank: Bank;
 };
 
 export type TotalInvestments = {

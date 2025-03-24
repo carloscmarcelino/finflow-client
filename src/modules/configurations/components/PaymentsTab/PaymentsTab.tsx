@@ -14,7 +14,7 @@ export const PaymentsTab = () => {
 
   return (
     <TabsContent value="payments">
-      <div className="flex justify-end">
+      <div className="flex justify-end my-10 rounded-xl bg-white shadow-2xl px-14 py-7 ">
         <CreatePaymentMethodDialog />
       </div>
       <Table

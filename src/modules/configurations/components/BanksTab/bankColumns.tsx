@@ -1,11 +1,11 @@
 import { createColumnHelper } from '@tanstack/react-table';
 import { Pencil, Trash } from 'lucide-react';
 
-import { PaymentMethod } from '@/api';
+import { Bank } from '@/api';
 
-const columnHelper = createColumnHelper<PaymentMethod>();
+const columnHelper = createColumnHelper<Bank>();
 
-export const paymentsColumns = [
+export const bankColumns = [
   columnHelper.accessor((row) => row.name, {
     id: 'name',
     cell: (info) => <p>{info.getValue()}</p>,

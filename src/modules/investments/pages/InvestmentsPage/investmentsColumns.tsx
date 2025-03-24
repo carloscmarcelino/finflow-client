@@ -33,10 +33,10 @@ export const investmentsColumns = [
     cell: (info) => <p>{info.getValue()}</p>,
     header: () => <p>Tipo</p>,
   }),
-  columnHelper.accessor((row) => row.broker, {
-    id: 'corretora',
+  columnHelper.accessor((row) => row.bank.name, {
+    id: 'bank',
     cell: (info) => <p className="truncate max-w-40">{info.getValue()}</p>,
-    header: () => <p>Corretora</p>,
+    header: () => <p>Banco</p>,
   }),
   columnHelper.accessor((row) => row, {
     id: 'acoes',

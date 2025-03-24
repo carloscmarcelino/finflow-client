@@ -4,7 +4,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import { useGetBrokers, useEditInvestment, Investment, useGetInvestmentsType } from '@/api';
+import { useEditInvestment, Investment, useGetInvestmentsType, useGetBanks } from '@/api';
 import { DialogDispatch, DialogDispatchVariant } from '@/components/DialogDispatch';
 import { CustomSelect, DatePicker, InputText } from '@/components/Form';
 import { TOAST_ERROR_MESSAGE } from '@/config';
@@ -33,16 +33,16 @@ export const EditInvestmentModal = ({ data }: EditInvestmentModalProps) => {
       type: { label: data.type.name, value: data.type.id },
       value: toBRL(Number(data.value)),
       yield: String(data.yield),
-      broker: { label: data.broker, value: data.broker },
+      bank: { label: data.bank.name, value: data.bank.id },
       date: dayjs(data.date).toDate(),
     },
   });
 
-  const { data: brokersData, isLoading } = useGetBrokers();
+  const { data: banksData, isLoading } = useGetBanks();
 
-  const brokerOptions = brokersData?.data?.map((broker) => ({
-    label: broker.nome_social,
-    value: broker.nome_social,
+  const bankOptions = banksData?.data?.map((bank) => ({
+    label: bank.name,
+    value: bank.id,
   }));
 
   const { data: typesData, isLoading: isLoadingTypes } = useGetInvestmentsType();
@@ -57,7 +57,7 @@ export const EditInvestmentModal = ({ data }: EditInvestmentModalProps) => {
           ...values,
           value: brlToNumber(values.value),
           yield: Number(values.yield),
-          broker: values.broker.value,
+          bank: values.bank.value,
           type: {
             id: values.type.value,
             name: values.type.label,
@@ -109,11 +109,11 @@ export const EditInvestmentModal = ({ data }: EditInvestmentModalProps) => {
       />
       <CustomSelect
         label="Banco"
-        name="broker"
-        options={brokerOptions}
+        name="bank"
+        options={bankOptions}
         isLoading={isLoading}
         control={control}
-        error={errors.broker?.message}
+        error={errors.bank?.message}
       />
     </DialogDispatch>
   );

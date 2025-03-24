@@ -12,7 +12,7 @@ export const createInvestmentSchema = z.object({
   ),
   value: z.string().refine((val) => val !== '', { message: INVALID_FORMAT }),
   yield: z.string().refine((val) => val !== '', { message: INVALID_FORMAT }),
-  broker: z.object(
+  bank: z.object(
     {
       label: z.string(),
       value: z.string(),

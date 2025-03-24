@@ -2,7 +2,8 @@ import api from '@/lib/api';
 import { ApiResponse } from '@/types';
 
 import {
-  Broker,
+  Bank,
+  CreateBankBody,
   CreateInvestmentTypeBody,
   CreatePaymentMethodBody,
   InvestmentType,
@@ -11,13 +12,6 @@ import {
 
 export const getPaymentMethods = async () => {
   const response = await api.authorized().get<ApiResponse<PaymentMethod>>('payment-methods');
-  const data = await response.json();
-
-  return data;
-};
-
-export const getBrokers = async () => {
-  const response = await api.authorized().get<ApiResponse<Broker>>('broker');
   const data = await response.json();
 
   return data;
@@ -49,6 +43,23 @@ export const getInvestmentsTypes = async () => {
   const response = await api
     .authorized()
     .get<ApiResponse<InvestmentType>>('configurations/investments-type');
+  const data = await response.json();
+  return data;
+};
+
+export const getBanks = async () => {
+  const response = await api.authorized().get<ApiResponse<Bank>>('configurations/bank');
+  const data = await response.json();
+  return data;
+};
+
+export const createBank = async (body: CreateBankBody) => {
+  const response = await api.authorized().post<Bank>('configurations/bank', {
+    body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
   const data = await response.json();
   return data;
 };

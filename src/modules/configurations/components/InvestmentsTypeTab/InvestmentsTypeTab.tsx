@@ -14,7 +14,7 @@ export const InvestmentsTypeTab = () => {
 
   return (
     <TabsContent value="investmentsTypes">
-      <div className="flex justify-end">
+      <div className="flex justify-end my-10 rounded-xl bg-white shadow-2xl px-14 py-7 ">
         <CreateInvestmentTypeDialog />
       </div>
       <Table

@@ -9,7 +9,7 @@ export const investmentsTypeColumns = [
   columnHelper.accessor((row) => row.name, {
     id: 'name',
     cell: (info) => <p>{info.getValue()}</p>,
-    header: () => <p>Tipo</p>,
+    header: () => <p>Nome</p>,
   }),
   columnHelper.accessor((row) => row, {
     id: 'actions',

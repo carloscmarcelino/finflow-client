@@ -8,10 +8,10 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
 import {
-  useGetBrokers,
   useCreateInvestment,
   investmentsQueryKey,
   useGetInvestmentsType,
+  useGetBanks,
 } from '@/api';
 import { DialogDispatch, DialogDispatchVariant } from '@/components/DialogDispatch';
 import { CustomSelect, DatePicker, InputText } from '@/components/Form';
@@ -41,11 +41,11 @@ export const CreateInvestmentDialog = () => {
 
   const typeOptions = typesData?.data?.map((type) => ({ label: type.name, value: type.id }));
 
-  const { data: brokersData, isLoading } = useGetBrokers();
+  const { data: bankData, isLoading } = useGetBanks();
 
-  const brokerOptions = brokersData?.data?.map((broker) => ({
-    label: broker.nome_social,
-    value: broker.nome_social,
+  const bankOptions = bankData?.data?.map((bank) => ({
+    label: bank.name,
+    value: bank.id,
   }));
 
   const { mutate, isPending } = useCreateInvestment();
@@ -57,7 +57,7 @@ export const CreateInvestmentDialog = () => {
       JSON.stringify({
         value: brlToNumber(values.value),
         yield: Number(values.yield),
-        broker: values.broker.value,
+        bank: values.bank.value,
         type: {
           id: values.type.value,
           name: values.type.label,
@@ -115,11 +115,11 @@ export const CreateInvestmentDialog = () => {
       />
       <CustomSelect
         label="Banco"
-        name="broker"
-        options={brokerOptions}
+        name="bank"
+        options={bankOptions}
         isLoading={isLoading}
         control={control}
-        error={errors.broker?.message}
+        error={errors.bank?.message}
       />
     </DialogDispatch>
   );

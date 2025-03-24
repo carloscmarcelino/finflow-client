@@ -7,3 +7,8 @@ export const investmentTypeQueryKey = {
   get: 'get-investment-types',
   post: 'create-investment-type',
 } as const;
+
+export const bankQueryKey = {
+  get: 'get-banks',
+  post: 'create-bank',
+} as const;
