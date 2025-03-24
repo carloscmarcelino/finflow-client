@@ -1,10 +1,10 @@
 import api from '@/lib/api';
 
-import { User } from './types';
+import { CreateUserBody, PostLoginBody, User } from './types';
 
-export const postLogin = async (body: BodyInit) => {
+export const postLogin = async (body: PostLoginBody) => {
   const response = await api.unauthorized().post<User>('auth/login', {
-    body,
+    body: JSON.stringify(body),
     headers: {
       'Content-Type': 'application/json',
     },
@@ -13,9 +13,9 @@ export const postLogin = async (body: BodyInit) => {
   return response.json();
 };
 
-export const createUser = async (body: BodyInit) => {
+export const createUser = async (body: CreateUserBody) => {
   const response = await api.unauthorized().post('users/signup', {
-    body,
+    body: JSON.stringify(body),
     headers: {
       'Content-Type': 'application/json',
     },

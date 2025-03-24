@@ -38,11 +38,11 @@ export const CreateEntryDialog = () => {
 
   const onSubmit = (values: CreateEntrySchemaType) => {
     mutate(
-      JSON.stringify({
+      {
         ...values,
         value: brlToNumber(values.value),
         date: values.date.toISOString(),
-      }),
+      },
       {
         onSuccess: async () => {
           await queryClient.invalidateQueries({

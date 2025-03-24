@@ -10,7 +10,7 @@ export const CredentialsProvier = Credentials({
     if (credentialsValidation.success) {
       const { username, password } = credentialsValidation.data;
 
-      const response = await postLogin(JSON.stringify({ username, password }));
+      const response = await postLogin({ username, password });
 
       return {
         ...response,

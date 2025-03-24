@@ -57,13 +57,13 @@ export const CreateExpenseDialog = () => {
 
   const onSubmit = (values: CreateExpenseType) => {
     mutate(
-      JSON.stringify({
+      {
         amount: brlToNumber(values.amount),
         paymentMethodId: values.paymentMethod.value.id,
         description: values.description,
         date: values.date.toISOString(),
         categoryId: values.expenseCategory.value.id,
-      }),
+      },
       {
         onSuccess: async () => {
           await queryClient.invalidateQueries({

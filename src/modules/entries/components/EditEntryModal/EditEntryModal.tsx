@@ -43,11 +43,11 @@ export const EditEntryModal = ({ data }: EditEntryModalProps) => {
     mutate(
       {
         id: data.id,
-        body: JSON.stringify({
+        body: {
           ...values,
           value: brlToNumber(values.value),
           date: values.date.toISOString(),
-        }),
+        },
       },
       {
         onSuccess: async () => {

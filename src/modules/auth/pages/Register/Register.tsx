@@ -31,7 +31,7 @@ export const RegisterPage = () => {
   const router = useRouter();
 
   const onSubmit = (data: LoginType) => {
-    mutate(JSON.stringify(data), {
+    mutate(data, {
       onSuccess: () => {
         toast.success('conta criada com sucesso');
         router.push('/login');

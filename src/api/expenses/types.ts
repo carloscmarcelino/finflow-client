@@ -13,3 +13,18 @@ export type Expense = {
 export type TotalExpenses = {
   total: number;
 };
+
+export type CreateExpenseBody = {
+  amount: number;
+  date: string;
+  description: string;
+  paymentMethodId: string;
+  categoryId: string;
+};
+
+export type EditExpenseBody = {
+  amount: number;
+  date: string;
+  description: string;
+  paymentMethodId: string;
+};

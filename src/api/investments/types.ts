@@ -13,3 +13,19 @@ export type TotalInvestments = {
   total: number;
   totalInvestedThisMonth: number;
 };
+
+export type CreateInvestmentBody = {
+  value: number;
+  yield: number;
+  bank: Bank;
+  type: InvestmentType;
+  date: string;
+};
+
+export type EditInvestmentBody = {
+  value: number;
+  yield: number;
+  bank: Bank;
+  type: InvestmentType;
+  date: string;
+};

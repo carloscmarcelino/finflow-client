@@ -54,7 +54,7 @@ export const CreateInvestmentDialog = () => {
 
   const onSubmit = (values: CreateInvestmentType) => {
     mutate(
-      JSON.stringify({
+      {
         value: brlToNumber(values.value),
         yield: Number(values.yield.replace('%', '')),
         bank: {
@@ -66,7 +66,7 @@ export const CreateInvestmentDialog = () => {
           name: values.type.label,
         },
         date: values.date.toISOString(),
-      }),
+      },
       {
         onSuccess: async () => {
           await queryClient.invalidateQueries({

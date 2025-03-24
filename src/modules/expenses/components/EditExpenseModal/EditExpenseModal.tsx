@@ -50,12 +50,12 @@ export const EditExpenseModal = ({ data }: EditExpenseModalProps) => {
     mutate(
       {
         id: data.id,
-        body: JSON.stringify({
+        body: {
           amount: brlToNumber(values.amount),
           paymentMethodId: values.paymentMethod.value.id,
           description: values.description,
           date: values.date.toISOString(),
-        }),
+        },
       },
       {
         onSuccess: async () => {

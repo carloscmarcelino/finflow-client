@@ -1,7 +1,7 @@
 import api from '@/lib/api';
 import { ApiResponse } from '@/types';
 
-import { Investment, TotalInvestments } from './types';
+import { CreateInvestmentBody, EditInvestmentBody, Investment, TotalInvestments } from './types';
 
 export const getInvestments = async () => {
   const response = await api.authorized().get<ApiResponse<Investment>>('investments');
@@ -15,9 +15,9 @@ export const getTotalInvestments = async () => {
   return response.json();
 };
 
-export const createInvestment = (body: BodyInit) =>
+export const createInvestment = (body: CreateInvestmentBody) =>
   api.authorized().post('investments', {
-    body,
+    body: JSON.stringify(body),
     headers: {
       'Content-Type': 'application/json',
     },
@@ -25,9 +25,9 @@ export const createInvestment = (body: BodyInit) =>
 
 export const deleteInvestment = (id: string) => api.authorized().delete(`investments/${id}`);
 
-export const editInvestment = ({ id, body }: { id: string; body: BodyInit }) =>
+export const editInvestment = ({ id, body }: { id: string; body: EditInvestmentBody }) =>
   api.authorized().patch(`investments/${id}`, {
-    body,
+    body: JSON.stringify(body),
     headers: {
       'Content-Type': 'application/json',
     },

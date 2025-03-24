@@ -53,17 +53,20 @@ export const EditInvestmentModal = ({ data }: EditInvestmentModalProps) => {
     mutate(
       {
         id: data.id,
-        body: JSON.stringify({
+        body: {
           ...values,
           value: brlToNumber(values.value),
           yield: Number(values.yield),
-          bank: values.bank.value,
+          bank: {
+            id: values.bank.value,
+            name: values.bank.label,
+          },
           type: {
             id: values.type.value,
             name: values.type.label,
           },
           date: values.date.toISOString(),
-        }),
+        },
       },
       {
         onSuccess: () => {
