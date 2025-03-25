@@ -27,4 +27,5 @@ export type EditExpenseBody = {
   date: string;
   description: string;
   paymentMethodId: string;
+  categoryId: string;
 };

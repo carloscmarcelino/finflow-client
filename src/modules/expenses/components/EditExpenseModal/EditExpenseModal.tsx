@@ -11,6 +11,7 @@ import {
   expensesQueryKey,
   useEditExpense,
   balanceQueryKey,
+  useGetExpensesCategories,
 } from '@/api';
 import { DialogDispatch, DialogDispatchVariant } from '@/components/DialogDispatch';
 import { CustomSelect, DatePicker, InputText } from '@/components/Form';
@@ -41,8 +42,11 @@ export const EditExpenseModal = ({ data }: EditExpenseModalProps) => {
       description: data.description,
       paymentMethod: { label: data.paymentMethod.name, value: data.paymentMethod },
       date: dayjs(data.date).toDate(),
+      expenseCategory: { label: data.expensesCategory.name, value: data.expensesCategory },
     },
   });
+
+  console.log(errors);
 
   const queryClient = useQueryClient();
 
@@ -55,6 +59,7 @@ export const EditExpenseModal = ({ data }: EditExpenseModalProps) => {
           paymentMethodId: values.paymentMethod.value.id,
           description: values.description,
           date: values.date.toISOString(),
+          categoryId: values.expenseCategory.value.id,
         },
       },
       {
@@ -85,6 +90,13 @@ export const EditExpenseModal = ({ data }: EditExpenseModalProps) => {
     value: item,
   }));
 
+  const { data: categoriesData, isPending: isLoadingCategories } = useGetExpensesCategories();
+
+  const categoriesOptions = categoriesData?.data.map((item) => ({
+    label: item.name,
+    value: item,
+  }));
+
   return (
     <DialogDispatch
       isOpen={isOpen}
@@ -105,6 +117,14 @@ export const EditExpenseModal = ({ data }: EditExpenseModalProps) => {
         label="Descrição"
         error={errors.description?.message}
         register={register('description')}
+      />
+      <CustomSelect
+        label="Categoria da despesa"
+        name="expenseCategory"
+        options={categoriesOptions}
+        isLoading={isLoadingCategories}
+        control={control}
+        error={errors.expenseCategory?.message}
       />
       <CustomSelect
         label="Metodo de pagamento"
