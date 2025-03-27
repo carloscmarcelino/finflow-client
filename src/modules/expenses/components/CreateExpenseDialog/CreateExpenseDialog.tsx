@@ -16,6 +16,7 @@ import {
 } from '@/api';
 import { DialogDispatch, DialogDispatchVariant } from '@/components/DialogDispatch';
 import { CustomSelect, DatePicker, InputText } from '@/components/Form';
+import { TOAST_ERROR_MESSAGE } from '@/config';
 import { useDisclosure } from '@/hooks';
 import { brlToNumber, Mask } from '@/utils';
 
@@ -78,6 +79,9 @@ export const CreateExpenseDialog = () => {
           toast.success('Despesa criada com sucesso');
           reset();
           onClose();
+        },
+        onError: () => {
+          toast.error(TOAST_ERROR_MESSAGE);
         },
       },
     );

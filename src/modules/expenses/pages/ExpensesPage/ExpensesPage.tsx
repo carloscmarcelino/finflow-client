@@ -3,7 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import dayjs from 'dayjs';
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 
 import { useGetExpenses, useGetTotalExpenses } from '@/api';
 import { CardValue } from '@/components/Card';
@@ -25,19 +25,17 @@ type ExpensesPageProps = {
 };
 
 export const ExpensesPage = ({ params }: ExpensesPageProps) => {
-  const {
-    register,
-    formState: { errors },
-    reset,
-    control,
-    watch,
-  } = useForm<ExpensesFilterType>({
+  const form = useForm<ExpensesFilterType>({
     resolver: zodResolver(expensesFilterSchema),
     defaultValues: {
       period: { from: dayjs(params.startDate).toDate(), to: dayjs(params.endDate).toDate() },
       search: '',
     },
   });
+  const {
+    formState: { errors },
+    watch,
+  } = form;
 
   const [currentPage, setCurrentPage] = useState(params.page);
 
@@ -69,33 +67,29 @@ export const ExpensesPage = ({ params }: ExpensesPageProps) => {
     useGetTotalExpenses(queryParams);
 
   return (
-    <main className="flex flex-col gap-10 max-w-[1280px] mx-auto py-10">
-      <div className="flex flex-col rounded-xl bg-white shadow-2xl px-14 py-7 gap-10">
-        <ExpensesTableFilters
-          register={register}
-          errors={errors}
-          control={control}
-          reset={reset}
-          dateParams={dateParams}
+    <FormProvider {...form}>
+      <main className="flex flex-col gap-10 max-w-[1280px] mx-auto py-10">
+        <div className="flex flex-col rounded-xl bg-white shadow-2xl px-14 py-7 gap-10">
+          <ExpensesTableFilters dateParams={dateParams} />
+          <CardValue
+            isLoading={isLoadingTotalExpenses}
+            value={toBRL(totalExpensesData?.total ?? 0)}
+            title="Total gasto"
+          />
+        </div>
+        <Table
+          columns={expenseColumns}
+          data={expensesData?.data ?? []}
+          isLoading={isLoadingExpenses}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          isFetching={isFetchingExpenses}
         />
-        <CardValue
-          isLoading={isLoadingTotalExpenses}
-          value={toBRL(totalExpensesData?.total ?? 0)}
-          title="Total gasto"
-        />
-      </div>
-      <Table
-        columns={expenseColumns}
-        data={expensesData?.data ?? []}
-        isLoading={isLoadingExpenses}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        isFetching={isFetchingExpenses}
-      />
-      <div className="flex flex-col rounded-xl bg-white shadow-2xl px-14 py-7 gap-10">
-        <ExpensesPerformanceChart expensesData={expensesData?.data} />
-        <ExpensesPerformancePie expensesData={expensesData?.data} />
-      </div>
-    </main>
+        <div className="flex flex-col rounded-xl bg-white shadow-2xl px-14 py-7 gap-10">
+          <ExpensesPerformanceChart expensesData={expensesData?.data} />
+          <ExpensesPerformancePie expensesData={expensesData?.data} />
+        </div>
+      </main>
+    </FormProvider>
   );
 };

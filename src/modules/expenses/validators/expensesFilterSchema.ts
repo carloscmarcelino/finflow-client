@@ -17,6 +17,7 @@ export const expensesFilterSchema = z.object({
       { message: INVALID_FORMAT },
     )
     .optional(),
+  file: z.any(),
 });
 
 export type ExpensesFilterType = z.infer<typeof expensesFilterSchema>;

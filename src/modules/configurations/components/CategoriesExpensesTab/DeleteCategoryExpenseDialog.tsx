@@ -1,7 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
 import React from 'react';
+import { toast } from 'sonner';
 
 import { DialogDispatch, DialogDispatchVariant } from '@/components/DialogDispatch';
+import { TOAST_ERROR_MESSAGE } from '@/config';
 import { useDisclosure } from '@/hooks';
 import api from '@/lib/api';
 
@@ -24,7 +26,11 @@ export const DeleteCategoryExpenseDialog = ({ id }: DeleteCategoryExpenseDialogP
   const onSubmit = () => {
     mutate(id, {
       onSuccess: () => {
+        toast.success('Categoria de despesa deletada com sucesso');
         onClose();
+      },
+      onError: () => {
+        toast.error(TOAST_ERROR_MESSAGE);
       },
     });
   };
