@@ -25,7 +25,7 @@ export const SidebarContent = ({ session }: SidebarContentProps) => {
   const pathname = usePathname();
 
   return (
-    <aside className="flex flex-col items-center justify-between min-h-screen bg-white w-72 py-9 px-10">
+    <aside className="flex flex-col items-center justify-between min-h-screen bg-white w-72 py-9 px-10 h-full">
       <div className="flex flex-col items-center ">
         <p className="text-title mb-6">FinFlow</p>
 
