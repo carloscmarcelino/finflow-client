@@ -1,4 +1,10 @@
-import { Coins, HomeIcon, Package, Settings, Users, Wallet } from 'lucide-react';
+import { Coins, Goal, HomeIcon, Package, Settings, Users, Wallet } from 'lucide-react';
+
+type SidebarItem = {
+  icon: React.ElementType;
+  label: string;
+  href: string;
+};
 
 export const sidebarItems = [
   {
@@ -15,6 +21,11 @@ export const sidebarItems = [
     icon: Package,
     label: 'Despesas',
     href: '/despesas',
+  },
+  {
+    icon: Goal,
+    label: 'Metas',
+    href: '/metas',
   },
   {
     icon: Coins,

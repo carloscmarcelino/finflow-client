@@ -123,7 +123,7 @@ export const InvestmentsPage = ({ params }: InvestmentsPageProps) => {
         setCurrentPage={setCurrentPage}
         isFetching={isFetchingInvestments}
       />
-      <div className="flex flex-wrap rounded-xl bg-white shadow-2xl px-14 py-7 gap-10">
+      <div className="flex flex-col rounded-xl bg-white shadow-2xl px-14 py-7 gap-10">
         <InvestmentPerformanceChart investmentsData={investmentsData?.data} />
         <InvestmentPerformancePie investmentsData={investmentsData?.data} />
       </div>

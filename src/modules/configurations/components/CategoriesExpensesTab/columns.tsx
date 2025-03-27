@@ -1,7 +1,9 @@
 import { createColumnHelper } from '@tanstack/react-table';
-import { Pencil, Trash } from 'lucide-react';
+import { Pencil } from 'lucide-react';
 
 import { ExpensesCategory } from '@/api';
+
+import { DeleteCategoryExpenseDialog } from './DeleteCategoryExpenseDialog';
 
 const columnHelper = createColumnHelper<ExpensesCategory>();
 
@@ -13,10 +15,10 @@ export const categoriesExpensesColumns = [
   }),
   columnHelper.accessor((row) => row, {
     id: 'actions',
-    cell: () => (
+    cell: ({ row }) => (
       <div className="flex gap-4">
         <Pencil className="w-4 h-4" />
-        <Trash className="w-4 h-4" />
+        <DeleteCategoryExpenseDialog id={row.original.id} />
       </div>
     ),
     header: () => <p>Ações</p>,

@@ -40,7 +40,7 @@ export const expenseColumns = [
   columnHelper.accessor((row) => row, {
     id: 'acoes',
     cell: ({ getValue }) => (
-      <div className="flex gap-5">
+      <div className="flex gap-5" key={getValue().id}>
         <EditExpenseModal data={getValue()} />
         <DeleteExpenseModal data={getValue()} />
       </div>

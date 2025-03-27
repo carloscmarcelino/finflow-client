@@ -66,7 +66,6 @@ export const Table = <Data extends Record<string, unknown>>({
         {filter}
         {exportContent}
       </div>
-
       <div style={{ maxWidth: '100%', overflowX: 'auto' }}>
         <table className="w-full h-fit mb-1">
           <thead className={cn('border border-y-[#fafafa] border-x-transparent ', theadClassNames)}>

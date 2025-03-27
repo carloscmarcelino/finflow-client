@@ -2,19 +2,20 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import dayjs from 'dayjs';
-import { Archive, Filter } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { useGetExpenses, useGetTotalExpenses } from '@/api';
 import { CardValue } from '@/components/Card';
-import { InputText, RangeDatePicker } from '@/components/Form';
 import { Table } from '@/components/Table';
-import { Button } from '@/components/ui';
 import { SearchQueryParams } from '@/types';
-import { blobDownload, toBRL } from '@/utils';
+import { toBRL } from '@/utils';
 
-import { CreateExpenseDialog } from '../../components';
+import {
+  ExpensesPerformanceChart,
+  ExpensesPerformancePie,
+  ExpensesTableFilters,
+} from '../../components';
 import { expensesFilterSchema, ExpensesFilterType } from '../../validators';
 
 import { expenseColumns } from './expenseColumns';
@@ -55,6 +56,7 @@ export const ExpensesPage = ({ params }: ExpensesPageProps) => {
     limit: params.limit,
     page: currentPage,
     ...(watch('search') !== '' && { search: watch('search') }),
+    ...(watch('expenseCategory')?.value && { categoryId: watch('expenseCategory')?.value }),
   };
 
   const {
@@ -69,45 +71,13 @@ export const ExpensesPage = ({ params }: ExpensesPageProps) => {
   return (
     <main className="flex flex-col gap-10 max-w-[1280px] mx-auto py-10">
       <div className="flex flex-col rounded-xl bg-white shadow-2xl px-14 py-7 gap-10">
-        <div className="flex justify-between">
-          <div className="flex gap-10">
-            <InputText
-              label="Pesquisar"
-              register={register('search')}
-              error={errors.search?.message}
-            />
-            <RangeDatePicker
-              label="Periodo"
-              control={control}
-              name="period"
-              error={errors.period?.message}
-            />
-          </div>
-          <div className="flex items-center gap-2">
-            <Button
-              onClick={() => {
-                reset();
-              }}
-            >
-              <Filter className="text-white h-4 w-4" />
-              Limpar filtros
-            </Button>
-            <Button
-              onClick={() => {
-                blobDownload({
-                  endpoint: 'expenses/export',
-                  params: {
-                    ...dateParams,
-                  },
-                });
-              }}
-            >
-              <Archive className="text-white h-4 w-4" />
-              Gerar XLSX
-            </Button>
-            <CreateExpenseDialog />
-          </div>
-        </div>
+        <ExpensesTableFilters
+          register={register}
+          errors={errors}
+          control={control}
+          reset={reset}
+          dateParams={dateParams}
+        />
         <CardValue
           isLoading={isLoadingTotalExpenses}
           value={toBRL(totalExpensesData?.total ?? 0)}
@@ -122,6 +92,10 @@ export const ExpensesPage = ({ params }: ExpensesPageProps) => {
         setCurrentPage={setCurrentPage}
         isFetching={isFetchingExpenses}
       />
+      <div className="flex flex-col rounded-xl bg-white shadow-2xl px-14 py-7 gap-10">
+        <ExpensesPerformanceChart expensesData={expensesData?.data} />
+        <ExpensesPerformancePie expensesData={expensesData?.data} />
+      </div>
     </main>
   );
 };

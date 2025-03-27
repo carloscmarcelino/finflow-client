@@ -13,23 +13,21 @@ import {
 import dayjs from 'dayjs';
 import { Line } from 'react-chartjs-2';
 
-import { Investment } from '@/api';
+import { Expense } from '@/api';
 
 ChartJS.register(LineElement, PointElement, LinearScale, Title, CategoryScale, Tooltip, Legend);
 
-type InvestmentPerformanceChartProps = Readonly<{
-  investmentsData?: Investment[];
+type ExpensesPerformanceChartProps = Readonly<{
+  expensesData?: Expense[];
 }>;
 
-export const InvestmentPerformanceChart = ({
-  investmentsData,
-}: InvestmentPerformanceChartProps) => {
+export const ExpensesPerformanceChart = ({ expensesData }: ExpensesPerformanceChartProps) => {
   const data: ChartData<'line'> = {
-    labels: investmentsData?.map((investment) => dayjs(investment.date).format('DD/MM/YYYY')) ?? [],
+    labels: expensesData?.map((expense) => dayjs(expense.date).format('DD/MM/YYYY')) ?? [],
     datasets: [
       {
-        label: 'Investimentos',
-        data: investmentsData?.map((investment) => Number(investment.value)) ?? [],
+        label: 'Gastos',
+        data: expensesData?.map((expense) => Number(expense.amount)) ?? [],
         borderColor: '#6523e9',
         backgroundColor: '#6523e9',
         borderWidth: 7.5,
@@ -45,7 +43,7 @@ export const InvestmentPerformanceChart = ({
       },
       title: {
         display: true,
-        text: 'Performance',
+        text: 'Gastos',
       },
     },
     scales: {

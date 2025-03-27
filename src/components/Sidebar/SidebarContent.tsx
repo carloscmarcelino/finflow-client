@@ -5,11 +5,8 @@ import { Session } from 'next-auth';
 import { signOut } from 'next-auth/react';
 import React from 'react';
 
-import { useGetBalance } from '@/api';
 import { cn } from '@/lib/cn';
-import { toBRL } from '@/utils';
 
-import { CardValue } from '../Card';
 import { Button } from '../ui';
 
 import { sidebarItems } from './sidebarItems';
@@ -23,7 +20,7 @@ export const SidebarContent = ({ session }: SidebarContentProps) => {
   //   startDate: dayjs().startOf('month').toISOString(),
   //   endDate: dayjs().toISOString(),
   // };
-  const { data: balanceData, isLoading: isLoadingBalance } = useGetBalance();
+  // const { data: balanceData, isLoading: isLoadingBalance } = useGetBalance();
 
   const pathname = usePathname();
 
@@ -40,12 +37,12 @@ export const SidebarContent = ({ session }: SidebarContentProps) => {
             <p className="text-description text-purple font-bold">{session.user?.name}</p>
             <p className="text-subtitle text-gray">role</p>
           </div>
-          <CardValue
+          {/* <CardValue
             className="my-5 items-center gap-0"
             title="Saldo"
             value={toBRL(balanceData?.balance ?? 0)}
             isLoading={isLoadingBalance}
-          />
+          /> */}
         </div>
         <div className="flex flex-col gap-3">
           {sidebarItems.map((sidebar) => (

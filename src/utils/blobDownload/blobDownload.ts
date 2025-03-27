@@ -1,13 +1,13 @@
 import { toast } from 'sonner';
 
-import { API_URL } from '@/config';
-import { auth } from '@/lib/auth';
+import api from '@/lib/api';
 
 type Params = Record<string, string>;
 
 export type BlobDownloadProps = {
   endpoint: string;
   params: Params;
+  fileName: string;
 };
 
 const buildQueryString = (params: Params) => {
@@ -15,25 +15,17 @@ const buildQueryString = (params: Params) => {
   return query ? `?${query}` : '';
 };
 
-export const blobDownload = async ({ endpoint, params }: BlobDownloadProps) => {
+export const blobDownload = async ({ params, endpoint, fileName }: BlobDownloadProps) => {
   try {
-    const session = await auth();
-    const token = session?.user?.access_token;
-
     const queryString = buildQueryString(params);
 
-    const response = await fetch(`${API_URL}/${endpoint}/${queryString}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await api.authorized().get(`${endpoint}/${queryString}`, {});
 
     const blob = await response.blob();
 
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
 
-    const fileName = 'entries.xlsx';
     link.download = fileName;
 
     document.body.appendChild(link);
@@ -45,6 +37,7 @@ export const blobDownload = async ({ endpoint, params }: BlobDownloadProps) => {
       description: 'XLSX gerado com sucesso.',
     });
   } catch (error) {
+    console.log(error);
     toast.error('Erro!', {
       description: 'Ocorreu um erro inesperado.',
     });

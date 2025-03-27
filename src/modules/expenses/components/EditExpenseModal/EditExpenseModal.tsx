@@ -46,8 +46,6 @@ export const EditExpenseModal = ({ data }: EditExpenseModalProps) => {
     },
   });
 
-  console.log(errors);
-
   const queryClient = useQueryClient();
 
   const onSubmit = (values: CreateExpenseType) => {
