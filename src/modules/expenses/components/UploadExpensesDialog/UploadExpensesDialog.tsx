@@ -136,10 +136,12 @@ export const UploadExpensesDialog = () => {
 
         const jsonData = XLSX.utils.sheet_to_json<ExpenseRow>(worksheet);
 
-        const formattedData = jsonData.map((row) => ({
-          ...row,
-          date: excelDateToJSDate(Number(row.date)).toISOString(),
-        }));
+        const formattedData = jsonData
+          .filter((row) => Number(row.amount) > 0)
+          .map((row) => ({
+            ...row,
+            date: excelDateToJSDate(Number(row.date)).toISOString(),
+          }));
 
         setExpenses(formattedData);
       };
