@@ -96,6 +96,7 @@ export const EntriesPage = ({ params }: EntriesPageProps) => {
                   params: {
                     ...dateParams,
                   },
+                  fileName: 'entries.xlsx',
                 });
               }}
             >

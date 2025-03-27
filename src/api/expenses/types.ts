@@ -6,8 +6,8 @@ export type Expense = {
   date: string;
   description: string;
   amount: string;
-  paymentMethod: PaymentMethod;
-  expensesCategory: ExpensesCategory;
+  paymentMethod?: PaymentMethod;
+  expensesCategory?: ExpensesCategory;
 };
 
 export type TotalExpenses = {

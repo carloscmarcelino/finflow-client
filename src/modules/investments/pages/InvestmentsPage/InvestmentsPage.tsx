@@ -97,6 +97,7 @@ export const InvestmentsPage = ({ params }: InvestmentsPageProps) => {
                   params: {
                     ...dateParams,
                   },
+                  fileName: 'investments.xlsx',
                 });
               }}
             >

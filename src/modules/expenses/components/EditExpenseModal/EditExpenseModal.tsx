@@ -40,9 +40,13 @@ export const EditExpenseModal = ({ data }: EditExpenseModalProps) => {
     defaultValues: {
       amount: toBRL(Number(data.amount)),
       description: data.description,
-      paymentMethod: { label: data.paymentMethod.name, value: data.paymentMethod },
       date: dayjs(data.date).toDate(),
-      expenseCategory: { label: data.expensesCategory.name, value: data.expensesCategory },
+      ...(data.paymentMethod && {
+        paymentMethod: { label: data.paymentMethod.name, value: data.paymentMethod },
+      }),
+      ...(data.expensesCategory && {
+        expenseCategory: { label: data.expensesCategory.name, value: data.expensesCategory },
+      }),
     },
   });
 

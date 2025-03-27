@@ -13,7 +13,7 @@ type ExpensesPerformancePieProps = Readonly<{
 export const ExpensesPerformancePie = ({ expensesData }: ExpensesPerformancePieProps) => {
   const groupedExpenses = expensesData?.reduce(
     (acc, expense) => {
-      const type = expense.expensesCategory.name;
+      const type = expense.expensesCategory?.name ?? expense.paymentMethod?.name ?? '';
       const value = parseFloat(expense.amount);
 
       if (!acc[type]) {
