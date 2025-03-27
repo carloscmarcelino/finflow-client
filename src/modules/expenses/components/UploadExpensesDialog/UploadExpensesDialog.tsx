@@ -187,6 +187,7 @@ export const UploadExpensesDialog = () => {
         toast.success('Despesa criada com sucesso');
         reset();
         onClose();
+        setExpenses([]);
       },
       onError: () => {
         toast.error(TOAST_ERROR_MESSAGE);
