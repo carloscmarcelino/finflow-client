@@ -9,17 +9,17 @@ export const postLogin = async (body: PostLoginBody) => {
       'Content-Type': 'application/json',
     },
   });
-
-  return response.json();
+  const data = await response.json();
+  return data;
 };
 
 export const createUser = async (body: CreateUserBody) => {
-  const response = await api.unauthorized().post('users/signup', {
+  const response = await api.unauthorized().post('auth/register', {
     body: JSON.stringify(body),
     headers: {
       'Content-Type': 'application/json',
     },
   });
-
-  return response.json();
+  const data = await response.json();
+  return data;
 };

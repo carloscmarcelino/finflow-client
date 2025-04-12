@@ -1,7 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import { balanceQueryKey, entriesQueryKey, Entry, useDeleteEntry } from '@/api';
+import { entriesQueryKey, Entry, useDeleteEntry } from '@/api';
 import { DialogDispatch, DialogDispatchVariant } from '@/components/DialogDispatch';
 import { TOAST_ERROR_MESSAGE } from '@/config';
 import { useDisclosure } from '@/hooks/useDisclosure';
@@ -25,9 +25,6 @@ export const DeleteEntryDialog = ({ data }: DeleteEntryDialogProps) => {
         });
         await queryClient.invalidateQueries({
           queryKey: [entriesQueryKey.getTotal],
-        });
-        await queryClient.invalidateQueries({
-          queryKey: [balanceQueryKey.get],
         });
         toast.success('entrada deletada com sucesso');
       },

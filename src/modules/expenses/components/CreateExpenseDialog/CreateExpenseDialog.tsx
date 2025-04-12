@@ -8,7 +8,6 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
 import {
-  balanceQueryKey,
   expensesQueryKey,
   useCreateExpense,
   useGetExpensesCategories,
@@ -72,9 +71,6 @@ export const CreateExpenseDialog = () => {
           });
           await queryClient.invalidateQueries({
             queryKey: [expensesQueryKey.getTotal],
-          });
-          await queryClient.invalidateQueries({
-            queryKey: [balanceQueryKey.get],
           });
           toast.success('Despesa criada com sucesso');
           reset();

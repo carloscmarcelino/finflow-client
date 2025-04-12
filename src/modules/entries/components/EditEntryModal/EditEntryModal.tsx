@@ -5,7 +5,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import { balanceQueryKey, entriesQueryKey, Entry, useEditEntry } from '@/api';
+import { entriesQueryKey, Entry, useEditEntry } from '@/api';
 import { DialogDispatch, DialogDispatchVariant } from '@/components/DialogDispatch';
 import { DatePicker, InputText } from '@/components/Form';
 import { TOAST_ERROR_MESSAGE } from '@/config';
@@ -56,9 +56,6 @@ export const EditEntryModal = ({ data }: EditEntryModalProps) => {
           });
           await queryClient.invalidateQueries({
             queryKey: [entriesQueryKey.getTotal],
-          });
-          await queryClient.invalidateQueries({
-            queryKey: [balanceQueryKey.get],
           });
           onClose();
           toast.success('entrada editada com sucesso');

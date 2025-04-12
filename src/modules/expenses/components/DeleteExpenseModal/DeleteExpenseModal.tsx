@@ -2,7 +2,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import React from 'react';
 import { toast } from 'sonner';
 
-import { balanceQueryKey, Expense, expensesQueryKey, useDeleteExpense } from '@/api';
+import { Expense, expensesQueryKey, useDeleteExpense } from '@/api';
 import { DialogDispatch, DialogDispatchVariant } from '@/components/DialogDispatch';
 import { TOAST_ERROR_MESSAGE } from '@/config';
 import { useDisclosure } from '@/hooks';
@@ -26,9 +26,6 @@ export const DeleteExpenseModal = ({ data }: DeleteExpenseModalProps) => {
         });
         await queryClient.invalidateQueries({
           queryKey: [expensesQueryKey.getTotal],
-        });
-        await queryClient.invalidateQueries({
-          queryKey: [balanceQueryKey.get],
         });
         toast.success('Despesa deletada com sucesso');
       },

@@ -7,7 +7,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import { balanceQueryKey, entriesQueryKey, useCreateEntry } from '@/api';
+import { entriesQueryKey, useCreateEntry } from '@/api';
 import { DialogDispatch, DialogDispatchVariant } from '@/components/DialogDispatch';
 import { DatePicker, InputText } from '@/components/Form';
 import { TOAST_ERROR_MESSAGE } from '@/config';
@@ -50,9 +50,6 @@ export const CreateEntryDialog = () => {
           });
           await queryClient.invalidateQueries({
             queryKey: [entriesQueryKey.getTotal],
-          });
-          await queryClient.invalidateQueries({
-            queryKey: [balanceQueryKey.get],
           });
           toast.success('Entrada criada com sucesso');
           onClose();

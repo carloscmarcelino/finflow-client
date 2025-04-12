@@ -12,7 +12,7 @@ import { toast } from 'sonner';
 import * as XLSX from 'xlsx';
 import { z } from 'zod';
 
-import { balanceQueryKey, expensesQueryKey } from '@/api';
+import { expensesQueryKey } from '@/api';
 import { CustomSelect, InputWrapper } from '@/components/Form';
 import { Table } from '@/components/Table';
 import {
@@ -182,9 +182,6 @@ export const UploadExpensesDialog = () => {
         });
         await queryClient.invalidateQueries({
           queryKey: [expensesQueryKey.getTotal],
-        });
-        await queryClient.invalidateQueries({
-          queryKey: [balanceQueryKey.get],
         });
         toast.success('Despesa criada com sucesso');
         reset();

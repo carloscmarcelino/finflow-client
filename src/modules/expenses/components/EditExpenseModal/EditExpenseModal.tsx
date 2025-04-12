@@ -10,7 +10,6 @@ import {
   Expense,
   expensesQueryKey,
   useEditExpense,
-  balanceQueryKey,
   useGetExpensesCategories,
 } from '@/api';
 import { DialogDispatch, DialogDispatchVariant } from '@/components/DialogDispatch';
@@ -71,9 +70,6 @@ export const EditExpenseModal = ({ data }: EditExpenseModalProps) => {
           });
           await queryClient.invalidateQueries({
             queryKey: [expensesQueryKey.getTotal],
-          });
-          await queryClient.invalidateQueries({
-            queryKey: [balanceQueryKey.get],
           });
           onClose();
           toast.success('Despesa editada com sucesso');
