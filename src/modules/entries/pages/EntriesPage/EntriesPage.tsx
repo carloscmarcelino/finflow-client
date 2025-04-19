@@ -11,6 +11,7 @@ import { CardValue } from '@/components/Card';
 import { InputText, RangeDatePicker } from '@/components/Form';
 import { Table } from '@/components/Table';
 import { Button } from '@/components/ui';
+import { useDebouncedValue } from '@/hooks';
 import { SearchQueryParams } from '@/types';
 import { blobDownload, toBRL } from '@/utils';
 
@@ -47,11 +48,13 @@ export const EntriesPage = ({ params }: EntriesPageProps) => {
     ...(watch('period')?.to && { endDate: watch('period')?.to?.toISOString() }),
   };
 
+  const debouncedSearch = useDebouncedValue(watch('search'), 500);
+
   const queryParams = {
     ...dateParams,
     limit: params.limit,
     page: currentPage,
-    ...(watch('search') !== '' && { search: watch('search') }),
+    ...(debouncedSearch !== '' && { search: debouncedSearch }),
   };
 
   const {
