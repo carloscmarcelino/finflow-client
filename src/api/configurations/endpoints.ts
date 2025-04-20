@@ -31,7 +31,7 @@ export const createPaymentMethod = async (body: CreatePaymentMethodBody) => {
 };
 
 export const createInvestmentType = async (body: CreateInvestmentTypeBody) => {
-  const response = await api.authorized().post<InvestmentType>('configurations/investments-type', {
+  const response = await api.authorized().post<InvestmentType>('configurations/investments-types', {
     body: JSON.stringify(body),
     headers: {
       'Content-Type': 'application/json',
@@ -44,19 +44,19 @@ export const createInvestmentType = async (body: CreateInvestmentTypeBody) => {
 export const getInvestmentsTypes = async () => {
   const response = await api
     .authorized()
-    .get<ApiResponse<InvestmentType>>('configurations/investments-type');
+    .get<ApiResponse<InvestmentType>>('configurations/investments-types');
   const data = await response.json();
   return data;
 };
 
 export const getBanks = async () => {
-  const response = await api.authorized().get<ApiResponse<Bank>>('configurations/bank');
+  const response = await api.authorized().get<ApiResponse<Bank>>('configurations/banks');
   const data = await response.json();
   return data;
 };
 
 export const createBank = async (body: CreateBankBody) => {
-  const response = await api.authorized().post<Bank>('configurations/bank', {
+  const response = await api.authorized().post<Bank>('configurations/banks', {
     body: JSON.stringify(body),
     headers: {
       'Content-Type': 'application/json',
