@@ -63,6 +63,8 @@ export const InvestmentsPage = ({ params }: InvestmentsPageProps) => {
 
   const { data: totalData, isLoading: isLoadingTotalInvestments } = useGetTotalInvestments();
 
+  console.log(totalData);
+
   return (
     <main className="flex flex-col gap-10 max-w-[1280px] mx-auto py-10">
       <div className="flex flex-col rounded-xl bg-white shadow-2xl px-14 py-7 gap-10">
